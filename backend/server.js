@@ -187,6 +187,9 @@ app.get("/medicacoes", (req, res) => {
 });
 
 // START
-app.listen(3000, () => {
-  console.log("🏥 Hospital Pro rodando em http://localhost:3000");
+cons PORT = process.env.PORT
+|| 3000;
+app.list(PORT, () => {
+  console.log(`Porta ${PORT}`):
+});
 });
