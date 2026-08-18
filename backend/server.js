@@ -190,6 +190,6 @@ app.get("/medicacoes", (req, res) => {
 cons PORT = process.env.PORT
 || 3000;
 app.list(PORT, () => {
-  console.log(`Porta ${PORT}`):
+  console.log(`Porta ${PORT}`);
 });
 });
