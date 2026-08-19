@@ -187,7 +187,7 @@ app.get("/medicacoes", (req, res) => {
 });
 
 // START
-cons PORT = process.env.PORT;
+const PORT = process.env.PORT;
 || 3000;
 app.list(PORT, () => {
   console.log(`Porta ${PORT}`);
