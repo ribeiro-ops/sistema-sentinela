@@ -27,18 +27,42 @@
 </div>
 
 <script>
-function cadastrar(){
- fetch("http://localhost:3000/atendimento",{
-  method:"POST",
-  headers:{"Content-Type":"application/json"},
-  body: JSON.stringify({
-    nome: nome.value,
-    cpf: cpf.value,
-    tipo: tipo.value
+function cadastrar() {
+  fetch("http://localhost:3000/atendimento", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      nome: document.getElementById("nome").value,
+      cpf: document.getElementById("cpf").value,
+      data: document.getElementById("data").value,
+      sexo: document.getElementById("sexo").value,
+      nomeResponsavel: document.getElementById("nomeResponsavel").value,
+      estadoCivil: document.getElementById("estadoCivil").value,
+      endereco: document.getElementById("endereco").value,
+      telefone: document.getElementById("telefone").value,
+      contatoEmergencia: document.getElementById("contatoEmergencia").value,
+      tipo: document.getElementById("tipo").value
+    })
   })
- });
- alert("Paciente enviado para triagem");
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Erro ao cadastrar paciente");
+    }
+
+    return response.json();
+  })
+  .then(data => {
+    console.log("Paciente salvo:", data);
+    alert("Paciente cadastrado com sucesso!");
+  })
+  .catch(error => {
+    console.error(error);
+    alert("Erro ao salvar o paciente.");
+  });
 }
+
 </script>
 </body>
 </html>
