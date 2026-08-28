@@ -1,48 +1,32 @@
 /* =========================================================
-   SISTEMA HOSPITALAR
-   CSS GERAL DO PROJETO
+   TEMA ERP / PRODUÇÃO - BASEADO NA IMAGEM DE REFERÊNCIA
    ========================================================= */
 
+/* ---------------------------------------------------------
+   RESET VISUAL
+   --------------------------------------------------------- */
 
-/* =========================================================
-   RESET
-   ========================================================= */
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
+body:not(.tv-page) {
   margin: 0;
   padding: 0;
 
   font-family:
-    "Segoe UI",
     Arial,
     Helvetica,
     sans-serif;
 
-  background:
-    linear-gradient(
-      135deg,
-      #eef5f9 0%,
-      #f7fafc 100%
-    );
+  background: #ffffff;
 
-  color: #263238;
+  color: #222;
 
   min-height: 100vh;
 }
 
-button,
-input,
-select,
-textarea {
-  font-family: inherit;
+body:not(.tv-page) button,
+body:not(.tv-page) input,
+body:not(.tv-page) select,
+body:not(.tv-page) textarea {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -50,22 +34,21 @@ textarea {
    CONTAINER PRINCIPAL
    ========================================================= */
 
-.container {
-  width: 92%;
-  max-width: 1100px;
+body:not(.tv-page) .container {
+  width: 98%;
+  max-width: none;
 
-  margin: 30px auto;
+  margin: 8px auto;
 
-  padding: 30px;
+  padding: 0;
 
   background: #ffffff;
 
-  border: 1px solid #e1e8ed;
+  border: none;
 
-  border-radius: 18px;
+  border-radius: 0;
 
-  box-shadow:
-    0 10px 35px rgba(38, 50, 56, 0.08);
+  box-shadow: none;
 }
 
 
@@ -73,29 +56,25 @@ textarea {
    TÍTULOS
    ========================================================= */
 
-h1,
-h2,
-h3,
-h4 {
+body:not(.tv-page) h1,
+body:not(.tv-page) h2,
+body:not(.tv-page) h3,
+body:not(.tv-page) h4 {
+  color: #222;
+
   margin-top: 0;
-
-  color: #263238;
 }
 
-h1 {
-  font-size: 30px;
+body:not(.tv-page) h1 {
+  font-size: 24px;
 }
 
-h2 {
-  font-size: 25px;
+body:not(.tv-page) h2 {
+  font-size: 20px;
 }
 
-h3 {
-  font-size: 19px;
-}
-
-p {
-  line-height: 1.5;
+body:not(.tv-page) h3 {
+  font-size: 17px;
 }
 
 
@@ -103,93 +82,84 @@ p {
    CABEÇALHO
    ========================================================= */
 
-.header {
+body:not(.tv-page) .header {
   display: flex;
 
   align-items: center;
 
   justify-content: space-between;
 
-  gap: 20px;
+  gap: 10px;
 
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
-  padding-bottom: 22px;
+  padding: 0;
 
-  border-bottom: 1px solid #e5edf1;
+  border: none;
+
+  min-height: 50px;
 }
 
-.header-title {
+body:not(.tv-page) .header-title {
   display: flex;
 
   align-items: center;
 
-  gap: 15px;
+  gap: 10px;
 }
 
-.header-title h1 {
+body:not(.tv-page) .header-title h1 {
   margin: 0;
 
-  font-size: 27px;
+  color: #174f7a;
 
-  color: #164e78;
+  font-size: 22px;
+
+  font-weight: 700;
 }
 
-.header-title p {
-  margin: 5px 0 0;
+body:not(.tv-page) .header-title p {
+  margin: 2px 0 0;
 
-  color: #78909c;
+  color: #777;
 
-  font-size: 14px;
+  font-size: 12px;
 }
 
-.header-icon {
-  width: 55px;
-  height: 55px;
+body:not(.tv-page) .header-icon {
+  width: 42px;
+  height: 42px;
 
-  display: flex;
+  border-radius: 0;
 
-  align-items: center;
-  justify-content: center;
+  background: #3f96d8;
 
-  border-radius: 14px;
+  color: #fff;
 
-  background:
-    linear-gradient(
-      135deg,
-      #1976d2,
-      #29b6f6
-    );
+  box-shadow: none;
 
-  color: white;
-
-  font-size: 25px;
-
-  box-shadow:
-    0 6px 15px rgba(25, 118, 210, 0.25);
+  font-size: 20px;
 }
 
 
 /* =========================================================
-   STATUS DO SISTEMA
+   STATUS
    ========================================================= */
 
-.system-status {
-  color: #159447;
+body:not(.tv-page) .system-status {
+  padding: 7px 12px;
 
-  background: #eaf8ef;
+  border-radius: 2px;
 
-  border: 1px solid #b8e2c4;
+  background: #e8f5e9;
 
-  padding: 8px 12px;
+  border: 1px solid #b7dcb9;
 
-  border-radius: 20px;
+  color: #27833c;
 
   font-size: 12px;
 
-  font-weight: 600;
-
-  white-space: nowrap;
+  font-weight: bold;
 }
 
 
@@ -197,30 +167,32 @@ p {
    SEÇÕES
    ========================================================= */
 
-.section-header {
+body:not(.tv-page) .section-header {
   display: flex;
 
   align-items: center;
 
   justify-content: space-between;
 
-  gap: 20px;
+  gap: 10px;
 
-  margin-bottom: 18px;
+  margin-bottom: 8px;
 }
 
-.section-header h2 {
-  margin-bottom: 5px;
-
-  color: #263238;
-}
-
-.section-header p {
+body:not(.tv-page) .section-header h2 {
   margin: 0;
 
-  color: #78909c;
+  color: #333;
 
-  font-size: 13px;
+  font-size: 18px;
+}
+
+body:not(.tv-page) .section-header p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 12px;
 }
 
 
@@ -228,69 +200,95 @@ p {
    FORMULÁRIOS
    ========================================================= */
 
-.form-group {
-  margin-bottom: 16px;
+body:not(.tv-page) .form-group {
+  margin-bottom: 8px;
 }
 
-.form-group label {
+body:not(.tv-page) .form-group label {
   display: block;
 
-  margin-bottom: 7px;
+  margin-bottom: 4px;
 
-  color: #455a64;
+  color: #315d7d;
 
   font-size: 13px;
 
-  font-weight: 700;
+  font-weight: bold;
 }
 
-input,
-select,
-textarea {
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+body:not(.tv-page) input,
+body:not(.tv-page) select,
+body:not(.tv-page) textarea {
   width: 100%;
 
-  padding: 13px 14px;
+  padding: 9px 10px;
 
-  margin-top: 8px;
+  margin-top: 3px;
 
-  border: 1px solid #cfd8dc;
+  border: 1px solid #c9c9c9;
 
-  border-radius: 9px;
+  border-radius: 0;
 
   background: #ffffff;
 
-  color: #263238;
+  color: #222;
 
-  font-size: 15px;
+  font-size: 14px;
 
   outline: none;
 
+  box-shadow: none;
+
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s,
-    background 0.2s;
+    border-color 0.15s,
+    background 0.15s;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #2196f3;
+body:not(.tv-page) input:focus,
+body:not(.tv-page) select:focus,
+body:not(.tv-page) textarea:focus {
+  border-color: #4b9bd3;
 
-  background: #fbfdff;
+  background: #ffffff;
 
   box-shadow:
-    0 0 0 3px rgba(33, 150, 243, 0.10);
+    0 0 0 1px rgba(75, 155, 211, 0.15);
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #9eabb1;
+body:not(.tv-page) input::placeholder,
+body:not(.tv-page) textarea::placeholder {
+  color: #999;
 }
 
-textarea {
-  min-height: 110px;
+body:not(.tv-page) textarea {
+  min-height: 90px;
 
   resize: vertical;
+}
+
+
+/* =========================================================
+   CAMPOS DE SELEÇÃO
+   ESTILO AMARELO DA IMAGEM
+   ========================================================= */
+
+body:not(.tv-page) select {
+  background: #ffe9ad;
+
+  border-color: #e3c36b;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+body:not(.tv-page) select:hover {
+  background: #ffe3a0;
 }
 
 
@@ -298,10 +296,12 @@ textarea {
    INPUT DE ARQUIVO
    ========================================================= */
 
-input[type="file"] {
-  padding: 10px;
+body:not(.tv-page) input[type="file"] {
+  padding: 7px;
 
-  background: #f7fafc;
+  background: #f5f5f5;
+
+  border: 1px solid #ccc;
 
   cursor: pointer;
 }
@@ -311,132 +311,87 @@ input[type="file"] {
    BOTÕES
    ========================================================= */
 
-button {
+body:not(.tv-page) button {
   width: 100%;
 
-  padding: 13px 16px;
+  padding: 11px 14px;
 
-  margin-top: 10px;
+  margin-top: 5px;
 
-  border: none;
+  border: 1px solid #2980c2;
 
-  border-radius: 9px;
+  border-radius: 4px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #1976d2,
-      #2196f3
-    );
+  background: #4398d7;
 
-  color: white;
+  color: #ffffff;
 
-  font-size: 15px;
+  font-size: 14px;
 
-  font-weight: 600;
+  font-weight: bold;
 
   cursor: pointer;
+
+  box-shadow: none;
 
   transition:
-    transform 0.15s,
-    box-shadow 0.15s,
-    background 0.2s;
+    background 0.15s,
+    border-color 0.15s;
 }
 
-button:hover {
-  background:
-    linear-gradient(
-      135deg,
-      #1565c0,
-      #1976d2
-    );
+body:not(.tv-page) button:hover {
+  background: #3187c6;
 
-  box-shadow:
-    0 5px 14px rgba(25, 118, 210, 0.22);
+  border-color: #2475af;
 
-  transform: translateY(-1px);
+  box-shadow: none;
+
+  transform: none;
 }
 
-button:active {
-  transform: translateY(0);
+body:not(.tv-page) button:active {
+  transform: none;
 }
 
 
 /* =========================================================
-   BOTÃO TV
+   BOTÃO AZUL
    ========================================================= */
 
-.btn-tv {
+body:not(.tv-page) .btn-tv,
+body:not(.tv-page) .btn-abrir-tv,
+body:not(.tv-page) .btn-tv-open,
+body:not(.tv-page) .btn-tv-medico,
+body:not(.tv-page) .btn-abrir-tv-medico {
   width: auto;
 
   margin: 0;
 
-  padding: 9px 14px;
+  padding: 10px 16px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #00a67d,
-      #19b88f
-    );
+  border-radius: 4px;
 
-  border-radius: 8px;
+  background: #4398d7;
 
-  font-size: 13px;
-}
+  border: 1px solid #2980c2;
 
-.btn-tv:hover {
-  background:
-    linear-gradient(
-      135deg,
-      #008c6b,
-      #00a67d
-    );
-}
-
-
-/* =========================================================
-   BOTÃO ABRIR TV
-   ========================================================= */
-
-.btn-abrir-tv,
-.btn-tv-open {
-  width: auto;
-
-  margin: 0;
-
-  padding: 10px 15px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #008fa8,
-      #17a9c4
-    );
-
-  color: white;
-
-  border-radius: 8px;
-
-  border: none;
-
-  cursor: pointer;
+  color: #fff;
 
   font-size: 13px;
 
-  font-weight: 600;
+  font-weight: bold;
+
+  box-shadow: none;
 
   text-decoration: none;
 }
 
-.btn-abrir-tv:hover,
-.btn-tv-open:hover {
-  background:
-    linear-gradient(
-      135deg,
-      #00788c,
-      #008fa8
-    );
+body:not(.tv-page) .btn-tv:hover,
+body:not(.tv-page) .btn-abrir-tv:hover,
+body:not(.tv-page) .btn-tv-open:hover,
+body:not(.tv-page) .btn-tv-medico:hover,
+body:not(.tv-page) .btn-abrir-tv-medico:hover {
+  background: #3187c6;
 }
 
 
@@ -444,7 +399,7 @@ button:active {
    BOTÃO ATUALIZAR
    ========================================================= */
 
-.btn-refresh {
+body:not(.tv-page) .btn-refresh {
   width: auto;
 
   margin: 0;
@@ -453,11 +408,57 @@ button:active {
 
   background: #607d8b;
 
+  border-color: #546e7a;
+
+  border-radius: 4px;
+
   font-size: 13px;
 }
 
-.btn-refresh:hover {
+body:not(.tv-page) .btn-refresh:hover {
   background: #455a64;
+}
+
+
+/* =========================================================
+   BOTÃO INICIAR
+   ========================================================= */
+
+body:not(.tv-page) .btn-iniciar,
+body:not(.tv-page) .btn-start,
+body:not(.tv-page) .btn-success,
+body:not(.tv-page) button.iniciar {
+  background: #35b965;
+
+  border-color: #279b50;
+}
+
+body:not(.tv-page) .btn-iniciar:hover,
+body:not(.tv-page) .btn-start:hover,
+body:not(.tv-page) .btn-success:hover,
+body:not(.tv-page) button.iniciar:hover {
+  background: #2aa657;
+}
+
+
+/* =========================================================
+   BOTÃO PARAR / SAIR / PERIGO
+   ========================================================= */
+
+body:not(.tv-page) .btn-danger,
+body:not(.tv-page) .btn-parar,
+body:not(.tv-page) .btn-stop,
+body:not(.tv-page) button.parar {
+  background: #ed4d4d;
+
+  border-color: #d73737;
+}
+
+body:not(.tv-page) .btn-danger:hover,
+body:not(.tv-page) .btn-parar:hover,
+body:not(.tv-page) .btn-stop:hover,
+body:not(.tv-page) button.parar:hover {
+  background: #d93636;
 }
 
 
@@ -465,108 +466,48 @@ button:active {
    CARDS
    ========================================================= */
 
-.card {
+body:not(.tv-page) .card {
   position: relative;
 
-  padding: 20px;
+  padding: 15px;
 
-  margin: 15px 0;
+  margin: 8px 0;
 
   background: #ffffff;
 
-  border: 1px solid #e0e7eb;
+  border: 1px solid #d4d4d4;
 
-  border-radius: 12px;
+  border-radius: 0;
 
-  box-shadow:
-    0 4px 12px rgba(38, 50, 56, 0.06);
+  box-shadow: none;
 
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  transition: none;
 }
 
-.card:hover {
-  transform: translateY(-2px);
+body:not(.tv-page) .card:hover {
+  transform: none;
 
-  box-shadow:
-    0 7px 18px rgba(38, 50, 56, 0.09);
+  box-shadow: none;
 }
 
-.card h3 {
-  margin-bottom: 12px;
+body:not(.tv-page) .card h3 {
+  margin-bottom: 8px;
 
-  color: #1565c0;
+  color: #235b82;
+
+  font-size: 16px;
 }
 
-.card p {
-  margin: 8px 0;
+body:not(.tv-page) .card p {
+  margin: 5px 0;
 
-  color: #546e7a;
+  color: #444;
 
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.card b {
-  color: #37474f;
-}
-
-
-/* =========================================================
-   CLASSIFICAÇÃO DE RISCO
-   ========================================================= */
-
-.verde,
-.amarelo,
-.vermelho {
-  display: inline-flex;
-
-  align-items: center;
-
-  padding: 5px 10px;
-
-  border-radius: 20px;
-
-  font-size: 11px;
-
-  font-weight: 800;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.5px;
-}
-
-
-/* Verde */
-
-.verde {
-  background: #e8f5e9;
-
-  color: #2e7d32;
-
-  border: 1px solid #a5d6a7;
-}
-
-
-/* Amarelo */
-
-.amarelo {
-  background: #fff8e1;
-
-  color: #a66a00;
-
-  border: 1px solid #ffe082;
-}
-
-
-/* Vermelho */
-
-.vermelho {
-  background: #ffebee;
-
-  color: #c62828;
-
-  border: 1px solid #ef9a9a;
+body:not(.tv-page) .card b {
+  color: #333;
 }
 
 
@@ -574,104 +515,86 @@ button:active {
    DASHBOARD DE RISCO
    ========================================================= */
 
-.risk-dashboard {
+body:not(.tv-page) .risk-dashboard {
   display: grid;
 
-  grid-template-columns:
-    repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
-  gap: 15px;
+  gap: 5px;
 
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
-.risk-dashboard-card {
+body:not(.tv-page) .risk-dashboard-card {
   display: flex;
 
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 
-  padding: 18px;
+  padding: 12px;
 
-  border-radius: 12px;
+  border-radius: 0;
 
   border: 1px solid;
 }
 
-.risk-dashboard-card strong {
-  display: block;
+body:not(.tv-page) .risk-dashboard-icon {
+  width: 35px;
+  height: 35px;
 
-  font-size: 16px;
+  border-radius: 2px;
+
+  font-size: 17px;
 }
 
-.risk-dashboard-card span {
-  display: block;
 
-  margin-top: 3px;
+/* =========================================================
+   VERDE / AMARELO / VERMELHO
+   ========================================================= */
 
-  font-size: 12px;
-}
-
-.risk-dashboard-icon {
-  width: 42px;
-  height: 42px;
-
-  display: flex;
+body:not(.tv-page) .verde,
+body:not(.tv-page) .amarelo,
+body:not(.tv-page) .vermelho {
+  display: inline-flex;
 
   align-items: center;
-  justify-content: center;
 
-  border-radius: 50%;
+  padding: 4px 9px;
 
-  font-size: 20px;
+  border-radius: 2px;
+
+  font-size: 11px;
 
   font-weight: bold;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0;
 }
 
+body:not(.tv-page) .verde {
+  background: #dff1e3;
 
-/* Verde */
+  color: #28733a;
 
-.risk-green {
-  background: #f1f9f3;
-
-  border-color: #c8e6c9;
-
-  color: #2e7d32;
+  border: 1px solid #a8d4af;
 }
 
-.risk-green .risk-dashboard-icon {
-  background: #c8e6c9;
+body:not(.tv-page) .amarelo {
+  background: #fff1c7;
+
+  color: #8b6500;
+
+  border: 1px solid #e6c969;
 }
 
+body:not(.tv-page) .vermelho {
+  background: #fbe0e0;
 
-/* Amarelo */
+  color: #b52b2b;
 
-.risk-yellow {
-  background: #fffaf0;
-
-  border-color: #ffe0a3;
-
-  color: #b26a00;
-}
-
-.risk-yellow .risk-dashboard-icon {
-  background: #ffe0a3;
-}
-
-
-/* Vermelho */
-
-.risk-red {
-  background: #fff5f5;
-
-  border-color: #ffcdd2;
-
-  color: #c62828;
-}
-
-.risk-red .risk-dashboard-icon {
-  background: #ffcdd2;
+  border: 1px solid #e5aaaa;
 }
 
 
@@ -679,376 +602,145 @@ button:active {
    TRIAGEM
    ========================================================= */
 
-.triagem-container {
-  max-width: 1100px;
+body:not(.tv-page) .triagem-container {
+  max-width: none;
 }
 
+body:not(.tv-page) .triagem-form-section {
+  margin-top: 15px;
 
-/* Formulário */
+  padding-top: 12px;
 
-.triagem-form-section {
-  margin-top: 35px;
-
-  padding-top: 25px;
-
-  border-top: 1px solid #e1e7ea;
+  border-top: 1px solid #d8d8d8;
 }
 
-.triagem-form-card {
-  padding: 25px;
+body:not(.tv-page) .triagem-form-card {
+  padding: 15px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #f7fbfd,
-      #ffffff
-    );
+  background: #ffffff;
 
-  border: 1px solid #dce8ee;
+  border: 1px solid #d4d4d4;
 
-  border-radius: 14px;
-}
-
-
-/* Temperatura */
-
-.input-with-unit {
-  position: relative;
-}
-
-.input-with-unit input {
-  margin: 0;
-
-  padding-right: 50px;
-}
-
-.input-with-unit span {
-  position: absolute;
-
-  right: 15px;
-
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  color: #78909c;
-
-  font-weight: 600;
-}
-
-
-/* Resultado de risco */
-
-.risk-result {
-  display: none;
-
-  align-items: center;
-
-  gap: 14px;
-
-  padding: 16px;
-
-  margin: 20px 0;
-
-  border-radius: 10px;
-
-  border: 1px solid;
-}
-
-.risk-result-icon {
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  font-size: 20px;
-
-  font-weight: bold;
-}
-
-.risk-result strong {
-  display: block;
-
-  font-size: 16px;
-}
-
-.risk-result span {
-  display: block;
-
-  margin-top: 3px;
-
-  font-size: 12px;
-}
-
-
-/* Resultado verde */
-
-.risk-result.verde {
-  display: flex;
-
-  background: #eaf7ed;
-
-  border-color: #a5d6a7;
-
-  color: #2e7d32;
-}
-
-.risk-result.verde .risk-result-icon {
-  background: #c8e6c9;
-}
-
-
-/* Resultado amarelo */
-
-.risk-result.amarelo {
-  display: flex;
-
-  background: #fff8e5;
-
-  border-color: #ffe082;
-
-  color: #a76400;
-}
-
-.risk-result.amarelo .risk-result-icon {
-  background: #ffe082;
-}
-
-
-/* Resultado vermelho */
-
-.risk-result.vermelho {
-  display: flex;
-
-  background: #ffebee;
-
-  border-color: #ef9a9a;
-
-  color: #c62828;
-}
-
-.risk-result.vermelho .risk-result-icon {
-  background: #ffcdd2;
-}
-
-
-/* Botão salvar triagem */
-
-.btn-salvar-triagem {
-  margin-top: 5px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #1976d2,
-      #2196f3
-    );
+  border-radius: 0;
 }
 
 
 /* =========================================================
-   FILA DE PACIENTES
+   FILA
    ========================================================= */
 
-.pacientes-fila {
-  margin-bottom: 30px;
+body:not(.tv-page) .pacientes-fila {
+  margin-bottom: 15px;
 }
 
-.fila-container {
+body:not(.tv-page) .fila-container {
   display: flex;
 
   flex-direction: column;
 
-  gap: 10px;
+  gap: 3px;
 }
 
-.fila-item {
+body:not(.tv-page) .fila-item {
   display: flex;
 
   align-items: center;
 
   justify-content: space-between;
 
-  gap: 15px;
+  gap: 10px;
 
-  padding: 14px 16px;
+  padding: 9px 12px;
 
   background: #ffffff;
 
-  border: 1px solid #e0e7eb;
+  border: 1px solid #d5d5d5;
 
-  border-radius: 10px;
+  border-radius: 0;
 
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.04);
-
-  transition: 0.2s;
+  box-shadow: none;
 }
 
-.fila-item:hover {
-  border-color: #90caf9;
+body:not(.tv-page) .fila-item:hover {
+  border-color: #9fc8e3;
 
-  transform: translateY(-1px);
+  transform: none;
 
-  box-shadow:
-    0 4px 12px rgba(30, 80, 120, 0.08);
+  box-shadow: none;
 }
 
-.fila-paciente-info {
+body:not(.tv-page) .fila-paciente-info {
   display: flex;
 
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 }
 
-.fila-avatar {
-  width: 42px;
-  height: 42px;
+body:not(.tv-page) .fila-avatar {
+  width: 35px;
+  height: 35px;
 
-  display: flex;
+  border-radius: 2px;
 
-  align-items: center;
-  justify-content: center;
+  background: #dceff8;
 
-  background: #e3f2fd;
-
-  border-radius: 50%;
-
-  font-size: 18px;
+  font-size: 16px;
 }
 
-.fila-item strong {
-  display: block;
+body:not(.tv-page) .fila-item strong {
+  color: #333;
 
-  color: #37474f;
-
-  font-size: 15px;
+  font-size: 14px;
 }
 
-.fila-item small {
-  display: block;
+body:not(.tv-page) .fila-item small {
+  margin-top: 2px;
 
-  margin-top: 4px;
-
-  color: #90a4ae;
+  color: #888;
 
   font-size: 11px;
 }
 
-.fila-item .btn-tv {
-  flex-shrink: 0;
-}
-
 
 /* =========================================================
-   ESTADOS
+   CONSULTÓRIO
    ========================================================= */
 
-.loading-card {
-  padding: 25px;
-
-  text-align: center;
-
-  color: #90a4ae;
-
-  background: #f8fafb;
-
-  border: 1px dashed #cfd8dc;
-
-  border-radius: 10px;
-}
-
-.empty-state {
-  padding: 35px;
-
-  text-align: center;
-
-  background: #f8fafb;
-
-  border: 1px dashed #cfd8dc;
-
-  border-radius: 12px;
-}
-
-.empty-icon {
-  font-size: 35px;
-
-  margin-bottom: 10px;
-}
-
-.empty-state h3 {
-  margin-bottom: 5px;
-}
-
-.empty-state p {
-  margin: 0;
-
-  color: #90a4ae;
-
-  font-size: 13px;
-}
-
-.error-state {
-  padding: 30px;
-
-  text-align: center;
-
-  color: #c62828;
-
-  background: #fff5f5;
-
-  border: 1px solid #ffcdd2;
-
-  border-radius: 10px;
-}
-
-
-/* =========================================================
-   CONSULTÓRIO MÉDICO
-   ========================================================= */
-
-.consultorio-input {
+body:not(.tv-page) .consultorio-input {
   display: flex;
 
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
-  padding: 14px 16px;
+  padding: 10px;
 
-  background: #eef5ff;
+  background: #e2f1f7;
 
-  border: 1px solid #cfddf3;
+  border: 1px solid #b8dce9;
 
-  border-radius: 10px;
+  border-radius: 0;
 }
 
-.consultorio-input label {
-  color: #37474f;
+body:not(.tv-page) .consultorio-input label {
+  color: #315d7d;
 
-  font-weight: 700;
-
-  white-space: nowrap;
+  font-weight: bold;
 }
 
-.consultorio-input input {
-  width: 70px;
+body:not(.tv-page) .consultorio-input input {
+  width: 65px;
 
   margin: 0;
 
-  padding: 8px;
+  padding: 7px;
 
   text-align: center;
 
-  font-size: 17px;
+  font-size: 15px;
 
   font-weight: bold;
 }
@@ -1058,51 +750,16 @@ button:active {
    PAINEL MÉDICO
    ========================================================= */
 
-.medico-header {
+body:not(.tv-page) .medico-header {
   display: flex;
 
   align-items: center;
 
   justify-content: space-between;
 
-  gap: 15px;
+  gap: 10px;
 
-  margin-bottom: 20px;
-}
-
-
-/* =========================================================
-   BOTÕES ESPECÍFICOS DO MÉDICO
-   ========================================================= */
-
-.btn-tv-medico {
-  width: auto;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00a67d,
-      #19b88f
-    );
-
-  padding: 9px 14px;
-
-  font-size: 13px;
-}
-
-.btn-abrir-tv-medico {
-  width: auto;
-
-  background:
-    linear-gradient(
-      135deg,
-      #008fa8,
-      #17a9c4
-    );
-
-  padding: 9px 15px;
-
-  font-size: 13px;
+  margin-bottom: 10px;
 }
 
 
@@ -1110,38 +767,68 @@ button:active {
    MEDICAÇÕES
    ========================================================= */
 
-#listaMedicacoes {
+body:not(.tv-page) #listaMedicacoes {
   display: flex;
 
   flex-direction: column;
 
-  gap: 15px;
+  gap: 5px;
 }
 
-#listaMedicacoes .card {
+body:not(.tv-page) #listaMedicacoes .card {
   margin: 0;
 
-  border-left: 5px solid #2196f3;
+  border-left: 4px solid #4398d7;
+
+  border-radius: 0;
 }
 
-#listaMedicacoes .card h3 {
-  color: #1565c0;
+body:not(.tv-page) #listaMedicacoes .card h3 {
+  color: #235b82;
 
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
-#listaMedicacoes .card p {
-  padding: 10px 12px;
+body:not(.tv-page) #listaMedicacoes .card p {
+  padding: 8px 10px;
 
-  margin: 8px 0;
+  margin: 5px 0;
 
-  background: #f7fafc;
+  background: #f3f3f3;
 
-  border-radius: 7px;
+  border-radius: 0;
 }
 
-#listaMedicacoes .card b {
-  color: #455a64;
+
+/* =========================================================
+   ESTADOS
+   ========================================================= */
+
+body:not(.tv-page) .loading-card,
+body:not(.tv-page) .empty-state {
+  padding: 20px;
+
+  text-align: center;
+
+  background: #f5f5f5;
+
+  border: 1px dashed #c4c4c4;
+
+  border-radius: 0;
+}
+
+body:not(.tv-page) .error-state {
+  padding: 20px;
+
+  text-align: center;
+
+  color: #b52b2b;
+
+  background: #fae8e8;
+
+  border: 1px solid #e0b0b0;
+
+  border-radius: 0;
 }
 
 
@@ -1149,12 +836,12 @@ button:active {
    DIVISÓRIAS
    ========================================================= */
 
-hr {
+body:not(.tv-page) hr {
   border: 0;
 
-  border-top: 1px solid #e3e9ed;
+  border-top: 1px solid #d7d7d7;
 
-  margin: 30px 0;
+  margin: 15px 0;
 }
 
 
@@ -1162,16 +849,16 @@ hr {
    RODAPÉ
    ========================================================= */
 
-.footer {
-  margin-top: 30px;
+body:not(.tv-page) .footer {
+  margin-top: 15px;
 
-  padding-top: 18px;
+  padding-top: 10px;
 
-  border-top: 1px solid #e5edf1;
+  border-top: 1px solid #ddd;
 
   text-align: center;
 
-  color: #90a4ae;
+  color: #888;
 
   font-size: 11px;
 }
@@ -1190,379 +877,34 @@ body:has(.container > #usuario) {
 
   min-height: 100vh;
 
-  background:
-    radial-gradient(
-      circle at top left,
-      #d8efff,
-      transparent 40%
-    ),
-    linear-gradient(
-      135deg,
-      #e8f3f8,
-      #f7fafc
-    );
+  background: #f5f5f5;
 }
 
 body:has(.container > #usuario) .container {
   width: 90%;
 
-  max-width: 430px;
+  max-width: 400px;
 
   margin: 20px;
 
-  padding: 38px;
+  padding: 25px;
 
   text-align: center;
 
-  border-radius: 20px;
+  border-radius: 3px;
+
+  border: 1px solid #ccc;
 
   box-shadow:
-    0 20px 50px rgba(30, 80, 120, 0.12);
+    0 3px 12px rgba(0, 0, 0, 0.12);
 }
 
 body:has(.container > #usuario) h2 {
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 
-  color: #155a87;
+  color: #235b82;
 
-  font-size: 25px;
-}
-
-body:has(.container > #usuario) input {
-  text-align: left;
-}
-
-body:has(.container > #usuario) button {
-  margin-top: 18px;
-}
-
-
-/* =========================================================
-   TELA DE TV
-   ========================================================= */
-
-.tv-page {
-  width: 100vw;
-  height: 100vh;
-
-  margin: 0;
-  padding: 0;
-
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      135deg,
-      #081d2e,
-      #103c59
-    );
-
-  font-family:
-    "Segoe UI",
-    Arial,
-    sans-serif;
-}
-
-.tv-container {
-  display: flex;
-
-  width: 100vw;
-  height: 100vh;
-
-  gap: 2vw;
-
-  padding: 3vh 3vw;
-}
-
-.tv-left-panel {
-  width: 32%;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2vh;
-}
-
-.tv-right-panel {
-  width: 68%;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2vh;
-}
-
-
-/* Boxes da TV */
-
-.tv-box {
-  position: relative;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff,
-      #f3f8fb
-    );
-
-  border: 3px solid #d7e5ed;
-
-  border-radius: 22px;
-
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.25);
-}
-
-
-/* Local */
-
-.tv-local-box {
-  flex: 1;
-}
-
-.tv-box-label {
-  margin-bottom: 1.5vh;
-
-  color: #607d8b;
-
-  font-size: clamp(14px, 1.5vw, 25px);
-
-  font-weight: 700;
-
-  letter-spacing: 2px;
-
-  text-transform: uppercase;
-}
-
-.tv-local-type {
-  color: #1565c0;
-
-  font-size: clamp(25px, 3vw, 50px);
-
-  font-weight: 800;
-
-  letter-spacing: 2px;
-}
-
-.tv-local-number {
-  margin-top: 1vh;
-
-  color: #0d47a1;
-
-  font-size: clamp(80px, 10vw, 180px);
-
-  font-weight: 800;
-
-  line-height: 0.9;
-}
-
-
-/* Histórico */
-
-.tv-history-box {
-  flex: 1;
-
-  justify-content: flex-start;
-
-  padding: 3vh 2vw;
-}
-
-.tv-history-box .tv-box-label {
-  margin-bottom: 2vh;
-}
-
-#history-list {
-  width: 100%;
-
-  margin: 0;
-
-  padding: 0;
-
-  list-style: none;
-
-  text-align: left;
-}
-
-#history-list li {
-  padding: 1.5vh 1vw;
-
-  margin-bottom: 1vh;
-
-  background: #eef5f9;
-
-  border-left: 5px solid #90caf9;
-
-  border-radius: 8px;
-
-  color: #37474f;
-
-  font-size: clamp(13px, 1.4vw, 24px);
-
-  font-weight: 600;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-
-/* Paciente */
-
-.tv-patient-box {
-  flex: 3;
-
-  padding: 3vh 3vw;
-
-  border-color: #90caf9;
-}
-
-.tv-patient-box::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 8px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #1565c0,
-      #29b6f6,
-      #00a67d
-    );
-}
-
-.tv-patient-name {
-  max-width: 95%;
-
-  color: #0d47a1;
-
-  font-size: clamp(45px, 6.5vw, 120px);
-
-  font-weight: 800;
-
-  line-height: 1.05;
-
-  word-break: break-word;
-
-  overflow-wrap: anywhere;
-}
-
-.tv-attention {
-  margin-top: 2vh;
-
-  color: #78909c;
-
-  font-size: clamp(14px, 1.5vw, 25px);
-
-  font-weight: 500;
-}
-
-
-/* Logo */
-
-.tv-logo-box {
-  flex: 1;
-
-  flex-direction: row;
-
-  gap: 1vw;
-
-  padding: 2vh 2vw;
-
-  background:
-    linear-gradient(
-      135deg,
-      #e3f2fd,
-      #e8f5e9
-    );
-}
-
-.tv-logo-icon {
-  font-size: clamp(30px, 3vw, 55px);
-}
-
-.tv-logo-text {
-  color: #1565c0;
-
-  font-size: clamp(22px, 2.5vw, 45px);
-
-  font-weight: 800;
-
-  letter-spacing: 1px;
-}
-
-.tv-logo-subtitle {
-  color: #607d8b;
-
-  font-size: clamp(11px, 1vw, 18px);
-}
-
-
-/* Animação da chamada */
-
-@keyframes tvFlash {
-
-  0% {
-    transform: scale(1);
-
-    background: #ffffff;
-  }
-
-  25% {
-    transform: scale(1.015);
-
-    background: #e3f2fd;
-  }
-
-  50% {
-    transform: scale(1);
-
-    background: #ffffff;
-  }
-
-  75% {
-    transform: scale(1.015);
-
-    background: #e3f2fd;
-  }
-
-  100% {
-    transform: scale(1);
-
-    background: #ffffff;
-  }
-
-}
-
-.flash {
-  animation:
-    tvFlash 0.7s ease 3;
-
-  border-color: #2196f3;
-
-  box-shadow:
-    0 0 35px rgba(33, 150, 243, 0.55);
+  font-size: 22px;
 }
 
 
@@ -1572,46 +914,20 @@ body:has(.container > #usuario) button {
 
 @media (max-width: 900px) {
 
-  .container {
-    width: 95%;
+  body:not(.tv-page) .container {
+    width: 98%;
 
-    padding: 22px;
+    padding: 0;
   }
 
-  .header {
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-
-  .risk-dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .tv-container {
-    flex-direction: column;
-
-    padding: 2vh 2vw;
-  }
-
-  .tv-left-panel,
-  .tv-right-panel {
-    width: 100%;
-  }
-
-  .tv-left-panel {
+  body:not(.tv-page) .header {
     flex-direction: row;
 
-    height: 35%;
+    align-items: center;
   }
 
-  .tv-right-panel {
-    height: 65%;
-  }
-
-  .tv-local-box,
-  .tv-history-box {
-    width: 50%;
+  body:not(.tv-page) .risk-dashboard {
+    grid-template-columns: 1fr;
   }
 
 }
@@ -1619,84 +935,45 @@ body:has(.container > #usuario) button {
 
 @media (max-width: 650px) {
 
-  .container {
-    width: 96%;
-
-    margin: 15px auto;
-
-    padding: 18px;
-
-    border-radius: 13px;
+  body:not(.tv-page) .container {
+    width: 100%;
   }
 
-  .header-title h1 {
-    font-size: 22px;
-  }
-
-  .header-title p {
-    font-size: 12px;
-  }
-
-  .section-header {
+  body:not(.tv-page) .header {
     flex-direction: column;
 
     align-items: stretch;
   }
 
-  .btn-refresh {
-    width: 100%;
-  }
-
-  .fila-item {
+  body:not(.tv-page) .section-header {
     flex-direction: column;
 
     align-items: stretch;
   }
 
-  .fila-item .btn-tv {
+  body:not(.tv-page) .btn-refresh {
     width: 100%;
   }
 
-  .consultorio-input {
+  body:not(.tv-page) .fila-item {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  body:not(.tv-page) .fila-item .btn-tv {
+    width: 100%;
+  }
+
+  body:not(.tv-page) .consultorio-input {
     flex-wrap: wrap;
-  }
-
-  .consultorio-input input {
-    width: 80px;
-  }
-
-  .tv-container {
-    gap: 1vh;
-  }
-
-  .tv-left-panel,
-  .tv-right-panel {
-    gap: 1vh;
-  }
-
-  .tv-box {
-    border-radius: 14px;
-  }
-
-  .tv-local-number {
-    font-size: 65px;
-  }
-
-  .tv-patient-name {
-    font-size: 40px;
-  }
-
-  .tv-logo-box {
-    flex-wrap: wrap;
-
-    justify-content: center;
   }
 
 }
 
 
 /* =========================================================
-   ACESSIBILIDADE / REDUÇÃO DE MOVIMENTO
+   REDUÇÃO DE MOVIMENTO
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1707,8 +984,6 @@ body:has(.container > #usuario) button {
     animation-duration: 0.01ms !important;
 
     animation-iteration-count: 1 !important;
-
-    scroll-behavior: auto !important;
 
     transition-duration: 0.01ms !important;
   }
