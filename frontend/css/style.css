@@ -1,12 +1,22 @@
 /* =========================================================
-   TEMA ERP / PRODUÇÃO - BASEADO NA IMAGEM DE REFERÊNCIA
+   SISTEMA HOSPITALAR
+   CSS GERAL DO PROJETO
    ========================================================= */
 
-/* ---------------------------------------------------------
-   RESET VISUAL
-   --------------------------------------------------------- */
 
-body:not(.tv-page) {
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   margin: 0;
   padding: 0;
 
@@ -22,11 +32,11 @@ body:not(.tv-page) {
   min-height: 100vh;
 }
 
-body:not(.tv-page) button,
-body:not(.tv-page) input,
-body:not(.tv-page) select,
-body:not(.tv-page) textarea {
-  font-family: Arial, Helvetica, sans-serif;
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 
@@ -34,21 +44,22 @@ body:not(.tv-page) textarea {
    CONTAINER PRINCIPAL
    ========================================================= */
 
-body:not(.tv-page) .container {
+.container {
   width: 98%;
-  max-width: none;
+  max-width: 1100px;
 
   margin: 8px auto;
 
-  padding: 0;
+  padding: 20px;
 
   background: #ffffff;
 
-  border: none;
+  border: 1px solid #d4d4d4;
 
-  border-radius: 0;
+  border-radius: 3px;
 
-  box-shadow: none;
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.08);
 }
 
 
@@ -56,25 +67,29 @@ body:not(.tv-page) .container {
    TÍTULOS
    ========================================================= */
 
-body:not(.tv-page) h1,
-body:not(.tv-page) h2,
-body:not(.tv-page) h3,
-body:not(.tv-page) h4 {
-  color: #222;
-
+h1,
+h2,
+h3,
+h4 {
   margin-top: 0;
+
+  color: #222;
 }
 
-body:not(.tv-page) h1 {
+h1 {
   font-size: 24px;
 }
 
-body:not(.tv-page) h2 {
+h2 {
   font-size: 20px;
 }
 
-body:not(.tv-page) h3 {
+h3 {
   font-size: 17px;
+}
+
+p {
+  line-height: 1.4;
 }
 
 
@@ -82,7 +97,95 @@ body:not(.tv-page) h3 {
    CABEÇALHO
    ========================================================= */
 
-body:not(.tv-page) .header {
+.header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid #ddd;
+}
+
+.header-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.header-title h1 {
+  margin: 0;
+
+  font-size: 22px;
+
+  color: #174f7a;
+}
+
+.header-title p {
+  margin: 3px 0 0;
+
+  color: #777;
+
+  font-size: 12px;
+}
+
+.header-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 3px;
+
+  background: #4398d7;
+
+  color: #ffffff;
+
+  font-size: 21px;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   STATUS DO SISTEMA
+   ========================================================= */
+
+.system-status {
+  color: #28733a;
+
+  background: #e5f3e8;
+
+  border: 1px solid #b6d8bc;
+
+  padding: 7px 12px;
+
+  border-radius: 3px;
+
+  font-size: 12px;
+
+  font-weight: bold;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   SEÇÕES
+   ========================================================= */
+
+.section-header {
   display: flex;
 
   align-items: center;
@@ -92,102 +195,17 @@ body:not(.tv-page) .header {
   gap: 10px;
 
   margin-bottom: 10px;
-
-  padding: 0;
-
-  border: none;
-
-  min-height: 50px;
 }
 
-body:not(.tv-page) .header-title {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-}
-
-body:not(.tv-page) .header-title h1 {
-  margin: 0;
-
-  color: #174f7a;
-
-  font-size: 22px;
-
-  font-weight: 700;
-}
-
-body:not(.tv-page) .header-title p {
-  margin: 2px 0 0;
-
-  color: #777;
-
-  font-size: 12px;
-}
-
-body:not(.tv-page) .header-icon {
-  width: 42px;
-  height: 42px;
-
-  border-radius: 0;
-
-  background: #3f96d8;
-
-  color: #fff;
-
-  box-shadow: none;
-
-  font-size: 20px;
-}
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-body:not(.tv-page) .system-status {
-  padding: 7px 12px;
-
-  border-radius: 2px;
-
-  background: #e8f5e9;
-
-  border: 1px solid #b7dcb9;
-
-  color: #27833c;
-
-  font-size: 12px;
-
-  font-weight: bold;
-}
-
-
-/* =========================================================
-   SEÇÕES
-   ========================================================= */
-
-body:not(.tv-page) .section-header {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 10px;
-
-  margin-bottom: 8px;
-}
-
-body:not(.tv-page) .section-header h2 {
-  margin: 0;
+.section-header h2 {
+  margin-bottom: 3px;
 
   color: #333;
 
   font-size: 18px;
 }
 
-body:not(.tv-page) .section-header p {
+.section-header p {
   margin: 0;
 
   color: #777;
@@ -200,11 +218,11 @@ body:not(.tv-page) .section-header p {
    FORMULÁRIOS
    ========================================================= */
 
-body:not(.tv-page) .form-group {
-  margin-bottom: 8px;
+.form-group {
+  margin-bottom: 10px;
 }
 
-body:not(.tv-page) .form-group label {
+.form-group label {
   display: block;
 
   margin-bottom: 4px;
@@ -221,18 +239,18 @@ body:not(.tv-page) .form-group label {
    INPUTS
    ========================================================= */
 
-body:not(.tv-page) input,
-body:not(.tv-page) select,
-body:not(.tv-page) textarea {
+input,
+select,
+textarea {
   width: 100%;
 
   padding: 9px 10px;
 
   margin-top: 3px;
 
-  border: 1px solid #c9c9c9;
+  border: 1px solid #c8c8c8;
 
-  border-radius: 0;
+  border-radius: 2px;
 
   background: #ffffff;
 
@@ -242,30 +260,28 @@ body:not(.tv-page) textarea {
 
   outline: none;
 
-  box-shadow: none;
-
   transition:
     border-color 0.15s,
     background 0.15s;
 }
 
-body:not(.tv-page) input:focus,
-body:not(.tv-page) select:focus,
-body:not(.tv-page) textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   border-color: #4b9bd3;
 
   background: #ffffff;
 
   box-shadow:
-    0 0 0 1px rgba(75, 155, 211, 0.15);
+    0 0 0 1px rgba(75, 155, 211, 0.12);
 }
 
-body:not(.tv-page) input::placeholder,
-body:not(.tv-page) textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #999;
 }
 
-body:not(.tv-page) textarea {
+textarea {
   min-height: 90px;
 
   resize: vertical;
@@ -273,21 +289,20 @@ body:not(.tv-page) textarea {
 
 
 /* =========================================================
-   CAMPOS DE SELEÇÃO
-   ESTILO AMARELO DA IMAGEM
+   SELECT - ESTILO AMARELO DA REFERÊNCIA
    ========================================================= */
 
-body:not(.tv-page) select {
+select {
   background: #ffe9ad;
 
-  border-color: #e3c36b;
+  border-color: #e0c16b;
 
   font-weight: 600;
 
   cursor: pointer;
 }
 
-body:not(.tv-page) select:hover {
+select:hover {
   background: #ffe3a0;
 }
 
@@ -296,12 +311,10 @@ body:not(.tv-page) select:hover {
    INPUT DE ARQUIVO
    ========================================================= */
 
-body:not(.tv-page) input[type="file"] {
+input[type="file"] {
   padding: 7px;
 
   background: #f5f5f5;
-
-  border: 1px solid #ccc;
 
   cursor: pointer;
 }
@@ -311,7 +324,7 @@ body:not(.tv-page) input[type="file"] {
    BOTÕES
    ========================================================= */
 
-body:not(.tv-page) button {
+button {
   width: 100%;
 
   padding: 11px 14px;
@@ -339,7 +352,7 @@ body:not(.tv-page) button {
     border-color 0.15s;
 }
 
-body:not(.tv-page) button:hover {
+button:hover {
   background: #3187c6;
 
   border-color: #2475af;
@@ -349,33 +362,33 @@ body:not(.tv-page) button:hover {
   transform: none;
 }
 
-body:not(.tv-page) button:active {
+button:active {
   transform: none;
 }
 
 
 /* =========================================================
-   BOTÃO AZUL
+   BOTÕES AZUIS
    ========================================================= */
 
-body:not(.tv-page) .btn-tv,
-body:not(.tv-page) .btn-abrir-tv,
-body:not(.tv-page) .btn-tv-open,
-body:not(.tv-page) .btn-tv-medico,
-body:not(.tv-page) .btn-abrir-tv-medico {
+.btn-tv,
+.btn-abrir-tv,
+.btn-tv-open,
+.btn-tv-medico,
+.btn-abrir-tv-medico {
   width: auto;
 
   margin: 0;
 
   padding: 10px 16px;
 
+  border: 1px solid #2980c2;
+
   border-radius: 4px;
 
   background: #4398d7;
 
-  border: 1px solid #2980c2;
-
-  color: #fff;
+  color: #ffffff;
 
   font-size: 13px;
 
@@ -384,14 +397,18 @@ body:not(.tv-page) .btn-abrir-tv-medico {
   box-shadow: none;
 
   text-decoration: none;
+
+  cursor: pointer;
 }
 
-body:not(.tv-page) .btn-tv:hover,
-body:not(.tv-page) .btn-abrir-tv:hover,
-body:not(.tv-page) .btn-tv-open:hover,
-body:not(.tv-page) .btn-tv-medico:hover,
-body:not(.tv-page) .btn-abrir-tv-medico:hover {
+.btn-tv:hover,
+.btn-abrir-tv:hover,
+.btn-tv-open:hover,
+.btn-tv-medico:hover,
+.btn-abrir-tv-medico:hover {
   background: #3187c6;
+
+  border-color: #2475af;
 }
 
 
@@ -399,7 +416,7 @@ body:not(.tv-page) .btn-abrir-tv-medico:hover {
    BOTÃO ATUALIZAR
    ========================================================= */
 
-body:not(.tv-page) .btn-refresh {
+.btn-refresh {
   width: auto;
 
   margin: 0;
@@ -415,50 +432,56 @@ body:not(.tv-page) .btn-refresh {
   font-size: 13px;
 }
 
-body:not(.tv-page) .btn-refresh:hover {
+.btn-refresh:hover {
   background: #455a64;
+
+  border-color: #37474f;
 }
 
 
 /* =========================================================
-   BOTÃO INICIAR
+   BOTÃO VERDE / INICIAR
    ========================================================= */
 
-body:not(.tv-page) .btn-iniciar,
-body:not(.tv-page) .btn-start,
-body:not(.tv-page) .btn-success,
-body:not(.tv-page) button.iniciar {
+.btn-iniciar,
+.btn-start,
+.btn-success,
+button.iniciar {
   background: #35b965;
 
   border-color: #279b50;
 }
 
-body:not(.tv-page) .btn-iniciar:hover,
-body:not(.tv-page) .btn-start:hover,
-body:not(.tv-page) .btn-success:hover,
-body:not(.tv-page) button.iniciar:hover {
+.btn-iniciar:hover,
+.btn-start:hover,
+.btn-success:hover,
+button.iniciar:hover {
   background: #2aa657;
+
+  border-color: #218c48;
 }
 
 
 /* =========================================================
-   BOTÃO PARAR / SAIR / PERIGO
+   BOTÃO VERMELHO / PARAR
    ========================================================= */
 
-body:not(.tv-page) .btn-danger,
-body:not(.tv-page) .btn-parar,
-body:not(.tv-page) .btn-stop,
-body:not(.tv-page) button.parar {
+.btn-danger,
+.btn-parar,
+.btn-stop,
+button.parar {
   background: #ed4d4d;
 
   border-color: #d73737;
 }
 
-body:not(.tv-page) .btn-danger:hover,
-body:not(.tv-page) .btn-parar:hover,
-body:not(.tv-page) .btn-stop:hover,
-body:not(.tv-page) button.parar:hover {
+.btn-danger:hover,
+.btn-parar:hover,
+.btn-stop:hover,
+button.parar:hover {
   background: #d93636;
+
+  border-color: #c52d2d;
 }
 
 
@@ -466,7 +489,7 @@ body:not(.tv-page) button.parar:hover {
    CARDS
    ========================================================= */
 
-body:not(.tv-page) .card {
+.card {
   position: relative;
 
   padding: 15px;
@@ -477,28 +500,26 @@ body:not(.tv-page) .card {
 
   border: 1px solid #d4d4d4;
 
-  border-radius: 0;
+  border-radius: 2px;
 
   box-shadow: none;
 
   transition: none;
 }
 
-body:not(.tv-page) .card:hover {
+.card:hover {
   transform: none;
 
   box-shadow: none;
 }
 
-body:not(.tv-page) .card h3 {
+.card h3 {
   margin-bottom: 8px;
 
   color: #235b82;
-
-  font-size: 16px;
 }
 
-body:not(.tv-page) .card p {
+.card p {
   margin: 5px 0;
 
   color: #444;
@@ -506,56 +527,18 @@ body:not(.tv-page) .card p {
   font-size: 13px;
 }
 
-body:not(.tv-page) .card b {
+.card b {
   color: #333;
 }
 
 
 /* =========================================================
-   DASHBOARD DE RISCO
+   CLASSIFICAÇÃO DE RISCO
    ========================================================= */
 
-body:not(.tv-page) .risk-dashboard {
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 5px;
-
-  margin-bottom: 15px;
-}
-
-body:not(.tv-page) .risk-dashboard-card {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  padding: 12px;
-
-  border-radius: 0;
-
-  border: 1px solid;
-}
-
-body:not(.tv-page) .risk-dashboard-icon {
-  width: 35px;
-  height: 35px;
-
-  border-radius: 2px;
-
-  font-size: 17px;
-}
-
-
-/* =========================================================
-   VERDE / AMARELO / VERMELHO
-   ========================================================= */
-
-body:not(.tv-page) .verde,
-body:not(.tv-page) .amarelo,
-body:not(.tv-page) .vermelho {
+.verde,
+.amarelo,
+.vermelho {
   display: inline-flex;
 
   align-items: center;
@@ -573,7 +556,10 @@ body:not(.tv-page) .vermelho {
   letter-spacing: 0;
 }
 
-body:not(.tv-page) .verde {
+
+/* Verde */
+
+.verde {
   background: #dff1e3;
 
   color: #28733a;
@@ -581,7 +567,10 @@ body:not(.tv-page) .verde {
   border: 1px solid #a8d4af;
 }
 
-body:not(.tv-page) .amarelo {
+
+/* Amarelo */
+
+.amarelo {
   background: #fff1c7;
 
   color: #8b6500;
@@ -589,7 +578,10 @@ body:not(.tv-page) .amarelo {
   border: 1px solid #e6c969;
 }
 
-body:not(.tv-page) .vermelho {
+
+/* Vermelho */
+
+.vermelho {
   background: #fbe0e0;
 
   color: #b52b2b;
@@ -599,41 +591,294 @@ body:not(.tv-page) .vermelho {
 
 
 /* =========================================================
+   DASHBOARD DE RISCO
+   ========================================================= */
+
+.risk-dashboard {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 6px;
+
+  margin-bottom: 15px;
+}
+
+.risk-dashboard-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 12px;
+
+  border-radius: 2px;
+
+  border: 1px solid;
+}
+
+.risk-dashboard-card strong {
+  display: block;
+
+  font-size: 15px;
+}
+
+.risk-dashboard-card span {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 11px;
+}
+
+.risk-dashboard-icon {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 2px;
+
+  font-size: 17px;
+
+  font-weight: bold;
+}
+
+
+/* Verde */
+
+.risk-green {
+  background: #f1f9f3;
+
+  border-color: #c8e6c9;
+
+  color: #2e7d32;
+}
+
+.risk-green .risk-dashboard-icon {
+  background: #c8e6c9;
+}
+
+
+/* Amarelo */
+
+.risk-yellow {
+  background: #fffaf0;
+
+  border-color: #ffe0a3;
+
+  color: #b26a00;
+}
+
+.risk-yellow .risk-dashboard-icon {
+  background: #ffe0a3;
+}
+
+
+/* Vermelho */
+
+.risk-red {
+  background: #fff5f5;
+
+  border-color: #ffcdd2;
+
+  color: #c62828;
+}
+
+.risk-red .risk-dashboard-icon {
+  background: #ffcdd2;
+}
+
+
+/* =========================================================
    TRIAGEM
    ========================================================= */
 
-body:not(.tv-page) .triagem-container {
-  max-width: none;
+.triagem-container {
+  max-width: 1100px;
 }
 
-body:not(.tv-page) .triagem-form-section {
-  margin-top: 15px;
+.triagem-form-section {
+  margin-top: 20px;
 
-  padding-top: 12px;
+  padding-top: 15px;
 
   border-top: 1px solid #d8d8d8;
 }
 
-body:not(.tv-page) .triagem-form-card {
-  padding: 15px;
+.triagem-form-card {
+  padding: 18px;
 
   background: #ffffff;
 
   border: 1px solid #d4d4d4;
 
-  border-radius: 0;
+  border-radius: 2px;
 }
 
 
 /* =========================================================
-   FILA
+   TEMPERATURA
    ========================================================= */
 
-body:not(.tv-page) .pacientes-fila {
+.input-with-unit {
+  position: relative;
+}
+
+.input-with-unit input {
+  margin: 0;
+
+  padding-right: 50px;
+}
+
+.input-with-unit span {
+  position: absolute;
+
+  right: 12px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #777;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   RESULTADO DE RISCO
+   ========================================================= */
+
+.risk-result {
+  display: none;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 13px;
+
+  margin: 15px 0;
+
+  border-radius: 2px;
+
+  border: 1px solid;
+}
+
+.risk-result-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 2px;
+
+  font-size: 18px;
+
+  font-weight: bold;
+}
+
+.risk-result strong {
+  display: block;
+
+  font-size: 15px;
+}
+
+.risk-result span {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 11px;
+}
+
+
+/* Verde */
+
+.risk-result.verde {
+  display: flex;
+
+  background: #eaf7ed;
+
+  border-color: #a5d6a7;
+
+  color: #2e7d32;
+}
+
+.risk-result.verde .risk-result-icon {
+  background: #c8e6c9;
+}
+
+
+/* Amarelo */
+
+.risk-result.amarelo {
+  display: flex;
+
+  background: #fff8e5;
+
+  border-color: #ffe082;
+
+  color: #a76400;
+}
+
+.risk-result.amarelo .risk-result-icon {
+  background: #ffe082;
+}
+
+
+/* Vermelho */
+
+.risk-result.vermelho {
+  display: flex;
+
+  background: #ffebee;
+
+  border-color: #ef9a9a;
+
+  color: #c62828;
+}
+
+.risk-result.vermelho .risk-result-icon {
+  background: #ffcdd2;
+}
+
+
+/* =========================================================
+   BOTÃO SALVAR TRIAGEM
+   ========================================================= */
+
+.btn-salvar-triagem {
+  margin-top: 5px;
+
+  background: #4398d7;
+
+  border-color: #2980c2;
+}
+
+.btn-salvar-triagem:hover {
+  background: #3187c6;
+}
+
+
+/* =========================================================
+   FILA DE PACIENTES
+   ========================================================= */
+
+.pacientes-fila {
   margin-bottom: 15px;
 }
 
-body:not(.tv-page) .fila-container {
+.fila-container {
   display: flex;
 
   flex-direction: column;
@@ -641,7 +886,7 @@ body:not(.tv-page) .fila-container {
   gap: 3px;
 }
 
-body:not(.tv-page) .fila-item {
+.fila-item {
   display: flex;
 
   align-items: center;
@@ -656,12 +901,15 @@ body:not(.tv-page) .fila-item {
 
   border: 1px solid #d5d5d5;
 
-  border-radius: 0;
+  border-radius: 2px;
 
   box-shadow: none;
+
+  transition:
+    border-color 0.15s;
 }
 
-body:not(.tv-page) .fila-item:hover {
+.fila-item:hover {
   border-color: #9fc8e3;
 
   transform: none;
@@ -669,7 +917,7 @@ body:not(.tv-page) .fila-item:hover {
   box-shadow: none;
 }
 
-body:not(.tv-page) .fila-paciente-info {
+.fila-paciente-info {
   display: flex;
 
   align-items: center;
@@ -677,24 +925,33 @@ body:not(.tv-page) .fila-paciente-info {
   gap: 10px;
 }
 
-body:not(.tv-page) .fila-avatar {
+.fila-avatar {
   width: 35px;
   height: 35px;
 
-  border-radius: 2px;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
 
   background: #dceff8;
+
+  border-radius: 2px;
 
   font-size: 16px;
 }
 
-body:not(.tv-page) .fila-item strong {
+.fila-item strong {
+  display: block;
+
   color: #333;
 
   font-size: 14px;
 }
 
-body:not(.tv-page) .fila-item small {
+.fila-item small {
+  display: block;
+
   margin-top: 2px;
 
   color: #888;
@@ -702,19 +959,86 @@ body:not(.tv-page) .fila-item small {
   font-size: 11px;
 }
 
+.fila-item .btn-tv {
+  flex-shrink: 0;
+}
+
 
 /* =========================================================
-   CONSULTÓRIO
+   ESTADOS
    ========================================================= */
 
-body:not(.tv-page) .consultorio-input {
+.loading-card {
+  padding: 20px;
+
+  text-align: center;
+
+  color: #888;
+
+  background: #f5f5f5;
+
+  border: 1px dashed #c4c4c4;
+
+  border-radius: 2px;
+}
+
+.empty-state {
+  padding: 25px;
+
+  text-align: center;
+
+  background: #f5f5f5;
+
+  border: 1px dashed #c4c4c4;
+
+  border-radius: 2px;
+}
+
+.empty-icon {
+  font-size: 32px;
+
+  margin-bottom: 8px;
+}
+
+.empty-state h3 {
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  margin: 0;
+
+  color: #888;
+
+  font-size: 12px;
+}
+
+.error-state {
+  padding: 20px;
+
+  text-align: center;
+
+  color: #b52b2b;
+
+  background: #fae8e8;
+
+  border: 1px solid #e0b0b0;
+
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   CONSULTÓRIO MÉDICO
+   ========================================================= */
+
+.consultorio-input {
   display: flex;
 
   align-items: center;
 
   gap: 10px;
 
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 
   padding: 10px;
 
@@ -722,16 +1046,18 @@ body:not(.tv-page) .consultorio-input {
 
   border: 1px solid #b8dce9;
 
-  border-radius: 0;
+  border-radius: 2px;
 }
 
-body:not(.tv-page) .consultorio-input label {
+.consultorio-input label {
   color: #315d7d;
 
   font-weight: bold;
+
+  white-space: nowrap;
 }
 
-body:not(.tv-page) .consultorio-input input {
+.consultorio-input input {
   width: 65px;
 
   margin: 0;
@@ -750,7 +1076,7 @@ body:not(.tv-page) .consultorio-input input {
    PAINEL MÉDICO
    ========================================================= */
 
-body:not(.tv-page) .medico-header {
+.medico-header {
   display: flex;
 
   align-items: center;
@@ -759,7 +1085,36 @@ body:not(.tv-page) .medico-header {
 
   gap: 10px;
 
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   BOTÕES ESPECÍFICOS DO MÉDICO
+   ========================================================= */
+
+.btn-tv-medico {
+  width: auto;
+
+  background: #4398d7;
+
+  border-color: #2980c2;
+
+  padding: 9px 14px;
+
+  font-size: 13px;
+}
+
+.btn-abrir-tv-medico {
+  width: auto;
+
+  background: #4398d7;
+
+  border-color: #2980c2;
+
+  padding: 9px 14px;
+
+  font-size: 13px;
 }
 
 
@@ -767,7 +1122,7 @@ body:not(.tv-page) .medico-header {
    MEDICAÇÕES
    ========================================================= */
 
-body:not(.tv-page) #listaMedicacoes {
+#listaMedicacoes {
   display: flex;
 
   flex-direction: column;
@@ -775,21 +1130,19 @@ body:not(.tv-page) #listaMedicacoes {
   gap: 5px;
 }
 
-body:not(.tv-page) #listaMedicacoes .card {
+#listaMedicacoes .card {
   margin: 0;
 
   border-left: 4px solid #4398d7;
-
-  border-radius: 0;
 }
 
-body:not(.tv-page) #listaMedicacoes .card h3 {
+#listaMedicacoes .card h3 {
   color: #235b82;
 
   margin-bottom: 8px;
 }
 
-body:not(.tv-page) #listaMedicacoes .card p {
+#listaMedicacoes .card p {
   padding: 8px 10px;
 
   margin: 5px 0;
@@ -799,36 +1152,8 @@ body:not(.tv-page) #listaMedicacoes .card p {
   border-radius: 0;
 }
 
-
-/* =========================================================
-   ESTADOS
-   ========================================================= */
-
-body:not(.tv-page) .loading-card,
-body:not(.tv-page) .empty-state {
-  padding: 20px;
-
-  text-align: center;
-
-  background: #f5f5f5;
-
-  border: 1px dashed #c4c4c4;
-
-  border-radius: 0;
-}
-
-body:not(.tv-page) .error-state {
-  padding: 20px;
-
-  text-align: center;
-
-  color: #b52b2b;
-
-  background: #fae8e8;
-
-  border: 1px solid #e0b0b0;
-
-  border-radius: 0;
+#listaMedicacoes .card b {
+  color: #455a64;
 }
 
 
@@ -836,12 +1161,12 @@ body:not(.tv-page) .error-state {
    DIVISÓRIAS
    ========================================================= */
 
-body:not(.tv-page) hr {
+hr {
   border: 0;
 
-  border-top: 1px solid #d7d7d7;
+  border-top: 1px solid #d8d8d8;
 
-  margin: 15px 0;
+  margin: 18px 0;
 }
 
 
@@ -849,8 +1174,8 @@ body:not(.tv-page) hr {
    RODAPÉ
    ========================================================= */
 
-body:not(.tv-page) .footer {
-  margin-top: 15px;
+.footer {
+  margin-top: 18px;
 
   padding-top: 10px;
 
@@ -869,6 +1194,7 @@ body:not(.tv-page) .footer {
    ========================================================= */
 
 body:has(.container > #usuario) {
+
   display: flex;
 
   align-items: center;
@@ -877,17 +1203,18 @@ body:has(.container > #usuario) {
 
   min-height: 100vh;
 
-  background: #f5f5f5;
+  background: #f3f5f6;
 }
 
 body:has(.container > #usuario) .container {
+
   width: 90%;
 
   max-width: 400px;
 
   margin: 20px;
 
-  padding: 25px;
+  padding: 28px;
 
   text-align: center;
 
@@ -896,84 +1223,651 @@ body:has(.container > #usuario) .container {
   border: 1px solid #ccc;
 
   box-shadow:
-    0 3px 12px rgba(0, 0, 0, 0.12);
+    0 5px 20px rgba(0, 0, 0, 0.12);
 }
 
 body:has(.container > #usuario) h2 {
-  margin-bottom: 20px;
+
+  margin-bottom: 22px;
 
   color: #235b82;
 
-  font-size: 22px;
+  font-size: 23px;
+}
+
+body:has(.container > #usuario) input {
+
+  text-align: left;
+}
+
+body:has(.container > #usuario) button {
+
+  margin-top: 15px;
 }
 
 
 /* =========================================================
-   RESPONSIVIDADE
+   =========================================================
+   TV DE CHAMADAS
+   =========================================================
    ========================================================= */
 
-@media (max-width: 900px) {
 
-  body:not(.tv-page) .container {
-    width: 98%;
+/* =========================================================
+   PÁGINA DA TV
+   ========================================================= */
 
-    padding: 0;
-  }
+body.tv-page {
 
-  body:not(.tv-page) .header {
-    flex-direction: row;
+  width: 100vw;
+  height: 100vh;
 
-    align-items: center;
-  }
+  margin: 0;
+  padding: 0;
 
-  body:not(.tv-page) .risk-dashboard {
-    grid-template-columns: 1fr;
-  }
+  overflow: hidden;
 
+  background:
+    linear-gradient(
+      135deg,
+      #071d2d 0%,
+      #103b57 100%
+    );
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: #222;
 }
 
 
-@media (max-width: 650px) {
+/* =========================================================
+   CONTAINER DA TV
+   ========================================================= */
 
-  body:not(.tv-page) .container {
-    width: 100%;
+.tv-page .tv-container {
+
+  display: flex;
+
+  width: 100vw;
+  height: 100vh;
+
+  gap: 18px;
+
+  padding: 18px;
+
+  margin: 0;
+}
+
+
+/* =========================================================
+   PAINEL ESQUERDO
+   ========================================================= */
+
+.tv-page .left-panel {
+
+  width: 31%;
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   PAINEL DIREITO
+   ========================================================= */
+
+.tv-page .right-panel {
+
+  width: 69%;
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   BOX BASE DA TV
+   ========================================================= */
+
+.tv-page .box {
+
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 2px solid #cbdce6;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.20);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   TÍTULO DOS BOXES DA TV
+   ========================================================= */
+
+.tv-page .box-title {
+
+  margin-bottom: 12px;
+
+  color: #607d8b;
+
+  font-size:
+    clamp(14px, 1.4vw, 24px);
+
+  font-weight: bold;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   BOX DO GUICHÊ
+   ========================================================= */
+
+.tv-page .local-box {
+
+  flex: 1;
+
+  min-height: 0;
+
+  padding: 20px;
+}
+
+
+.tv-page #local-tipo {
+
+  color: #1565c0;
+
+  font-size:
+    clamp(25px, 3vw, 48px);
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+.tv-page .local-number {
+
+  color: #0d47a1;
+
+  font-size:
+    clamp(80px, 11vw, 180px);
+
+  font-weight: 800;
+
+  line-height: 0.9;
+
+  margin-top: 5px;
+}
+
+
+/* =========================================================
+   HISTÓRICO
+   ========================================================= */
+
+.tv-page .history-box {
+
+  flex: 1.3;
+
+  min-height: 0;
+
+  padding: 25px 20px;
+
+  justify-content: flex-start;
+}
+
+
+.tv-page .history-box .box-title {
+
+  flex-shrink: 0;
+
+  margin-bottom: 18px;
+}
+
+
+.tv-page #history-list {
+
+  width: 100%;
+
+  height: 100%;
+
+  margin: 0;
+
+  padding: 0;
+
+  list-style: none;
+
+  overflow: hidden;
+
+  text-align: left;
+}
+
+
+.tv-page #history-list li {
+
+  width: 100%;
+
+  padding: 13px 14px;
+
+  margin-bottom: 10px;
+
+  background: #eef5f9;
+
+  border-left: 5px solid #64b5f6;
+
+  border-radius: 5px;
+
+  color: #37474f;
+
+  font-size:
+    clamp(13px, 1.35vw, 23px);
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   BOX DO PACIENTE
+   ========================================================= */
+
+.tv-page .patient-box {
+
+  flex: 3;
+
+  min-height: 0;
+
+  padding: 30px 40px;
+
+  border: 3px solid #90caf9;
+}
+
+
+/* Barra superior */
+
+.tv-page .patient-box::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #1565c0 0%,
+      #29b6f6 50%,
+      #00a67d 100%
+    );
+}
+
+
+/* Título PACIENTE */
+
+.tv-page .patient-box .box-title {
+
+  margin-bottom: 20px;
+
+  color: #607d8b;
+
+  font-size:
+    clamp(16px, 1.6vw, 27px);
+
+  letter-spacing: 3px;
+}
+
+
+/* Nome do paciente */
+
+.tv-page .patient-name {
+
+  width: 100%;
+
+  max-width: 95%;
+
+  color: #0d47a1;
+
+  font-size:
+    clamp(40px, 6vw, 115px);
+
+  font-weight: 800;
+
+  line-height: 1.05;
+
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.tv-page .logo-box {
+
+  flex: 1;
+
+  min-height: 0;
+
+  flex-direction: row;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 20px 30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e3f2fd,
+      #f1f8f4
+    );
+}
+
+
+/* Imagem do logo */
+
+.tv-page .logo {
+
+  max-width: 30%;
+
+  max-height: 75px;
+
+  width: auto;
+
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+/* Texto do logo */
+
+.tv-page .logo-text {
+
+  color: #1565c0;
+
+  font-size:
+    clamp(18px, 2.2vw, 38px);
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DE NOVA CHAMADA
+   ========================================================= */
+
+@keyframes tvFlash {
+
+  0% {
+
+    transform: scale(1);
+
+    background: #ffffff;
+
   }
 
-  body:not(.tv-page) .header {
-    flex-direction: column;
+  20% {
 
-    align-items: stretch;
+    transform: scale(1.015);
+
+    background: #e3f2fd;
+
   }
 
-  body:not(.tv-page) .section-header {
-    flex-direction: column;
+  40% {
 
-    align-items: stretch;
+    transform: scale(1);
+
+    background: #ffffff;
+
   }
 
-  body:not(.tv-page) .btn-refresh {
-    width: 100%;
+  60% {
+
+    transform: scale(1.015);
+
+    background: #e3f2fd;
+
   }
 
-  body:not(.tv-page) .fila-item {
-    flex-direction: column;
+  80% {
 
-    align-items: stretch;
+    transform: scale(1);
+
+    background: #ffffff;
+
   }
 
-  body:not(.tv-page) .fila-item .btn-tv {
-    width: 100%;
+  100% {
+
+    transform: scale(1);
+
+    background: #ffffff;
+
+  }
+}
+
+
+.tv-page .patient-box.flash {
+
+  animation:
+    tvFlash 0.7s ease 3;
+
+  border-color: #2196f3;
+
+  box-shadow:
+    0 0 35px rgba(33, 150, 243, 0.60);
+}
+
+
+/* =========================================================
+   TV - TELAS MÉDIAS
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .tv-page .tv-container {
+
+    gap: 10px;
+
+    padding: 10px;
   }
 
-  body:not(.tv-page) .consultorio-input {
-    flex-wrap: wrap;
+  .tv-page .left-panel,
+  .tv-page .right-panel {
+
+    gap: 10px;
+  }
+
+  .tv-page .box {
+
+    border-radius: 6px;
+  }
+
+  .tv-page .patient-box {
+
+    padding: 20px;
+  }
+
+  .tv-page .logo-box {
+
+    gap: 10px;
+
+    padding: 15px;
   }
 
 }
 
 
 /* =========================================================
-   REDUÇÃO DE MOVIMENTO
+   TV - CELULAR / TELA VERTICAL
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  body.tv-page {
+
+    overflow: auto;
+  }
+
+  .tv-page .tv-container {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    height: auto;
+
+    flex-direction: column;
+
+    padding: 10px;
+
+    gap: 10px;
+  }
+
+  .tv-page .left-panel,
+  .tv-page .right-panel {
+
+    width: 100%;
+
+    height: auto;
+  }
+
+  .tv-page .local-box {
+
+    min-height: 180px;
+  }
+
+  .tv-page .history-box {
+
+    min-height: 220px;
+  }
+
+  .tv-page .patient-box {
+
+    min-height: 300px;
+  }
+
+  .tv-page .logo-box {
+
+    min-height: 100px;
+  }
+
+  .tv-page .local-number {
+
+    font-size: 80px;
+  }
+
+  .tv-page .patient-name {
+
+    font-size: 42px;
+  }
+
+}
+
+
+/* =========================================================
+   TV - FULL HD / TELAS GRANDES
+   ========================================================= */
+
+@media (min-width: 1600px) {
+
+  .tv-page .tv-container {
+
+    gap: 24px;
+
+    padding: 24px;
+  }
+
+  .tv-page .left-panel,
+  .tv-page .right-panel {
+
+    gap: 24px;
+  }
+
+  .tv-page .box {
+
+    border-width: 3px;
+
+    border-radius: 10px;
+  }
+
+  .tv-page .patient-box {
+
+    padding: 40px;
+  }
+
+  .tv-page #history-list li {
+
+    padding: 17px;
+
+    margin-bottom: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE / REDUÇÃO DE MOVIMENTO
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -981,9 +1875,12 @@ body:has(.container > #usuario) h2 {
   *,
   *::before,
   *::after {
+
     animation-duration: 0.01ms !important;
 
     animation-iteration-count: 1 !important;
+
+    scroll-behavior: auto !important;
 
     transition-duration: 0.01ms !important;
   }
