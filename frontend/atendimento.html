@@ -2,869 +2,409 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cadastro de Atendimento</title>
+  <title>Atendimento</title>
 
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Cadastro de Atendimento</h1>
-    <p class="subtitulo">Preencha os dados do paciente</p>
-
-    <form id="formAtendimento">
-
-        <!-- ========================= -->
-        <!-- DADOS PESSOAIS -->
-        <!-- ========================= -->
-
-        <h2>Dados pessoais</h2>
-
-        <div class="form-grid">
-
-            <div class="campo campo-grande">
-                <label for="nome">Nome completo *</label>
-                <input
-                    type="text"
-                    id="nome"
-                    placeholder="Digite o nome completo"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="cpf">CPF *</label>
-                <input
-                    type="text"
-                    id="cpf"
-                    placeholder="000.000.000-00"
-                    maxlength="14"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="data">Data de nascimento *</label>
-                <input
-                    type="date"
-                    id="data"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="sexo">Sexo *</label>
-
-                <select id="sexo" required>
-                    <option value="">Selecione</option>
-                    <option value="Feminino">Feminino</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Intersexo">Intersexo</option>
-                    <option value="Prefiro não informar">
-                        Prefiro não informar
-                    </option>
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="estadoCivil">Estado civil</label>
-
-                <select id="estadoCivil">
-                    <option value="">Selecione</option>
-                    <option value="Solteiro(a)">Solteiro(a)</option>
-                    <option value="Casado(a)">Casado(a)</option>
-                    <option value="Divorciado(a)">Divorciado(a)</option>
-                    <option value="Viúvo(a)">Viúvo(a)</option>
-                    <option value="Separado(a)">Separado(a)</option>
-                    <option value="União estável">União estável</option>
-                </select>
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- RESPONSÁVEL -->
-        <!-- ========================= -->
-
-        <h2>Responsável</h2>
-
-        <div class="form-grid">
-
-            <div class="campo campo-grande">
-                <label for="nomeResponsavel">
-                    Nome do responsável
-                </label>
-
-                <input
-                    type="text"
-                    id="nomeResponsavel"
-                    placeholder="Nome completo do responsável"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="parentesco">Grau de parentesco</label>
-
-                <select id="parentesco">
-                    <option value="">Selecione</option>
-                    <option value="Mãe">Mãe</option>
-                    <option value="Pai">Pai</option>
-                    <option value="Filho(a)">Filho(a)</option>
-                    <option value="Cônjuge">Cônjuge</option>
-                    <option value="Irmão(ã)">Irmão(ã)</option>
-                    <option value="Avô(ó)">Avô(ó)</option>
-                    <option value="Tio(a)">Tio(a)</option>
-                    <option value="Tutor(a)">Tutor(a)</option>
-                    <option value="Outro">Outro</option>
-                </select>
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- ENDEREÇO -->
-        <!-- ========================= -->
-
-        <h2>Endereço</h2>
-
-        <div class="form-grid">
-
-            <div class="campo">
-                <label for="cep">CEP</label>
-
-                <input
-                    type="text"
-                    id="cep"
-                    placeholder="00000-000"
-                    maxlength="9"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="tipoEndereco">Tipo de endereço</label>
-
-                <select id="tipoEndereco">
-                    <option value="">Selecione</option>
-                    <option value="Residencial">Residencial</option>
-                    <option value="Comercial">Comercial</option>
-                    <option value="Outro">Outro</option>
-                </select>
-            </div>
-
-            <div class="campo campo-grande">
-                <label for="endereco">Endereço</label>
-
-                <input
-                    type="text"
-                    id="endereco"
-                    placeholder="Rua, avenida, etc."
-                >
-            </div>
-
-            <div class="campo">
-                <label for="numero">Número</label>
-
-                <input
-                    type="text"
-                    id="numero"
-                    placeholder="Número"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="complemento">Complemento</label>
-
-                <input
-                    type="text"
-                    id="complemento"
-                    placeholder="Apto, bloco, casa..."
-                >
-            </div>
-
-            <div class="campo">
-                <label for="bairro">Bairro</label>
-
-                <input
-                    type="text"
-                    id="bairro"
-                    placeholder="Bairro"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="cidade">Cidade</label>
-
-                <input
-                    type="text"
-                    id="cidade"
-                    placeholder="Cidade"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="estado">Estado</label>
-
-                <select id="estado">
-
-                    <option value="">Selecione</option>
-
-                    <option value="AC">Acre</option>
-                    <option value="AL">Alagoas</option>
-                    <option value="AP">Amapá</option>
-                    <option value="AM">Amazonas</option>
-                    <option value="BA">Bahia</option>
-                    <option value="CE">Ceará</option>
-                    <option value="DF">Distrito Federal</option>
-                    <option value="ES">Espírito Santo</option>
-                    <option value="GO">Goiás</option>
-                    <option value="MA">Maranhão</option>
-                    <option value="MT">Mato Grosso</option>
-                    <option value="MS">Mato Grosso do Sul</option>
-                    <option value="MG">Minas Gerais</option>
-                    <option value="PA">Pará</option>
-                    <option value="PB">Paraíba</option>
-                    <option value="PR">Paraná</option>
-                    <option value="PE">Pernambuco</option>
-                    <option value="PI">Piauí</option>
-                    <option value="RJ">Rio de Janeiro</option>
-                    <option value="RN">Rio Grande do Norte</option>
-                    <option value="RS">Rio Grande do Sul</option>
-                    <option value="RO">Rondônia</option>
-                    <option value="RR">Roraima</option>
-                    <option value="SC">Santa Catarina</option>
-                    <option value="SP">São Paulo</option>
-                    <option value="SE">Sergipe</option>
-                    <option value="TO">Tocantins</option>
-
-                </select>
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- CONTATO -->
-        <!-- ========================= -->
-
-        <h2>Contato</h2>
-
-        <div class="form-grid">
-
-            <div class="campo">
-                <label for="telefone">Telefone *</label>
-
-                <input
-                    type="tel"
-                    id="telefone"
-                    placeholder="(00) 00000-0000"
-                    maxlength="15"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="email">E-mail</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="exemplo@email.com"
-                >
-            </div>
-
-            <div class="campo campo-grande">
-                <label for="contatoEmergencia">
-                    Contato de emergência
-                </label>
-
-                <input
-                    type="text"
-                    id="contatoEmergencia"
-                    placeholder="Nome do contato de emergência"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="telefoneEmergencia">
-                    Telefone de emergência
-                </label>
-
-                <input
-                    type="tel"
-                    id="telefoneEmergencia"
-                    placeholder="(00) 00000-0000"
-                    maxlength="15"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="tipoContatoEmergencia">
-                    Tipo de contato
-                </label>
-
-                <select id="tipoContatoEmergencia">
-                    <option value="">Selecione</option>
-                    <option value="Mãe">Mãe</option>
-                    <option value="Pai">Pai</option>
-                    <option value="Cônjuge">Cônjuge</option>
-                    <option value="Filho(a)">Filho(a)</option>
-                    <option value="Irmão(ã)">Irmão(ã)</option>
-                    <option value="Amigo(a)">Amigo(a)</option>
-                    <option value="Outro">Outro</option>
-                </select>
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- ATENDIMENTO -->
-        <!-- ========================= -->
-
-        <h2>Dados do atendimento</h2>
-
-        <div class="form-grid">
-
-            <div class="campo">
-                <label for="tipo">Tipo de atendimento *</label>
-
-                <select id="tipo" required>
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Convenio">
-                        Convênio
-                    </option>
-
-                    <option value="Particular">
-                        Particular
-                    </option>
-
-                    <option value="SUS">
-                        SUS
-                    </option>
-
-                    <option value="Cortesia">
-                        Cortesia
-                    </option>
-
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="convenio">Convênio</label>
-
-                <select id="convenio">
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Unimed">
-                        Unimed
-                    </option>
-
-                    <option value="Bradesco Saúde">
-                        Bradesco Saúde
-                    </option>
-
-                    <option value="Amil">
-                        Amil
-                    </option>
-
-                    <option value="SulAmérica">
-                        SulAmérica
-                    </option>
-
-                    <option value="NotreDame Intermédica">
-                        NotreDame Intermédica
-                    </option>
-
-                    <option value="Outro">
-                        Outro
-                    </option>
-
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="numeroCarteirinha">
-                    Nº da carteirinha
-                </label>
-
-                <input
-                    type="text"
-                    id="numeroCarteirinha"
-                    placeholder="Número da carteirinha"
-                >
-            </div>
-
-            <div class="campo">
-                <label for="plano">Tipo de plano</label>
-
-                <select id="plano">
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Básico">
-                        Básico
-                    </option>
-
-                    <option value="Intermediário">
-                        Intermediário
-                    </option>
-
-                    <option value="Completo">
-                        Completo
-                    </option>
-
-                    <option value="Empresarial">
-                        Empresarial
-                    </option>
-
-                    <option value="Outro">
-                        Outro
-                    </option>
-
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="especialidade">
-                    Especialidade
-                </label>
-
-                <select id="especialidade">
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Clínico Geral">
-                        Clínico Geral
-                    </option>
-
-                    <option value="Cardiologia">
-                        Cardiologia
-                    </option>
-
-                    <option value="Dermatologia">
-                        Dermatologia
-                    </option>
-
-                    <option value="Ortopedia">
-                        Ortopedia
-                    </option>
-
-                    <option value="Pediatria">
-                        Pediatria
-                    </option>
-
-                    <option value="Ginecologia">
-                        Ginecologia
-                    </option>
-
-                    <option value="Psiquiatria">
-                        Psiquiatria
-                    </option>
-
-                    <option value="Outra">
-                        Outra
-                    </option>
-
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="prioridade">Prioridade</label>
-
-                <select id="prioridade">
-
-                    <option value="Normal">
-                        Normal
-                    </option>
-
-                    <option value="Baixa">
-                        Baixa
-                    </option>
-
-                    <option value="Alta">
-                        Alta
-                    </option>
-
-                    <option value="Urgente">
-                        Urgente
-                    </option>
-
-                </select>
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- FOTO -->
-        <!-- ========================= -->
-
-        <h2>Foto do paciente</h2>
-
-        <div class="campo">
-
-            <label for="foto">
-                Selecionar foto
-            </label>
-
-            <input
-                type="file"
-                id="foto"
-                accept="image/*"
-            >
-
-            <small>
-                Formatos permitidos: JPG, JPEG e PNG.
-            </small>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- OBSERVAÇÕES -->
-        <!-- ========================= -->
-
-        <h2>Observações</h2>
-
-        <div class="campo">
-
-            <label for="observacoes">
-                Observações adicionais
-            </label>
-
-            <textarea
-                id="observacoes"
-                rows="5"
-                placeholder="Digite alguma observação..."
-            ></textarea>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- BOTÕES -->
-        <!-- ========================= -->
-
-        <div class="botoes">
-
-            <button
-                type="button"
-                class="btn-limpar"
-                onclick="limparFormulario()"
-            >
-                Limpar
-            </button>
-
-            <button
-                type="submit"
-                class="btn-cadastrar"
-            >
-                Cadastrar paciente
-            </button>
-
-        </div>
-
-    </form>
+  <h2>Atendimento</h2>
+  <p>Cadastre os dados básicos do paciente para iniciar o atendimento.</p>
+
+  <form id="formAtendimento">
+
+    <!-- DADOS DO PACIENTE -->
+
+    <h3>Dados do paciente</h3>
+
+    <label for="nome">Nome completo *</label>
+    <input
+      type="text"
+      id="nome"
+      placeholder="Digite o nome completo"
+      required
+    >
+
+    <label for="cpf">CPF *</label>
+    <input
+      type="text"
+      id="cpf"
+      placeholder="000.000.000-00"
+      maxlength="14"
+      required
+    >
+
+    <label for="data">Data de nascimento *</label>
+    <input
+      type="date"
+      id="data"
+      required
+    >
+
+    <label for="sexo">Sexo *</label>
+    <select id="sexo" required>
+      <option value="">Selecione</option>
+      <option value="Feminino">Feminino</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Outro">Outro</option>
+      <option value="Não informado">Não informado</option>
+    </select>
+
+
+    <!-- CONTATO -->
+
+    <h3>Contato</h3>
+
+    <label for="telefone">Telefone</label>
+    <input
+      type="tel"
+      id="telefone"
+      placeholder="(00) 00000-0000"
+      maxlength="15"
+    >
+
+
+    <!-- ATENDIMENTO -->
+
+    <h3>Informações do atendimento</h3>
+
+    <label for="tipo">Tipo de atendimento *</label>
+
+    <select id="tipo" required>
+      <option value="">Selecione</option>
+      <option value="Particular">Particular</option>
+      <option value="Convenio">Convênio</option>
+      <option value="SUS">SUS</option>
+    </select>
+
+
+    <div id="dadosConvenio" style="display: none;">
+
+      <label for="convenio">Convênio</label>
+
+      <select id="convenio">
+
+        <option value="">Selecione</option>
+
+        <option value="Unimed">Unimed</option>
+        <option value="Bradesco Saúde">Bradesco Saúde</option>
+        <option value="Amil">Amil</option>
+        <option value="SulAmérica">SulAmérica</option>
+        <option value="NotreDame">NotreDame</option>
+        <option value="Outro">Outro</option>
+
+      </select>
+
+
+      <label for="numeroCarteirinha">
+        Número da carteirinha
+      </label>
+
+      <input
+        type="text"
+        id="numeroCarteirinha"
+        placeholder="Número da carteirinha"
+      >
+
+    </div>
+
+
+    <label for="motivo">Motivo da visita *</label>
+
+    <select id="motivo" required>
+
+      <option value="">Selecione</option>
+
+      <option value="Consulta">
+        Consulta
+      </option>
+
+      <option value="Retorno">
+        Retorno
+      </option>
+
+      <option value="Exame">
+        Exame
+      </option>
+
+      <option value="Acompanhamento">
+        Acompanhamento
+      </option>
+
+      <option value="Urgência">
+        Urgência
+      </option>
+
+      <option value="Outro">
+        Outro
+      </option>
+
+    </select>
+
+
+    <label for="observacoes">
+      Observações
+    </label>
+
+    <textarea
+      id="observacoes"
+      rows="4"
+      placeholder="Alguma informação importante..."
+    ></textarea>
+
+
+    <!-- FOTO -->
+
+    <h3>Foto</h3>
+
+    <label for="foto">
+      Foto do paciente
+    </label>
+
+    <input
+      type="file"
+      id="foto"
+      accept="image/*"
+    >
+
+
+    <!-- BOTÕES -->
+
+    <div class="botoes">
+
+      <button
+        type="reset"
+        class="btn-limpar"
+      >
+        Limpar
+      </button>
+
+      <button
+        type="submit"
+        class="btn-cadastrar"
+      >
+        Cadastrar paciente
+      </button>
+
+    </div>
+
+  </form>
 
 </div>
 
 
 <script>
 
-/* ==================================
-   MÁSCARA CPF
-================================== */
+/* ============================
+   MOSTRAR CONVÊNIO
+============================ */
 
-document.getElementById("cpf").addEventListener("input", function () {
+const tipo = document.getElementById("tipo");
+
+const dadosConvenio =
+  document.getElementById("dadosConvenio");
+
+tipo.addEventListener("change", function () {
+
+  if (this.value === "Convenio") {
+
+    dadosConvenio.style.display = "block";
+
+  } else {
+
+    dadosConvenio.style.display = "none";
+
+    document.getElementById("convenio").value = "";
+    document.getElementById("numeroCarteirinha").value = "";
+
+  }
+
+});
+
+
+/* ============================
+   MÁSCARA CPF
+============================ */
+
+document
+  .getElementById("cpf")
+  .addEventListener("input", function () {
 
     let valor = this.value.replace(/\D/g, "");
 
     valor = valor.substring(0, 11);
 
     valor = valor.replace(
-        /(\d{3})(\d)/,
-        "$1.$2"
+      /(\d{3})(\d)/,
+      "$1.$2"
     );
 
     valor = valor.replace(
-        /(\d{3})(\d)/,
-        "$1.$2"
+      /(\d{3})(\d)/,
+      "$1.$2"
     );
 
     valor = valor.replace(
-        /(\d{3})(\d{1,2})$/,
-        "$1-$2"
+      /(\d{3})(\d{1,2})$/,
+      "$1-$2"
     );
 
     this.value = valor;
-});
+
+  });
 
 
-/* ==================================
+/* ============================
    MÁSCARA TELEFONE
-================================== */
+============================ */
 
-function mascaraTelefone(input) {
+document
+  .getElementById("telefone")
+  .addEventListener("input", function () {
 
-    let valor = input.value.replace(/\D/g, "");
+    let valor = this.value.replace(/\D/g, "");
 
     valor = valor.substring(0, 11);
 
     if (valor.length <= 10) {
 
-        valor = valor.replace(
-            /(\d{2})(\d)/,
-            "($1) $2"
-        );
+      valor = valor.replace(
+        /(\d{2})(\d)/,
+        "($1) $2"
+      );
 
-        valor = valor.replace(
-            /(\d{4})(\d)/,
-            "$1-$2"
-        );
+      valor = valor.replace(
+        /(\d{4})(\d)/,
+        "$1-$2"
+      );
 
     } else {
 
-        valor = valor.replace(
-            /(\d{2})(\d)/,
-            "($1) $2"
-        );
+      valor = valor.replace(
+        /(\d{2})(\d)/,
+        "($1) $2"
+      );
 
-        valor = valor.replace(
-            /(\d{5})(\d)/,
-            "$1-$2"
-        );
-    }
-
-    input.value = valor;
-}
-
-
-document
-    .getElementById("telefone")
-    .addEventListener("input", function () {
-
-        mascaraTelefone(this);
-
-    });
-
-
-document
-    .getElementById("telefoneEmergencia")
-    .addEventListener("input", function () {
-
-        mascaraTelefone(this);
-
-    });
-
-
-/* ==================================
-   MÁSCARA CEP
-================================== */
-
-document.getElementById("cep").addEventListener("input", function () {
-
-    let valor = this.value.replace(/\D/g, "");
-
-    valor = valor.substring(0, 8);
-
-    valor = valor.replace(
+      valor = valor.replace(
         /(\d{5})(\d)/,
         "$1-$2"
-    );
+      );
+
+    }
 
     this.value = valor;
 
-});
+  });
 
 
-/* ==================================
-   ENVIO DO FORMULÁRIO
-================================== */
+/* ============================
+   CADASTRAR
+============================ */
 
 document
-    .getElementById("formAtendimento")
-    .addEventListener("submit", async function (event) {
+  .getElementById("formAtendimento")
+  .addEventListener("submit", async function (event) {
 
-        event.preventDefault();
+    event.preventDefault();
 
-        const paciente = {
+    const paciente = {
 
-            nome:
-                document.getElementById("nome").value,
+      nome:
+        document.getElementById("nome").value,
 
-            cpf:
-                document.getElementById("cpf").value,
+      cpf:
+        document.getElementById("cpf").value,
 
-            data:
-                document.getElementById("data").value,
+      data:
+        document.getElementById("data").value,
 
-            sexo:
-                document.getElementById("sexo").value,
+      sexo:
+        document.getElementById("sexo").value,
 
-            estadoCivil:
-                document.getElementById("estadoCivil").value,
+      telefone:
+        document.getElementById("telefone").value,
 
-            nomeResponsavel:
-                document.getElementById("nomeResponsavel").value,
+      tipo:
+        document.getElementById("tipo").value,
 
-            parentesco:
-                document.getElementById("parentesco").value,
+      convenio:
+        document.getElementById("convenio").value,
 
-            cep:
-                document.getElementById("cep").value,
+      numeroCarteirinha:
+        document.getElementById("numeroCarteirinha").value,
 
-            tipoEndereco:
-                document.getElementById("tipoEndereco").value,
+      motivo:
+        document.getElementById("motivo").value,
 
-            endereco:
-                document.getElementById("endereco").value,
+      observacoes:
+        document.getElementById("observacoes").value
 
-            numero:
-                document.getElementById("numero").value,
-
-            complemento:
-                document.getElementById("complemento").value,
-
-            bairro:
-                document.getElementById("bairro").value,
-
-            cidade:
-                document.getElementById("cidade").value,
-
-            estado:
-                document.getElementById("estado").value,
-
-            telefone:
-                document.getElementById("telefone").value,
-
-            email:
-                document.getElementById("email").value,
-
-            contatoEmergencia:
-                document.getElementById("contatoEmergencia").value,
-
-            telefoneEmergencia:
-                document.getElementById("telefoneEmergencia").value,
-
-            tipoContatoEmergencia:
-                document.getElementById("tipoContatoEmergencia").value,
-
-            tipo:
-                document.getElementById("tipo").value,
-
-            convenio:
-                document.getElementById("convenio").value,
-
-            numeroCarteirinha:
-                document.getElementById("numeroCarteirinha").value,
-
-            plano:
-                document.getElementById("plano").value,
-
-            especialidade:
-                document.getElementById("especialidade").value,
-
-            prioridade:
-                document.getElementById("prioridade").value,
-
-            observacoes:
-                document.getElementById("observacoes").value
-        };
+    };
 
 
-        try {
+    try {
 
-            const response = await fetch(
-                "http://localhost:3000/atendimento",
-                {
-                    method: "POST",
+      const response = await fetch(
+        "http://localhost:3000/atendimento",
+        {
+          method: "POST",
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+          headers: {
+            "Content-Type": "application/json"
+          },
 
-                    body: JSON.stringify(paciente)
-                }
-            );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Erro ao cadastrar paciente"
-                );
-
-            }
-
-
-            const data = await response.json();
-
-            console.log(
-                "Paciente salvo:",
-                data
-            );
-
-
-            alert(
-                "Paciente cadastrado com sucesso!"
-            );
-
-
-            document
-                .getElementById("formAtendimento")
-                .reset();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert(
-                "Erro ao salvar o paciente."
-            );
-
+          body: JSON.stringify(paciente)
         }
+      );
 
-    });
+
+      if (!response.ok) {
+
+        throw new Error(
+          "Erro ao cadastrar paciente"
+        );
+
+      }
 
 
-/* ==================================
-   LIMPAR FORMULÁRIO
-================================== */
+      const data = await response.json();
 
-function limparFormulario() {
+      console.log(
+        "Paciente salvo:",
+        data
+      );
 
-    const confirmar = confirm(
-        "Deseja realmente limpar todos os campos?"
-    );
 
-    if (confirmar) {
+      alert(
+        "Paciente cadastrado com sucesso!"
+      );
 
-        document
-            .getElementById("formAtendimento")
-            .reset();
+
+      document
+        .getElementById("formAtendimento")
+        .reset();
+
+
+      dadosConvenio.style.display = "none";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Erro ao salvar o paciente."
+      );
 
     }
 
-}
+  });
 
 </script>
 
