@@ -15,5 +15,11 @@
       "senha": "123",
       "tipo": "atendimento"
     }
-  ]
+  ],
+  "pacientes": [],
+  "triagens": [],
+  "consultas": [],
+  "tv_chamada": null,
+  "tv_historico": []
 }
+
