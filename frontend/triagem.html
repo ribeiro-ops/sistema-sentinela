@@ -119,6 +119,40 @@ function carregarPacientes() {
         "<p style='color:red;'>Erro ao carregar pacientes.</p>";
     });
 }
+  function selecionarPaciente(id) {
+
+  fetch("/pacientes")
+    .then(r => r.json())
+    .then(pacientes => {
+
+      const paciente = pacientes.find(
+        p => Number(p.id) === Number(id)
+      );
+
+      if (!paciente) {
+        alert("Paciente não encontrado.");
+        return;
+      }
+
+      if (paciente.status !== "triagem") {
+        alert("Este paciente não está mais aguardando triagem.");
+        carregarPacientes();
+        return;
+      }
+
+      pacienteSelecionado = paciente;
+
+      document.getElementById("nome").value = paciente.nome;
+
+      alert(
+        "Paciente selecionado: " + paciente.nome
+      );
+    })
+    .catch(() => {
+      alert("Erro ao selecionar o paciente.");
+    });
+}
+
 
 // Função criada para enviar o nome do paciente para a TV quando ele for chamado no guichê.
 function chamarNaTV(nome) {
