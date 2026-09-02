@@ -158,11 +158,17 @@ app.post("/triagem", (req, res) => {
 });
 
 
-// LISTAR TRIAGENS
+// LISTAR TRIAGENS AGUARDANDO ATENDIMENTO MÉDICO
 app.get("/triagens", (req, res) => {
   const db = readDB();
-  res.json(db.triagens);
+
+  const triagensAguardando = db.triagens.filter(
+    t => t.status === "aguardando_medico"
+  );
+
+  res.json(triagensAguardando);
 });
+
 
 // ============ MÍDIA INDOOR - TV ============
 
