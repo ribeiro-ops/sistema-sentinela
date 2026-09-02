@@ -215,22 +215,80 @@ app.get("/lista-medicacoes", (req, res) => {
 
 // CONSULTA
 app.post("/consulta", (req, res) => {
+
   const db = readDB();
 
+  const pacienteId =
+    Number(req.body.pacienteId);
+
+  if (!pacienteId) {
+    return res.status(400).json({
+      erro: "Paciente não informado."
+    });
+  }
+
+  // Procura o paciente pelo ID
+  const paciente = db.pacientes.find(
+    p => Number(p.id) === pacienteId
+  );
+
+  if (!paciente) {
+    return res.status(404).json({
+      erro: "Paciente não encontrado."
+    });
+  }
+
+  // Só permite finalizar pacientes
+  // que estão aguardando atendimento médico
+  if (paciente.status !== "aguardando_medico") {
+    return res.status(409).json({
+      erro:
+        "Este paciente não está aguardando atendimento médico."
+    });
+  }
+
   const consulta = {
+
     id: Date.now(),
-    paciente: req.body.paciente,
-    diagnostico: req.body.diagnostico,
-    medicacao: req.body.medicacao,
-    obs: req.body.obs,
+
+    pacienteId: paciente.id,
+
+    paciente: paciente.nome,
+
+    diagnostico:
+      req.body.diagnostico,
+
+    medicacao:
+      req.body.medicacao,
+
+    obs:
+      req.body.obs,
+
     createdAt: new Date()
+
   };
 
+  // Salva a consulta
   db.consultas.push(consulta);
+
+  // FINALIZA O PACIENTE
+  paciente.status = "finalizado";
+
+  // Também finaliza a triagem correspondente
+  const triagem = db.triagens.find(
+    t => Number(t.pacienteId) === pacienteId &&
+         t.status === "aguardando_medico"
+  );
+
+  if (triagem) {
+    triagem.status = "finalizado";
+  }
+
   writeDB(db);
 
-  res.json(consulta);
+  res.status(201).json(consulta);
 });
+
 
 // MEDICAÇÕES
 app.get("/medicacoes", (req, res) => {
