@@ -43,6 +43,8 @@
 <script>
 
 let triagensCarregadas = [];
+let pacienteSelecionado = null;
+
 
 function carregar() {
   fetch("/triagens")
@@ -96,14 +98,29 @@ function chamarNaTV(nome) {
 }
 
 function selecionar(index) {
+
   const t = triagensCarregadas[index];
+
+  if (!t.pacienteId) {
+    alert("Erro: esta triagem não possui pacienteId.");
+    return;
+  }
+
+  pacienteSelecionado = t;
+
   document.getElementById("paciente").value = t.nome;
-  document.getElementById("obs").value = t.observacao || "";
+
+  document.getElementById("obs").value =
+    t.observacao || "";
 
   if (t.alergia && t.alergia !== "Nenhuma") {
-    alert("⚠️ Paciente possui alergia: " + t.alergia);
+    alert(
+      "⚠️ Paciente possui alergia: " +
+      t.alergia
+    );
   }
 }
+
 
 function carregarMedicacoes() {
   fetch("/lista-medicacoes")
@@ -121,33 +138,97 @@ function carregarMedicacoes() {
 }
 
 function salvar() {
-  const paciente = document.getElementById("paciente").value;
-  const diagnostico = document.getElementById("diagnostico").value;
-  const medicacao = document.getElementById("medicacao").value;
-  const obs = document.getElementById("obs").value;
 
-  if (!paciente) { alert("Selecione um paciente clicando em Atender."); return; }
-  if (!medicacao) { alert("Selecione uma medicação."); return; }
+  if (!pacienteSelecionado) {
+    alert(
+      "Selecione um paciente clicando em Atender."
+    );
+    return;
+  }
+
+  const diagnostico =
+    document.getElementById("diagnostico").value;
+
+  const medicacao =
+    document.getElementById("medicacao").value;
+
+  const obs =
+    document.getElementById("obs").value;
+
+  if (!medicacao) {
+    alert("Selecione uma medicação.");
+    return;
+  }
 
   fetch("/consulta", {
+
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ paciente, diagnostico, medicacao, obs })
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+
+      pacienteId:
+        pacienteSelecionado.pacienteId,
+
+      paciente:
+        pacienteSelecionado.nome,
+
+      diagnostico,
+
+      medicacao,
+
+      obs
+
+    })
+
   })
-  .then(r => r.json())
+  .then(async r => {
+
+    const data = await r.json();
+
+    if (!r.ok) {
+      throw new Error(
+        data.erro ||
+        "Erro ao salvar consulta."
+      );
+    }
+
+    return data;
+
+  })
   .then(() => {
-    alert("Consulta salva");
+
+    alert(
+      "Consulta finalizada com sucesso!"
+    );
+
+    // Limpa paciente selecionado
+    pacienteSelecionado = null;
+
+    // Limpa formulário
+    document.getElementById("paciente").value = "";
+
     document.getElementById("diagnostico").value = "";
+
     document.getElementById("medicacao").value = "";
+
     document.getElementById("obs").value = "";
+
+    // Atualiza a fila médica
+    carregar();
+
+  })
+  .catch(error => {
+
+    console.error(error);
+
+    alert(error.message);
+
   });
 }
-
-carregar();
-carregarMedicacoes();
-
-// Atualiza lista automaticamente a cada 10 segundos
-setInterval(carregar, 10000);
 
 </script>
 
