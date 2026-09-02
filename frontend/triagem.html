@@ -186,32 +186,92 @@ function classificarRisco(sintoma, temperatura) {
 }
 
 function salvar() {
-  const nome = document.getElementById("nome").value;
-  const sintoma = document.getElementById("sintoma").value;
-  const temperatura = Number(document.getElementById("temp").value);
-  const alergia = document.getElementById("alergia").value;
-  const observacao = document.getElementById("observacao").value;
-  const risco = classificarRisco(sintoma, temperatura);
+
+  if (!pacienteSelecionado) {
+    alert("Selecione um paciente da fila antes de salvar a triagem.");
+    return;
+  }
+
+  const sintoma =
+    document.getElementById("sintoma").value;
+
+  const temperatura =
+    Number(document.getElementById("temp").value);
+
+  const alergia =
+    document.getElementById("alergia").value;
+
+  const observacao =
+    document.getElementById("observacao").value;
+
+  const risco =
+    classificarRisco(sintoma, temperatura);
 
   fetch("/triagem", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome, sintoma, temperatura, alergia, observacao, risco })
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+
+      pacienteId: pacienteSelecionado.id,
+
+      sintoma,
+      temperatura,
+      alergia,
+      observacao,
+      risco
+
+    })
   })
-  .then(r => r.json())
+  .then(async r => {
+
+    const data = await r.json();
+
+    if (!r.ok) {
+      throw new Error(
+        data.erro || "Erro ao salvar triagem."
+      );
+    }
+
+    return data;
+  })
   .then(data => {
-    const resultado = document.getElementById("resultado");
-    resultado.className = risco;
-    resultado.innerHTML = "Classificação: " + risco.toUpperCase();
+
+    const resultado =
+      document.getElementById("resultado");
+
+    resultado.className = data.risco;
+
+    resultado.innerHTML =
+      "Classificação: " +
+      data.risco.toUpperCase();
+
     alert("Triagem salva com sucesso!");
+
+    // Limpa paciente selecionado
+    pacienteSelecionado = null;
+
+    // Limpa formulário
+    document.getElementById("nome").value = "";
+    document.getElementById("sintoma").value = "";
+    document.getElementById("temp").value = "";
+    document.getElementById("alergia").value = "";
+    document.getElementById("observacao").value = "";
+
+    // Atualiza a fila
+    carregarPacientes();
+  })
+  .catch(error => {
+
+    console.error(error);
+
+    alert(error.message);
   });
 }
 
-// Carrega a fila ao abrir a página
-carregarPacientes();
-
-// Atualiza a lista automaticamente a cada 10 segundos
-setInterval(carregarPacientes, 10000);
 
 </script>
 
