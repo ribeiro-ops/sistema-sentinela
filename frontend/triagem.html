@@ -81,17 +81,38 @@ function carregarPacientes() {
 
       div.innerHTML = "";
       fila.forEach(p => {
-        const item = document.createElement("div");
-        item.className = "fila-item";
-        item.innerHTML = `
-          <div>
-            <strong>${p.nome}</strong><br>
-            <small>CPF: ${p.cpf || "—"} | Tipo: ${p.tipo || "—"}</small>
-          </div>
-          <button class="btn-tv" onclick="chamarNaTV('${p.nome}')">📺 Chamar na TV</button>
-        `;
-        div.appendChild(item);
-      });
+  const item = document.createElement("div");
+
+  item.className = "fila-item";
+
+  item.innerHTML = `
+    <div>
+      <strong>${p.nome}</strong><br>
+      <small>CPF: ${p.cpf || "—"} | Tipo: ${p.tipo || "—"}</small>
+    </div>
+
+    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+
+      <button
+        onclick="selecionarPaciente(${p.id})"
+        style="width:auto;"
+      >
+        Selecionar
+      </button>
+
+      <button
+        class="btn-tv"
+        onclick="chamarNaTV('${p.nome.replace(/'/g, "\\'")}')"
+      >
+        📺 Chamar na TV
+      </button>
+
+    </div>
+  `;
+
+  div.appendChild(item);
+});
+
     })
     .catch(() => {
       document.getElementById("fila-pacientes").innerHTML =
