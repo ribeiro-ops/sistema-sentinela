@@ -91,11 +91,37 @@ app.get("/pacientes", (req, res) => {
 app.post("/triagem", (req, res) => {
   const db = readDB();
 
+  const pacienteId = Number(req.body.pacienteId);
+
+  if (!pacienteId) {
+    return res.status(400).json({
+      erro: "Paciente não informado."
+    });
+  }
+
+  // Procura o paciente pelo ID
+  const paciente = db.pacientes.find(
+    p => Number(p.id) === pacienteId
+  );
+
+  if (!paciente) {
+    return res.status(404).json({
+      erro: "Paciente não encontrado."
+    });
+  }
+
+  // Impede que o mesmo paciente seja triado novamente
+  if (paciente.status !== "triagem") {
+    return res.status(409).json({
+      erro: "Este paciente já foi triado ou não está aguardando triagem."
+    });
+  }
+
   let risco = req.body.risco;
 
-  if (req.body.temperatura >= 39) {
+  if (Number(req.body.temperatura) >= 39) {
     risco = "vermelho";
-  } else if (req.body.temperatura >= 38) {
+  } else if (Number(req.body.temperatura) >= 38) {
     risco = "amarelo";
   } else if (!risco) {
     risco = "verde";
@@ -103,21 +129,34 @@ app.post("/triagem", (req, res) => {
 
   const triagem = {
     id: Date.now(),
-    nome: req.body.nome,
+    pacienteId: paciente.id,
+
+    nome: paciente.nome,
+
     sintoma: req.body.sintoma,
-    temperatura: req.body.temperatura,
+    temperatura: Number(req.body.temperatura),
     alergia: req.body.alergia,
     observacao: req.body.observacao,
+
     risco,
+
     status: "aguardando_medico",
+
     createdAt: new Date()
   };
 
+  // Salva a triagem
   db.triagens.push(triagem);
+
+  // MUITO IMPORTANTE:
+  // muda o paciente para não aparecer novamente na fila
+  paciente.status = "aguardando_medico";
+
   writeDB(db);
 
-  res.json(triagem);
+  res.status(201).json(triagem);
 });
+
 
 // LISTAR TRIAGENS
 app.get("/triagens", (req, res) => {
