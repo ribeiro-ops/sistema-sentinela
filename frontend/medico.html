@@ -70,9 +70,17 @@ function carregar() {
             <p><b>Alergia:</b> ${t.alergia || "Nenhuma"}</p>
             <p><b>Observação:</b> ${t.observacao || "Nenhuma"}</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button onclick="selecionar(${index})">Atender</button>
-              <button class="btn-tv" onclick="chamarNaTV('${t.nome}')">📺 Chamar na TV</button>
-            </div>
+  <button onclick="selecionar(${index})">Atender</button>
+
+  <button class="btn-tv" onclick="chamarNaTV('${t.nome}')">
+    📺 Chamar na TV
+  </button>
+
+  <button class="btn-alta" onclick="darAlta(${index})">
+    🏠 Dar Alta
+  </button>
+</div>
+
           </div>
         `;
       });
@@ -95,6 +103,24 @@ function chamarNaTV(nome) {
   .then(() => {
     alert("✅ " + nome + " foi chamado na TV para o Consultório " + consultorio + "!");
   });
+}
+function darAlta(index) {
+
+  const t = triagensCarregadas[index];
+
+  if (!t.pacienteId) {
+    alert("Erro: esta triagem não possui pacienteId.");
+    return;
+  }
+
+  const pacienteId =
+    encodeURIComponent(t.pacienteId);
+
+  const nome =
+    encodeURIComponent(t.nome);
+
+  window.location.href =
+    `alta.html?pacienteId=${pacienteId}&nome=${nome}`;
 }
 
 function selecionar(index) {
