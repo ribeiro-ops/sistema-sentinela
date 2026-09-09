@@ -1886,3 +1886,121 @@ body.tv-page {
   }
 
 }
+/* =========================
+   PÁGINA DE ALTA
+   ========================= */
+
+.btn-alta {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-alta:hover {
+  background: #218838;
+}
+
+
+/* Formulário de alta */
+
+.container .card label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.container .card input,
+.container .card select,
+.container .card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.container .card input:focus,
+.container .card select:focus,
+.container .card textarea:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.15);
+}
+
+.container .card textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+
+/* Campo do paciente */
+
+#paciente {
+  background: #f1f3f5;
+  font-weight: bold;
+  color: #333;
+}
+
+
+/* Botão confirmar alta */
+
+.btn-confirmar-alta {
+  width: 100%;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.btn-confirmar-alta:hover {
+  background: #218838;
+}
+
+
+/* Botão voltar */
+
+.btn-voltar {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 9px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-voltar:hover {
+  background: #5a6268;
+}
+
+
+/* Título da página */
+
+.alta-titulo {
+  color: #28a745;
+}
+
+
+/* Aviso visual */
+
+.alta-info {
+  background: #eaf7ed;
+  border-left: 4px solid #28a745;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  color: #2f5d38;
+}
+
