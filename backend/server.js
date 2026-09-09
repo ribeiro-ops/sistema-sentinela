@@ -26,6 +26,7 @@ function readDB() {
   const db = JSON.parse(fs.readFileSync(DB_FILE));
   if (!db.tv_chamada) db.tv_chamada = null;
   if (!db.tv_historico) db.tv_historico = [];
+  if (!db.altas) db.altas = [];
   return db;
 }
 
