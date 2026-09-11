@@ -286,10 +286,11 @@ function salvar() {
   const obs =
     document.getElementById("obs").value;
 
-  if (!medicacao) {
-    alert("Selecione uma medicação.");
-    return;
-  }
+  if (!diagnostico.trim()) {
+  alert("Informe o diagnóstico.");
+  return;
+}
+
 
   fetch("/consulta", {
 
