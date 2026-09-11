@@ -209,25 +209,48 @@ function selecionar(index) {
 
   const t = triagensCarregadas[index];
 
+  if (!t) {
+    alert("Paciente não encontrado.");
+    return;
+  }
+
   if (!t.pacienteId) {
     alert("Erro: esta triagem não possui pacienteId.");
     return;
   }
 
+  // Seleciona o paciente
   pacienteSelecionado = t;
 
+  // Preenche o campo do paciente
   document.getElementById("paciente").value = t.nome;
 
+  // Preenche observações
   document.getElementById("obs").value =
     t.observacao || "";
 
-  if (t.alergia && t.alergia !== "Nenhuma") {
+  // Limpa diagnóstico e medicação
+  document.getElementById("diagnostico").value = "";
+  document.getElementById("medicacao").value = "";
+
+  // Mostra alerta de alergia, mas NÃO bloqueia o atendimento
+  if (t.alergia && t.alergia.trim() !== "") {
+
     alert(
-      "⚠️ Paciente possui alergia: " +
-      t.alergia
+      "⚠️ ATENÇÃO\n\n" +
+      "Paciente: " + t.nome + "\n" +
+      "Alergia: " + t.alergia
     );
+
   }
+
+  // Confirma que o paciente foi selecionado
+  console.log(
+    "Paciente selecionado para atendimento:",
+    pacienteSelecionado
+  );
 }
+
 
 
 function carregarMedicacoes() {
