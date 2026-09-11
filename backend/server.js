@@ -250,8 +250,7 @@ app.post("/consulta", (req, res) => {
 
   const db = readDB();
 
-  const pacienteId =
-    Number(req.body.pacienteId);
+  const pacienteId = Number(req.body.pacienteId);
 
   if (!pacienteId) {
     return res.status(400).json({
@@ -259,7 +258,6 @@ app.post("/consulta", (req, res) => {
     });
   }
 
-  // Procura o paciente pelo ID
   const paciente = db.pacientes.find(
     p => Number(p.id) === pacienteId
   );
@@ -270,8 +268,7 @@ app.post("/consulta", (req, res) => {
     });
   }
 
-  // Só permite finalizar pacientes
-  // que estão aguardando atendimento médico
+  // Permite atender somente quem ainda está aguardando médico
   if (paciente.status !== "aguardando_medico") {
     return res.status(409).json({
       erro:
@@ -288,37 +285,44 @@ app.post("/consulta", (req, res) => {
     paciente: paciente.nome,
 
     diagnostico:
-      req.body.diagnostico,
+      req.body.diagnostico || "",
 
     medicacao:
-      req.body.medicacao,
+      req.body.medicacao || "",
 
     obs:
-      req.body.obs,
+      req.body.obs || "",
 
-    createdAt: new Date()
+    createdAt: new Date().toISOString()
 
   };
 
   // Salva a consulta
   db.consultas.push(consulta);
 
-  // FINALIZA O PACIENTE
-  paciente.status = "finalizado";
+  // IMPORTANTE:
+  // NÃO finaliza o paciente aqui.
+  // Ele ainda precisa receber alta.
+  paciente.status = "aguardando_alta";
 
-  // Também finaliza a triagem correspondente
+  // Atualiza a triagem correspondente
   const triagem = db.triagens.find(
-    t => Number(t.pacienteId) === pacienteId &&
-         t.status === "aguardando_medico"
+    t =>
+      Number(t.pacienteId) === pacienteId &&
+      t.status === "aguardando_medico"
   );
 
   if (triagem) {
-    triagem.status = "finalizado";
+    triagem.status = "aguardando_alta";
   }
 
   writeDB(db);
 
-  res.status(201).json(consulta);
+  res.status(201).json({
+    mensagem: "Consulta salva. Paciente aguardando alta.",
+    consulta
+  });
+
 });
 
 
