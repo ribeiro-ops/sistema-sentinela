@@ -2003,4 +2003,26 @@ body.tv-page {
   border-radius: 4px;
   color: #2f5d38;
 }
+.acoes-paciente {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.acoes-paciente button {
+  width: auto;
+  margin-top: 0;
+  flex: 0 0 auto;
+}
+
+.acoes-paciente .btn-alta {
+  background: #28a745;
+  border-color: #218838;
+  color: #fff;
+}
+
+.acoes-paciente .btn-alta:hover {
+  background: #218838;
+}
 
