@@ -88,7 +88,6 @@ app.get("/pacientes", (req, res) => {
   res.json(db.pacientes);
 });
 
-// TRIAGEM
 app.post("/triagem", (req, res) => {
   const db = readDB();
 
@@ -100,7 +99,6 @@ app.post("/triagem", (req, res) => {
     });
   }
 
-  // Procura o paciente pelo ID
   const paciente = db.pacientes.find(
     p => Number(p.id) === pacienteId
   );
@@ -111,18 +109,19 @@ app.post("/triagem", (req, res) => {
     });
   }
 
-  // Impede que o mesmo paciente seja triado novamente
   if (paciente.status !== "triagem") {
     return res.status(409).json({
-      erro: "Este paciente já foi triado ou não está aguardando triagem."
+      erro: "Este paciente não está aguardando triagem."
     });
   }
 
   let risco = req.body.risco;
 
-  if (Number(req.body.temperatura) >= 39) {
+  const temperatura = Number(req.body.temperatura);
+
+  if (temperatura >= 39) {
     risco = "vermelho";
-  } else if (Number(req.body.temperatura) >= 38) {
+  } else if (temperatura >= 38) {
     risco = "amarelo";
   } else if (!risco) {
     risco = "verde";
@@ -130,33 +129,54 @@ app.post("/triagem", (req, res) => {
 
   const triagem = {
     id: Date.now(),
+
     pacienteId: paciente.id,
 
     nome: paciente.nome,
 
-    sintoma: req.body.sintoma,
-    temperatura: Number(req.body.temperatura),
-    alergia: req.body.alergia,
-    observacao: req.body.observacao,
+    cpf: paciente.cpf,
 
-    risco,
+    sintoma: req.body.sintoma || "",
+
+    temperatura: temperatura,
+
+    alergia: req.body.alergia || "",
+
+    observacao: req.body.observacao || "",
+
+    risco: risco,
 
     status: "aguardando_medico",
 
-    createdAt: new Date()
+    createdAt: new Date().toISOString()
   };
 
   // Salva a triagem
   db.triagens.push(triagem);
 
-  // MUITO IMPORTANTE:
-  // muda o paciente para não aparecer novamente na fila
+  // MUDA O STATUS DO PACIENTE
   paciente.status = "aguardando_medico";
 
   writeDB(db);
 
-  res.status(201).json(triagem);
+  console.log(
+    "TRIAGEM SALVA:",
+    JSON.stringify(triagem, null, 2)
+  );
+
+  console.log(
+    "PACIENTE AGUARDANDO MÉDICO:",
+    paciente.nome,
+    paciente.id,
+    paciente.status
+  );
+
+  res.status(201).json({
+    mensagem: "Triagem salva com sucesso.",
+    triagem
+  });
 });
+
 
 
 // LISTAR TRIAGENS AGUARDANDO ATENDIMENTO MÉDICO
@@ -165,6 +185,11 @@ app.get("/triagens", (req, res) => {
 
   const triagensAguardando = db.triagens.filter(
     t => t.status === "aguardando_medico"
+  );
+
+  console.log(
+    "TRIAGENS AGUARDANDO MÉDICO:",
+    triagensAguardando
   );
 
   res.json(triagensAguardando);
