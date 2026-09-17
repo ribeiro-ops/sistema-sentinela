@@ -655,205 +655,118 @@ app.post("/consulta", (req, res) => {
 });
 
 
-/* =========================================================
-   ALTA DO PACIENTE
-========================================================= */
-
+// ==========================================
+// REGISTRAR ALTA DO PACIENTE
+// ==========================================
 app.post("/alta", (req, res) => {
-
   const db = readDB();
 
-  const pacienteId =
-    Number(req.body.pacienteId);
+  const {
+    pacienteId,
+    paciente,
+    condicao,
+    orientacoes,
+    recomendacoes,
+    retorno,
+    observacoes
+  } = req.body;
 
+  const idPaciente = Number(pacienteId);
 
-  if (!pacienteId) {
-
+  if (!idPaciente) {
     return res.status(400).json({
-      erro:
-        "Paciente não informado."
+      erro: "Paciente não identificado."
     });
-
   }
 
-
-  const paciente =
-    db.pacientes.find(
-      p =>
-        Number(p.id) ===
-        pacienteId
-    );
-
-
-  if (!paciente) {
-
-    return res.status(404).json({
-      erro:
-        "Paciente não encontrado."
-    });
-
-  }
-
-
-  /*
-    Só pode receber alta
-    quem terminou a consulta.
-  */
-
-  if (
-    paciente.status !==
-    "aguardando_alta"
-  ) {
-
-    return res.status(409).json({
-
-      erro:
-        "Este paciente não está aguardando alta."
-
-    });
-
-  }
-
-
-  const condicao =
-    req.body.condicao || "";
-
-
-  if (!condicao.trim()) {
-
-    return res.status(400).json({
-
-      erro:
-        "Selecione a condição do paciente na alta."
-
-    });
-
-  }
-
-
-  /*
-    Impede alta duplicada.
-  */
-
-  const altaExistente =
-    db.altas.find(
-      a =>
-        Number(a.pacienteId) ===
-        pacienteId
-    );
-
-
-  if (altaExistente) {
-
-    return res.status(409).json({
-
-      erro:
-        "Este paciente já possui uma alta registrada."
-
-    });
-
-  }
-
-
-  const alta = {
-
-    id:
-      Date.now(),
-
-    pacienteId:
-      paciente.id,
-
-    paciente:
-      paciente.nome,
-
-    condicao:
-      condicao,
-
-    orientacoes:
-      req.body.orientacoes || "",
-
-    recomendacoes:
-      req.body.recomendacoes || "",
-
-    retorno:
-      req.body.retorno || "",
-
-    observacoes:
-      req.body.observacoes || "",
-
-    createdAt:
-      new Date().toISOString()
-
-  };
-
-
-  /*
-    Salva a alta.
-  */
-
-  db.altas.push(
-    alta
+  const pacienteEncontrado = db.pacientes.find(
+    p => Number(p.id) === idPaciente
   );
 
-
-  /*
-    AGORA SIM
-    o paciente é finalizado.
-  */
-
-  paciente.status =
-    "finalizado";
-
-
-  /*
-    Atualiza também
-    a triagem.
-  */
-
-  const triagem =
-    db.triagens.find(
-      t =>
-        Number(t.pacienteId) ===
-        pacienteId &&
-        t.status ===
-        "aguardando_alta"
-    );
-
-
-  if (triagem) {
-
-    triagem.status =
-      "finalizado";
-
+  if (!pacienteEncontrado) {
+    return res.status(404).json({
+      erro: "Paciente não encontrado."
+    });
   }
 
+  if (pacienteEncontrado.status !== "aguardando_alta") {
+    return res.status(400).json({
+      erro: "Este paciente não está aguardando alta."
+    });
+  }
+
+  if (!condicao) {
+    return res.status(400).json({
+      erro: "Informe a condição do paciente na alta."
+    });
+  }
+
+  // Procura a última consulta do paciente
+  const consultasPaciente = db.consultas
+    .filter(c => Number(c.pacienteId) === idPaciente)
+    .sort((a, b) => Number(b.id) - Number(a.id));
+
+  const consulta = consultasPaciente[0] || null;
+
+  // Evita registrar duas altas para o mesmo atendimento
+  const altaExistente = db.altas.find(
+    a => Number(a.pacienteId) === idPaciente
+  );
+
+  if (altaExistente) {
+    return res.status(400).json({
+      erro: "Este paciente já possui uma alta registrada."
+    });
+  }
+
+  const alta = {
+    id: Date.now(),
+
+    pacienteId: idPaciente,
+
+    paciente:
+      paciente ||
+      pacienteEncontrado.nome ||
+      "Paciente não informado",
+
+    // Dados da consulta
+    diagnostico: consulta?.diagnostico || "",
+    medicacao: consulta?.medicacao || "",
+    observacaoConsulta: consulta?.obs || "",
+
+    // Dados da alta
+    condicao: condicao,
+    orientacoes: orientacoes || "",
+    recomendacoes: recomendacoes || "",
+    retorno: retorno || "",
+    observacoes: observacoes || "",
+
+    dataHora: new Date().toISOString()
+  };
+
+  db.altas.push(alta);
+
+  // Atualiza status do paciente
+  pacienteEncontrado.status = "finalizado";
+
+  // Atualiza a triagem
+  const triagem = db.triagens.find(
+    t =>
+      Number(t.pacienteId) === idPaciente &&
+      t.status === "aguardando_alta"
+  );
+
+  if (triagem) {
+    triagem.status = "finalizado";
+  }
 
   writeDB(db);
 
-
-  console.log(
-    "ALTA REGISTRADA:",
-    paciente.nome
-  );
-
-
-  console.log(
-    "STATUS FINAL:",
-    paciente.status
-  );
-
-
   res.status(201).json({
-
-    mensagem:
-      "Alta registrada com sucesso.",
-
+    mensagem: "Alta registrada com sucesso.",
     alta
-
   });
-
 });
-
 
 /* =========================================================
    LISTAR CONSULTAS
