@@ -319,27 +319,17 @@ app.post("/triagem", (req, res) => {
 ========================================================= */
 
 app.get("/triagens", (req, res) => {
-
   const db = readDB();
 
-  const triagensAguardando =
-    db.triagens.filter(
-      t =>
-        t.status ===
-        "aguardando_medico"
-    );
-
-
-  console.log(
-    "TRIAGENS AGUARDANDO MÉDICO:",
-    triagensAguardando
+  // Mostra na fila tanto quem ainda precisa ser atendido
+  // quanto quem já foi atendido e está aguardando alta.
+  const triagensFila = db.triagens.filter(
+    t =>
+      t.status === "aguardando_medico" ||
+      t.status === "aguardando_alta"
   );
 
-
-  res.json(
-    triagensAguardando
-  );
-
+  res.json(triagensFila);
 });
 
 
