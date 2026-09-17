@@ -159,7 +159,46 @@ app.get("/pacientes", (req, res) => {
 
 });
 
+// ==========================================
+// BUSCAR PACIENTE PELO ID
+// ==========================================
+app.get("/pacientes/:id", (req, res) => {
+  const db = readDB();
+  const pacienteId = Number(req.params.id);
 
+  const paciente = db.pacientes.find(
+    p => Number(p.id) === pacienteId
+  );
+
+  if (!paciente) {
+    return res.status(404).json({
+      erro: "Paciente não encontrado."
+    });
+  }
+
+  res.json(paciente);
+});
+
+
+// ==========================================
+// BUSCAR ÚLTIMA CONSULTA DO PACIENTE
+// ==========================================
+app.get("/consulta/:pacienteId", (req, res) => {
+  const db = readDB();
+  const pacienteId = Number(req.params.pacienteId);
+
+  const consultas = db.consultas
+    .filter(c => Number(c.pacienteId) === pacienteId)
+    .sort((a, b) => Number(b.id) - Number(a.id));
+
+  if (consultas.length === 0) {
+    return res.status(404).json({
+      erro: "Nenhuma consulta encontrada para este paciente."
+    });
+  }
+
+  res.json(consultas[0]);
+});
 /* =========================================================
    TRIAGEM
 ========================================================= */
