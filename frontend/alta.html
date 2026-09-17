@@ -3,22 +3,333 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <title>Alta do Paciente | Sistema Sentinela</title>
 
-  <title>Alta do Paciente</title>
+  <link rel="stylesheet" href="css/style.css">
 
-  <link rel="stylesheet"
-        href="css/style.css">
-
-  <!-- Biblioteca para geração do PDF -->
+  <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+
+    /* ==========================================
+       CABEÇALHO
+       ========================================== */
+
+    .hospital-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      border-left: 5px solid #1976d2;
+    }
+
+    .hospital-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .hospital-logo {
+      width: 55px;
+      height: 55px;
+      border-radius: 10px;
+      background: #1976d2;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .hospital-title h1 {
+      margin: 0;
+      font-size: 22px;
+      color: #1f2937;
+    }
+
+    .hospital-title span {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+
+    /* ==========================================
+       STATUS
+       ========================================== */
+
+    .status-alta {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+
+    /* ==========================================
+       CARDS
+       ========================================== */
+
+    .alta-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    }
+
+    .alta-card h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #1f2937;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 12px;
+    }
+
+
+    /* ==========================================
+       GRID DE INFORMAÇÕES
+       ========================================== */
+
+    .dados-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dado {
+      background: #f8fafc;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .dado-label {
+      display: block;
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .dado-valor {
+      font-size: 15px;
+      color: #111827;
+      font-weight: 500;
+    }
+
+
+    /* ==========================================
+       CONSULTA
+       ========================================== */
+
+    .consulta-box {
+      background: #f8fbff;
+      border: 1px solid #dbeafe;
+      border-left: 4px solid #1976d2;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .consulta-box strong {
+      display: block;
+      color: #1976d2;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+
+    /* ==========================================
+       FORMULÁRIO
+       ========================================== */
+
+    .campo {
+      margin-bottom: 18px;
+    }
+
+    .campo label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .campo textarea,
+    .campo select {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .campo textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+
+    /* ==========================================
+       BOTÕES
+       ========================================== */
+
+    .acoes-alta {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-alta {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .btn-confirmar {
+      background: #2e7d32;
+      color: white;
+    }
+
+    .btn-confirmar:hover {
+      background: #256b2a;
+    }
+
+    .btn-voltar {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn-pdf {
+      background: #1976d2;
+      color: white;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .btn-pdf:hover {
+      background: #125ca3;
+    }
+
+
+    /* ==========================================
+       LOADING
+       ========================================== */
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+
+    /* ==========================================
+       RESULTADO
+       ========================================== */
+
+    #resultado-alta {
+      display: none;
+    }
+
+    .sucesso {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .sucesso-icon {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    .sucesso h2 {
+      color: #2e7d32;
+      margin-bottom: 5px;
+    }
+
+    .sucesso p {
+      color: #6b7280;
+    }
+
+
+    /* ==========================================
+       RESPONSIVO
+       ========================================== */
+
+    @media (max-width: 700px) {
+
+      .dados-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hospital-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .acoes-alta {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
 <div class="container">
+
+  <!-- ==========================================
+       CABEÇALHO
+       ========================================== -->
+
+  <div class="hospital-header">
+
+    <div class="hospital-brand">
+
+      <div class="hospital-logo">
+        +
+      </div>
+
+      <div class="hospital-title">
+        <h1>Sistema Sentinela</h1>
+        <span>Gestão de Atendimento Hospitalar</span>
+      </div>
+
+    </div>
+
+    <div class="status-alta">
+      🏠 Aguardando Alta
+    </div>
+
+  </div>
+
+
+  <!-- ==========================================
+       CABEÇALHO DA PÁGINA
+       ========================================== -->
 
   <div style="
     display:flex;
@@ -27,168 +338,299 @@
     margin-bottom:20px;
   ">
 
-    <h2 style="margin:0;">
-      🏠 Alta do Paciente
-    </h2>
+    <div>
+      <h2 style="margin:0;">
+        Alta do Paciente
+      </h2>
 
-    <button onclick="voltar()">
+      <p style="
+        margin:5px 0 0;
+        color:#6b7280;
+      ">
+        Registro e encerramento do atendimento
+      </p>
+    </div>
+
+    <button
+      onclick="voltar()"
+      class="btn-alta btn-voltar"
+      style="flex:0 0 auto;">
       ← Voltar
     </button>
 
   </div>
 
 
-  <!-- DADOS DO PACIENTE -->
-  <div class="card">
+  <!-- ==========================================
+       DADOS DO PACIENTE
+       ========================================== -->
 
-    <h3>Dados do Paciente</h3>
+  <div class="alta-card">
 
-    <label>Paciente</label>
+    <h3>👤 Dados do Paciente</h3>
 
-    <input
-      type="text"
-      id="paciente"
-      readonly
-    >
+    <div id="loading-paciente" class="loading">
+      Carregando dados do paciente...
+    </div>
 
-  </div>
+    <div id="dados-paciente" class="dados-grid" style="display:none;">
 
+      <div class="dado">
+        <span class="dado-label">Paciente</span>
+        <span class="dado-valor" id="paciente"></span>
+      </div>
 
-  <!-- FORMULÁRIO DE ALTA -->
-  <div class="card">
+      <div class="dado">
+        <span class="dado-label">CPF</span>
+        <span class="dado-valor" id="cpf"></span>
+      </div>
 
-    <h3>Formulário de Alta</h3>
+      <div class="dado">
+        <span class="dado-label">Data de nascimento</span>
+        <span class="dado-valor" id="data-nascimento"></span>
+      </div>
 
+      <div class="dado">
+        <span class="dado-label">Sexo</span>
+        <span class="dado-valor" id="sexo"></span>
+      </div>
 
-    <label>Condição na alta</label>
+      <div class="dado">
+        <span class="dado-label">Telefone</span>
+        <span class="dado-valor" id="telefone"></span>
+      </div>
 
-    <select id="condicao">
+      <div class="dado">
+        <span class="dado-label">Tipo de atendimento</span>
+        <span class="dado-valor" id="tipo"></span>
+      </div>
 
-      <option value="">
-        Selecione
-      </option>
-
-      <option value="Estável">
-        Estável
-      </option>
-
-      <option value="Melhorado">
-        Melhorado
-      </option>
-
-      <option value="Recuperado">
-        Recuperado
-      </option>
-
-      <option value="Encaminhado">
-        Encaminhado para outro serviço
-      </option>
-
-    </select>
-
-
-    <label>Orientações ao paciente</label>
-
-    <textarea
-      id="orientacoes"
-      placeholder="Digite as orientações dadas ao paciente..."
-    ></textarea>
-
-
-    <label>Recomendações</label>
-
-    <textarea
-      id="recomendacoes"
-      placeholder="Digite recomendações, cuidados ou repouso..."
-    ></textarea>
-
-
-    <label>Retorno</label>
-
-    <select id="retorno">
-
-      <option value="">
-        Selecione
-      </option>
-
-      <option value="Sem retorno">
-        Sem necessidade de retorno
-      </option>
-
-      <option value="Retorno em 7 dias">
-        Retorno em 7 dias
-      </option>
-
-      <option value="Retorno em 15 dias">
-        Retorno em 15 dias
-      </option>
-
-      <option value="Retorno em 30 dias">
-        Retorno em 30 dias
-      </option>
-
-      <option value="Retorno conforme necessidade">
-        Retorno conforme necessidade
-      </option>
-
-    </select>
-
-
-    <label>Observações da alta</label>
-
-    <textarea
-      id="observacoes"
-      placeholder="Observações adicionais..."
-    ></textarea>
-
-
-    <button
-      onclick="finalizarAlta()"
-      style="
-        background:#28a745;
-        color:white;
-        margin-top:15px;
-      "
-    >
-      🏠 Confirmar Alta
-    </button>
+    </div>
 
   </div>
 
 
-  <!-- ÁREA APÓS FINALIZAR -->
-  <div
-    id="resultado-alta"
-    class="card"
-    style="display:none; text-align:center;"
-  >
+  <!-- ==========================================
+       DADOS DA CONSULTA
+       ========================================== -->
 
-    <h3>
-      ✅ Alta registrada com sucesso!
-    </h3>
+  <div class="alta-card">
 
-    <p>
-      O paciente foi finalizado no sistema.
-    </p>
+    <h3>🩺 Dados da Consulta</h3>
 
-    <button
-      onclick="baixarPDF()"
-      style="
-        background:#dc3545;
-        color:white;
-        margin-top:10px;
-      "
-    >
-      📄 Baixar PDF da Alta
-    </button>
+    <div id="loading-consulta" class="loading">
+      Carregando dados da consulta...
+    </div>
 
-    <br><br>
+    <div id="dados-consulta" style="display:none;">
 
-    <button
-      onclick="voltar()"
-    >
-      ← Voltar ao início
-    </button>
+      <div class="consulta-box">
+
+        <strong>Diagnóstico</strong>
+
+        <span id="diagnostico"></span>
+
+      </div>
+
+      <div class="consulta-box">
+
+        <strong>Medicação / Prescrição</strong>
+
+        <span id="medicacao"></span>
+
+      </div>
+
+      <div class="consulta-box">
+
+        <strong>Observações médicas</strong>
+
+        <span id="observacao-consulta"></span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==========================================
+       FORMULÁRIO DE ALTA
+       ========================================== -->
+
+  <div class="alta-card" id="formulario-alta">
+
+    <h3>🏠 Registro da Alta</h3>
+
+
+    <div class="campo">
+
+      <label for="condicao">
+        Condição na alta
+      </label>
+
+      <select id="condicao">
+
+        <option value="">
+          Selecione...
+        </option>
+
+        <option value="Estável">
+          Estável
+        </option>
+
+        <option value="Melhorado">
+          Melhorado
+        </option>
+
+        <option value="Recuperado">
+          Recuperado
+        </option>
+
+        <option value="Encaminhado">
+          Encaminhado
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="campo">
+
+      <label for="orientacoes">
+        Orientações ao paciente
+      </label>
+
+      <textarea
+        id="orientacoes"
+        placeholder="Digite as orientações fornecidas ao paciente..."
+      ></textarea>
+
+    </div>
+
+
+    <div class="campo">
+
+      <label for="recomendacoes">
+        Recomendações
+      </label>
+
+      <textarea
+        id="recomendacoes"
+        placeholder="Digite as recomendações médicas..."
+      ></textarea>
+
+    </div>
+
+
+    <div class="campo">
+
+      <label for="retorno">
+        Retorno
+      </label>
+
+      <select id="retorno">
+
+        <option value="Sem retorno">
+          Sem retorno
+        </option>
+
+        <option value="7 dias">
+          7 dias
+        </option>
+
+        <option value="15 dias">
+          15 dias
+        </option>
+
+        <option value="30 dias">
+          30 dias
+        </option>
+
+        <option value="Conforme necessidade">
+          Conforme necessidade
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="campo">
+
+      <label for="observacoes">
+        Observações da alta
+      </label>
+
+      <textarea
+        id="observacoes"
+        placeholder="Informações adicionais sobre a alta..."
+      ></textarea>
+
+    </div>
+
+
+    <div class="acoes-alta">
+
+      <button
+        onclick="voltar()"
+        class="btn-alta btn-voltar">
+
+        ← Cancelar
+
+      </button>
+
+      <button
+        onclick="finalizarAlta()"
+        class="btn-alta btn-confirmar">
+
+        🏠 Confirmar Alta
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==========================================
+       RESULTADO
+       ========================================== -->
+
+  <div class="alta-card" id="resultado-alta">
+
+    <div class="sucesso">
+
+      <div class="sucesso-icon">
+        ✅
+      </div>
+
+      <h2>
+        Alta registrada com sucesso
+      </h2>
+
+      <p>
+        O atendimento foi encerrado e os dados foram registrados no sistema.
+      </p>
+
+      <button
+        onclick="baixarPDF()"
+        class="btn-pdf">
+
+        📄 Gerar Documento de Alta em PDF
+
+      </button>
+
+      <button
+        onclick="voltar()"
+        class="btn-pdf"
+        style="background:#6b7280;">
+
+        ← Voltar ao Sistema
+
+      </button>
+
+    </div>
 
   </div>
 
@@ -197,595 +639,843 @@
 
 <script>
 
-// ==========================================
-// PARÂMETROS DA URL
-// ==========================================
+  // ==========================================
+  // PARÂMETROS
+  // ==========================================
 
-const parametros =
-  new URLSearchParams(window.location.search);
+  const parametros =
+    new URLSearchParams(window.location.search);
 
-const pacienteId =
-  parametros.get("pacienteId");
+  const pacienteId =
+    parametros.get("pacienteId");
 
-const nome =
-  parametros.get("nome");
-
-
-// ==========================================
-// VARIÁVEIS DA ALTA
-// ==========================================
-
-let dadosAlta = null;
+  const nomeUrl =
+    parametros.get("nome");
 
 
-// ==========================================
-// MOSTRAR PACIENTE
-// ==========================================
-
-document.getElementById("paciente").value =
-  nome || "";
+  // Dados utilizados no PDF
+  let dadosPaciente = {};
+  let dadosConsulta = {};
+  let dadosAlta = {};
 
 
-// ==========================================
-// VOLTAR
-// ==========================================
+  // ==========================================
+  // INICIALIZAÇÃO
+  // ==========================================
 
-function voltar() {
+  document.addEventListener("DOMContentLoaded", () => {
 
-  window.location.href =
-    "index.html";
+    if (!pacienteId) {
 
-}
+      alert("Erro: paciente não identificado.");
+
+      voltar();
+
+      return;
+    }
+
+    carregarPaciente();
+
+    carregarConsulta();
+
+  });
 
 
-// ==========================================
-// FINALIZAR ALTA
-// ==========================================
+  // ==========================================
+  // CARREGAR PACIENTE
+  // ==========================================
 
-function finalizarAlta() {
+  async function carregarPaciente() {
 
-  if (!pacienteId) {
+    try {
 
-    alert(
-      "Erro: paciente não identificado."
-    );
+      const resposta =
+        await fetch(
+          `/pacientes/${encodeURIComponent(pacienteId)}`
+        );
 
-    return;
+      if (!resposta.ok) {
+
+        throw new Error(
+          "Não foi possível carregar o paciente."
+        );
+
+      }
+
+      dadosPaciente =
+        await resposta.json();
+
+
+      document.getElementById("paciente").textContent =
+        dadosPaciente.nome || nomeUrl || "Não informado";
+
+      document.getElementById("cpf").textContent =
+        dadosPaciente.cpf || "Não informado";
+
+      document.getElementById("data-nascimento").textContent =
+        dadosPaciente.dataNascimento ||
+        dadosPaciente.data ||
+        "Não informado";
+
+      document.getElementById("sexo").textContent =
+        dadosPaciente.sexo || "Não informado";
+
+      document.getElementById("telefone").textContent =
+        dadosPaciente.telefone || "Não informado";
+
+      document.getElementById("tipo").textContent =
+        dadosPaciente.tipo || "Não informado";
+
+
+      document.getElementById(
+        "loading-paciente"
+      ).style.display = "none";
+
+      document.getElementById(
+        "dados-paciente"
+      ).style.display = "grid";
+
+    } catch (erro) {
+
+      console.error(erro);
+
+      document.getElementById(
+        "loading-paciente"
+      ).textContent =
+        "Não foi possível carregar os dados do paciente.";
+
+    }
+
   }
 
 
-  const condicao =
-    document.getElementById("condicao").value;
+  // ==========================================
+  // CARREGAR CONSULTA
+  // ==========================================
+
+  async function carregarConsulta() {
+
+    try {
+
+      const resposta =
+        await fetch(
+          `/consulta/${encodeURIComponent(pacienteId)}`
+        );
+
+      if (!resposta.ok) {
+
+        throw new Error(
+          "Consulta não encontrada."
+        );
+
+      }
+
+      dadosConsulta =
+        await resposta.json();
 
 
-  const orientacoes =
-    document.getElementById("orientacoes").value;
+      document.getElementById("diagnostico").textContent =
+        dadosConsulta.diagnostico ||
+        "Não informado";
+
+      document.getElementById("medicacao").textContent =
+        dadosConsulta.medicacao ||
+        "Nenhuma medicação registrada";
+
+      document.getElementById("observacao-consulta").textContent =
+        dadosConsulta.obs ||
+        "Nenhuma observação registrada";
 
 
-  const recomendacoes =
-    document.getElementById("recomendacoes").value;
+      document.getElementById(
+        "loading-consulta"
+      ).style.display = "none";
+
+      document.getElementById(
+        "dados-consulta"
+      ).style.display = "block";
 
 
-  const retorno =
-    document.getElementById("retorno").value;
+    } catch (erro) {
 
+      console.error(erro);
 
-  const observacoes =
-    document.getElementById("observacoes").value;
+      document.getElementById(
+        "loading-consulta"
+      ).textContent =
+        "Nenhuma consulta encontrada para este paciente.";
 
+    }
 
-  // ========================================
-  // VALIDAÇÃO
-  // ========================================
-
-  if (!condicao) {
-
-    alert(
-      "Selecione a condição do paciente na alta."
-    );
-
-    return;
   }
 
 
-  // ========================================
-  // OBJETO DA ALTA
-  // ========================================
+  // ==========================================
+  // FINALIZAR ALTA
+  // ==========================================
 
-  dadosAlta = {
+  async function finalizarAlta() {
 
-    pacienteId: pacienteId,
+    if (!pacienteId) {
 
-    paciente: nome,
+      alert("Erro: paciente não identificado.");
 
-    condicao: condicao,
-
-    orientacoes: orientacoes,
-
-    recomendacoes: recomendacoes,
-
-    retorno: retorno,
-
-    observacoes: observacoes,
-
-    dataHora: new Date()
-
-  };
+      return;
+    }
 
 
-  // ========================================
-  // ENVIAR PARA O SERVIDOR
-  // ========================================
+    const condicao =
+      document.getElementById("condicao").value;
 
-  fetch("/alta", {
+    const orientacoes =
+      document.getElementById("orientacoes").value.trim();
 
-    method: "POST",
+    const recomendacoes =
+      document.getElementById("recomendacoes").value.trim();
 
-    headers: {
-      "Content-Type": "application/json"
-    },
+    const retorno =
+      document.getElementById("retorno").value;
 
-    body: JSON.stringify({
-
-      pacienteId: pacienteId,
-
-      paciente: nome,
-
-      condicao: condicao,
-
-      orientacoes: orientacoes,
-
-      recomendacoes: recomendacoes,
-
-      retorno: retorno,
-
-      observacoes: observacoes
-
-    })
-
-  })
-
-  .then(async response => {
-
-    const data =
-      await response.json();
+    const observacoes =
+      document.getElementById("observacoes").value.trim();
 
 
-    if (!response.ok) {
+    if (!condicao) {
 
-      throw new Error(
-        data.erro ||
-        "Erro ao registrar alta."
+      alert(
+        "Selecione a condição do paciente na alta."
+      );
+
+      return;
+    }
+
+
+    const botao =
+      document.querySelector(".btn-confirmar");
+
+    botao.disabled = true;
+
+    botao.textContent =
+      "Registrando alta...";
+
+
+    try {
+
+      const resposta =
+        await fetch("/alta", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+
+            pacienteId,
+
+            paciente:
+              dadosPaciente.nome ||
+              nomeUrl,
+
+            condicao,
+
+            orientacoes,
+
+            recomendacoes,
+
+            retorno,
+
+            observacoes
+
+          })
+
+        });
+
+
+      const data =
+        await resposta.json();
+
+
+      if (!resposta.ok) {
+
+        throw new Error(
+          data.erro ||
+          "Erro ao registrar alta."
+        );
+
+      }
+
+
+      // Guarda os dados completos para o PDF
+
+      dadosAlta = {
+
+        ...data.alta,
+
+        paciente:
+          dadosPaciente.nome ||
+          nomeUrl,
+
+        cpf:
+          dadosPaciente.cpf || "",
+
+        dataNascimento:
+          dadosPaciente.dataNascimento ||
+          dadosPaciente.data ||
+          "",
+
+        sexo:
+          dadosPaciente.sexo || "",
+
+        telefone:
+          dadosPaciente.telefone || "",
+
+        tipo:
+          dadosPaciente.tipo || "",
+
+        diagnostico:
+          data.alta.diagnostico ||
+          dadosConsulta.diagnostico ||
+          "",
+
+        medicacao:
+          data.alta.medicacao ||
+          dadosConsulta.medicacao ||
+          "",
+
+        observacaoConsulta:
+          data.alta.observacaoConsulta ||
+          dadosConsulta.obs ||
+          ""
+
+      };
+
+
+      document.getElementById(
+        "formulario-alta"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "resultado-alta"
+      ).style.display = "block";
+
+
+    } catch (erro) {
+
+      console.error(erro);
+
+      alert(erro.message);
+
+      botao.disabled = false;
+
+      botao.textContent =
+        "🏠 Confirmar Alta";
+
+    }
+
+  }
+
+
+  // ==========================================
+  // GERAR PDF
+  // ==========================================
+
+  function baixarPDF() {
+
+    const { jsPDF } =
+      window.jspdf;
+
+    const doc =
+      new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+      });
+
+
+    const margem = 18;
+
+    const larguraPagina =
+      doc.internal.pageSize.getWidth();
+
+    const alturaPagina =
+      doc.internal.pageSize.getHeight();
+
+
+    // ==========================================
+    // FUNÇÕES AUXILIARES
+    // ==========================================
+
+    function verificarPagina(alturaNecessaria = 10) {
+
+      if (
+        y + alturaNecessaria >
+        alturaPagina - 20
+      ) {
+
+        adicionarRodape();
+
+        doc.addPage();
+
+        y = 20;
+
+        adicionarCabecalhoPagina();
+
+      }
+
+    }
+
+
+    function adicionarRodape() {
+
+      doc.setFontSize(8);
+
+      doc.setTextColor(
+        120,
+        120,
+        120
+      );
+
+      doc.text(
+        "Sistema Sentinela - Documento de Alta",
+        margem,
+        alturaPagina - 10
+      );
+
+      doc.text(
+        `Página ${doc.internal.getNumberOfPages()}`,
+        larguraPagina - margem,
+        alturaPagina - 10,
+        { align: "right" }
       );
 
     }
 
 
-    return data;
+    function adicionarCabecalhoPagina() {
 
-  })
+      doc.setDrawColor(
+        210,
+        210,
+        210
+      );
+
+      doc.line(
+        margem,
+        13,
+        larguraPagina - margem,
+        13
+      );
+
+    }
 
 
-  .then(() => {
+    function tituloSecao(texto) {
 
-    // ======================================
-    // ALTA REGISTRADA
-    // ======================================
+      verificarPagina(15);
 
-    alert(
-      "✅ Alta registrada com sucesso!"
+      doc.setFillColor(
+        240,
+        245,
+        250
+      );
+
+      doc.roundedRect(
+        margem,
+        y,
+        larguraPagina - margem * 2,
+        9,
+        2,
+        2,
+        "F"
+      );
+
+      doc.setFont(
+        "helvetica",
+        "bold"
+      );
+
+      doc.setFontSize(11);
+
+      doc.setTextColor(
+        31,
+        78,
+        121
+      );
+
+      doc.text(
+        texto,
+        margem + 4,
+        y + 6
+      );
+
+      y += 15;
+
+    }
+
+
+    function textoCampo(
+      titulo,
+      valor
+    ) {
+
+      valor =
+        valor ||
+        "Não informado";
+
+      verificarPagina(12);
+
+      doc.setFont(
+        "helvetica",
+        "bold"
+      );
+
+      doc.setFontSize(9);
+
+      doc.setTextColor(
+        90,
+        90,
+        90
+      );
+
+      doc.text(
+        titulo,
+        margem,
+        y
+      );
+
+      y += 5;
+
+      doc.setFont(
+        "helvetica",
+        "normal"
+      );
+
+      doc.setFontSize(10);
+
+      doc.setTextColor(
+        30,
+        30,
+        30
+      );
+
+      const linhas =
+        doc.splitTextToSize(
+          String(valor),
+          larguraPagina - margem * 2
+        );
+
+      verificarPagina(
+        linhas.length * 5
+      );
+
+      doc.text(
+        linhas,
+        margem,
+        y
+      );
+
+      y +=
+        linhas.length * 5 + 5;
+
+    }
+
+
+    // ==========================================
+    // CABEÇALHO PRINCIPAL
+    // ==========================================
+
+    doc.setFillColor(
+      25,
+      118,
+      210
+    );
+
+    doc.rect(
+      0,
+      0,
+      larguraPagina,
+      32,
+      "F"
     );
 
 
-    // Esconde formulário
-    document.querySelectorAll(".card")[1]
-      .style.display = "none";
-
-
-    // Mostra resultado
-    document.getElementById(
-      "resultado-alta"
-    ).style.display = "block";
-
-  })
-
-
-  .catch(error => {
-
-    console.error(error);
-
-
-    alert(
-      error.message
+    doc.setTextColor(
+      255,
+      255,
+      255
     );
 
-  });
-
-}
-
-
-// ==========================================
-// GERAR PDF
-// ==========================================
-
-function baixarPDF() {
-
-  if (!dadosAlta) {
-
-    alert(
-      "Não existem dados de alta para gerar o PDF."
+    doc.setFont(
+      "helvetica",
+      "bold"
     );
 
-    return;
+    doc.setFontSize(20);
+
+    doc.text(
+      "SISTEMA SENTINELA",
+      margem,
+      13
+    );
+
+
+    doc.setFont(
+      "helvetica",
+      "normal"
+    );
+
+    doc.setFontSize(9);
+
+    doc.text(
+      "Gestão de Atendimento Hospitalar",
+      margem,
+      20
+    );
+
+
+    doc.setFont(
+      "helvetica",
+      "bold"
+    );
+
+    doc.setFontSize(12);
+
+    doc.text(
+      "DOCUMENTO DE ALTA",
+      larguraPagina - margem,
+      17,
+      { align: "right" }
+    );
+
+
+    let y = 43;
+
+
+    // ==========================================
+    // IDENTIFICAÇÃO
+    // ==========================================
+
+    tituloSecao(
+      "1. IDENTIFICAÇÃO DO PACIENTE"
+    );
+
+
+    textoCampo(
+      "Paciente",
+      dadosAlta.paciente
+    );
+
+    textoCampo(
+      "CPF",
+      dadosAlta.cpf
+    );
+
+    textoCampo(
+      "Data de nascimento",
+      dadosAlta.dataNascimento
+    );
+
+    textoCampo(
+      "Sexo",
+      dadosAlta.sexo
+    );
+
+    textoCampo(
+      "Telefone",
+      dadosAlta.telefone
+    );
+
+    textoCampo(
+      "Tipo de atendimento",
+      dadosAlta.tipo
+    );
+
+
+    // ==========================================
+    // CONSULTA
+    // ==========================================
+
+    tituloSecao(
+      "2. INFORMAÇÕES DA CONSULTA"
+    );
+
+
+    textoCampo(
+      "Diagnóstico",
+      dadosAlta.diagnostico
+    );
+
+    textoCampo(
+      "Medicação / Prescrição",
+      dadosAlta.medicacao
+    );
+
+    textoCampo(
+      "Observações médicas",
+      dadosAlta.observacaoConsulta
+    );
+
+
+    // ==========================================
+    // ALTA
+    // ==========================================
+
+    tituloSecao(
+      "3. INFORMAÇÕES DA ALTA"
+    );
+
+
+    textoCampo(
+      "Condição na alta",
+      dadosAlta.condicao
+    );
+
+    textoCampo(
+      "Orientações ao paciente",
+      dadosAlta.orientacoes
+    );
+
+    textoCampo(
+      "Recomendações",
+      dadosAlta.recomendacoes
+    );
+
+    textoCampo(
+      "Retorno",
+      dadosAlta.retorno
+    );
+
+    textoCampo(
+      "Observações da alta",
+      dadosAlta.observacoes
+    );
+
+
+    // ==========================================
+    // DATA E HORA
+    // ==========================================
+
+    tituloSecao(
+      "4. REGISTRO DO ATENDIMENTO"
+    );
+
+
+    const data =
+      new Date(
+        dadosAlta.dataHora ||
+        new Date()
+      );
+
+
+    const dataFormatada =
+      data.toLocaleDateString(
+        "pt-BR"
+      );
+
+    const horaFormatada =
+      data.toLocaleTimeString(
+        "pt-BR",
+        {
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+
+    textoCampo(
+      "Data e hora da alta",
+      `${dataFormatada} às ${horaFormatada}`
+    );
+
+
+    // ==========================================
+    // ASSINATURA
+    // ==========================================
+
+    verificarPagina(45);
+
+    y += 15;
+
+    doc.setDrawColor(
+      100,
+      100,
+      100
+    );
+
+    doc.line(
+      margem + 15,
+      y,
+      margem + 85,
+      y
+    );
+
+    doc.line(
+      larguraPagina - margem - 85,
+      y,
+      larguraPagina - margem - 15,
+      y
+    );
+
+    doc.setFontSize(8);
+
+    doc.setTextColor(
+      80,
+      80,
+      80
+    );
+
+    doc.text(
+      "Responsável pelo atendimento",
+      margem + 50,
+      y + 5,
+      { align: "center" }
+    );
+
+    doc.text(
+      "Paciente / Responsável",
+      larguraPagina - margem - 50,
+      y + 5,
+      { align: "center" }
+    );
+
+
+    // ==========================================
+    // RODAPÉ
+    // ==========================================
+
+    adicionarRodape();
+
+
+    // ==========================================
+    // SALVAR
+    // ==========================================
+
+    const nomeArquivo =
+      `alta-${dadosAlta.paciente
+        .replace(/[^a-zA-Z0-9À-ÿ]/g, "-")
+        .toLowerCase()}-${dadosAlta.pacienteId}.pdf`;
+
+
+    doc.save(
+      nomeArquivo
+    );
+
   }
 
 
-  const {
-    jsPDF
-  } = window.jspdf;
+  // ==========================================
+  // VOLTAR
+  // ==========================================
 
+  function voltar() {
 
-  const doc =
-    new jsPDF();
+    window.location.href =
+      "medico.html";
 
-
-  // ========================================
-  // DATA E HORA
-  // ========================================
-
-  const data =
-    new Date(dadosAlta.dataHora);
-
-
-  const dataFormatada =
-    data.toLocaleDateString("pt-BR");
-
-
-  const horaFormatada =
-    data.toLocaleTimeString(
-      "pt-BR",
-      {
-        hour: "2-digit",
-        minute: "2-digit"
-      }
-    );
-
-
-  // ========================================
-  // CABEÇALHO
-  // ========================================
-
-  doc.setFontSize(18);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "DOCUMENTO DE ALTA DO PACIENTE",
-    105,
-    25,
-    {
-      align: "center"
-    }
-  );
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-  doc.text(
-    "Sistema Sentinela - Atendimento Hospitalar",
-    105,
-    33,
-    {
-      align: "center"
-    }
-  );
-
-
-  // Linha
-  doc.line(
-    20,
-    40,
-    190,
-    40
-  );
-
-
-  // ========================================
-  // DADOS DO PACIENTE
-  // ========================================
-
-  doc.setFontSize(13);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "DADOS DO PACIENTE",
-    20,
-    52
-  );
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-  doc.text(
-    "Paciente: " +
-    (dadosAlta.paciente || "Não informado"),
-    20,
-    62
-  );
-
-
-  doc.text(
-    "ID do paciente: " +
-    (dadosAlta.pacienteId || "Não informado"),
-    20,
-    70
-  );
-
-
-  doc.text(
-    "Data da alta: " +
-    dataFormatada,
-    20,
-    78
-  );
-
-
-  doc.text(
-    "Horário: " +
-    horaFormatada,
-    20,
-    86
-  );
-
-
-  // ========================================
-  // CONDIÇÃO
-  // ========================================
-
-  doc.setFontSize(13);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "CONDIÇÃO NA ALTA",
-    20,
-    102
-  );
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-  doc.text(
-    dadosAlta.condicao,
-    20,
-    112
-  );
-
-
-  // ========================================
-  // ORIENTAÇÕES
-  // ========================================
-
-  let y = 128;
-
-
-  doc.setFontSize(13);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "ORIENTAÇÕES AO PACIENTE",
-    20,
-    y
-  );
-
-
-  y += 10;
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-
-  const orientacoes =
-    dadosAlta.orientacoes ||
-    "Nenhuma orientação registrada.";
-
-
-  const linhasOrientacoes =
-    doc.splitTextToSize(
-      orientacoes,
-      170
-    );
-
-
-  doc.text(
-    linhasOrientacoes,
-    20,
-    y
-  );
-
-
-  y +=
-    linhasOrientacoes.length * 6 +
-    10;
-
-
-  // ========================================
-  // RECOMENDAÇÕES
-  // ========================================
-
-  doc.setFontSize(13);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "RECOMENDAÇÕES",
-    20,
-    y
-  );
-
-
-  y += 10;
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-
-  const recomendacoes =
-    dadosAlta.recomendacoes ||
-    "Nenhuma recomendação registrada.";
-
-
-  const linhasRecomendacoes =
-    doc.splitTextToSize(
-      recomendacoes,
-      170
-    );
-
-
-  doc.text(
-    linhasRecomendacoes,
-    20,
-    y
-  );
-
-
-  y +=
-    linhasRecomendacoes.length * 6 +
-    10;
-
-
-  // ========================================
-  // RETORNO
-  // ========================================
-
-  doc.setFontSize(13);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "RETORNO",
-    20,
-    y
-  );
-
-
-  y += 10;
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-  doc.text(
-    dadosAlta.retorno ||
-    "Não informado",
-    20,
-    y
-  );
-
-
-  y += 18;
-
-
-  // ========================================
-  // OBSERVAÇÕES
-  // ========================================
-
-  doc.setFontSize(13);
-
-  doc.setFont("helvetica", "bold");
-
-  doc.text(
-    "OBSERVAÇÕES DA ALTA",
-    20,
-    y
-  );
-
-
-  y += 10;
-
-
-  doc.setFontSize(11);
-
-  doc.setFont("helvetica", "normal");
-
-
-  const observacoes =
-    dadosAlta.observacoes ||
-    "Nenhuma observação registrada.";
-
-
-  const linhasObservacoes =
-    doc.splitTextToSize(
-      observacoes,
-      170
-    );
-
-
-  doc.text(
-    linhasObservacoes,
-    20,
-    y
-  );
-
-
-  // ========================================
-  // RODAPÉ
-  // ========================================
-
-  doc.setFontSize(9);
-
-  doc.setFont("helvetica", "normal");
-
-  doc.text(
-    "Documento gerado pelo Sistema Sentinela.",
-    105,
-    280,
-    {
-      align: "center"
-    }
-  );
-
-
-  doc.text(
-    dataFormatada +
-    " às " +
-    horaFormatada,
-    105,
-    286,
-    {
-      align: "center"
-    }
-  );
-
-
-  // ========================================
-  // SALVAR PDF
-  // ========================================
-
-  const nomeArquivo =
-    "alta-" +
-    (dadosAlta.paciente || "paciente")
-      .replace(/[^a-zA-Z0-9À-ÿ]/g, "-")
-      .toLowerCase() +
-    ".pdf";
-
-
-  doc.save(nomeArquivo);
-
-}
+  }
 
 </script>
 
