@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <title>Triagem</title>
 <link rel="stylesheet" href="css/style.css">
-
-
 </head>
 
 <body>
@@ -14,264 +12,831 @@
   <!-- Cabeçalho com botão da TV -->
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
     <h2 style="margin:0;">🏥 Triagem Hospitalar</h2>
-    <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')">📺 Abrir Tela da TV</button>
+    <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')">
+      📺 Abrir Tela da TV
+    </button>
   </div>
 
-  <!-- Fila de pacientes do Atendimento criada para mostrar quem pode ser chamado na TV -->
+  <!-- Fila de pacientes -->
   <div class="pacientes-fila">
+
     <h3>
       Pacientes Cadastrados no Atendimento
-      <span>Clique em "Chamar na TV" para chamar ao guichê</span>
+      <span>
+        Clique em "Chamar na TV" para chamar ao guichê
+      </span>
     </h3>
+
     <div id="fila-pacientes">
-      <p style="color:#888; text-align:center;">Carregando...</p>
+      <p style="color:#888; text-align:center;">
+        Carregando...
+      </p>
     </div>
-    <button onclick="carregarPacientes()" style="margin-top:8px; background:#6c757d; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px;">🔄 Atualizar lista</button>
+
+    <button
+      onclick="carregarPacientes()"
+      style="
+        margin-top:8px;
+        background:#6c757d;
+        color:white;
+        border:none;
+        padding:6px 12px;
+        border-radius:4px;
+        cursor:pointer;
+        font-size:13px;
+      "
+    >
+      🔄 Atualizar lista
+    </button>
+
   </div>
 
   <hr>
 
   <h3>Formulário de Triagem</h3>
-  <input
-  id="nome"
-  placeholder="Selecione um paciente na fila"
-  readonly
->
 
+  <input
+    id="nome"
+    placeholder="Selecione um paciente na fila"
+    readonly
+  >
 
   <select id="sintoma">
-    <option value="">Selecione o sintoma</option>
-    <option value="dor_leve">Dor leve</option>
-    <option value="resfriado">Resfriado</option>
-    <option value="coriza">Coriza</option>
-    <option value="tosse">Tosse</option>
-    <option value="febre">Febre</option>
-    <option value="vomito">Vômito</option>
-    <option value="diarreia">Diarreia</option>
-    <option value="falta_ar_moderada">Falta de ar moderada</option>
-    <option value="falta_ar_grave">Falta de ar grave</option>
-    <option value="infarto">Suspeita de infarto</option>
-    <option value="avc">Suspeita de AVC</option>
-    <option value="convulsao">Convulsão</option>
-    <option value="hemorragia">Hemorragia</option>
+
+    <option value="">
+      Selecione o sintoma
+    </option>
+
+    <option value="dor_leve">
+      Dor leve
+    </option>
+
+    <option value="resfriado">
+      Resfriado
+    </option>
+
+    <option value="coriza">
+      Coriza
+    </option>
+
+    <option value="tosse">
+      Tosse
+    </option>
+
+    <option value="febre">
+      Febre
+    </option>
+
+    <option value="vomito">
+      Vômito
+    </option>
+
+    <option value="diarreia">
+      Diarreia
+    </option>
+
+    <option value="falta_ar_moderada">
+      Falta de ar moderada
+    </option>
+
+    <option value="falta_ar_grave">
+      Falta de ar grave
+    </option>
+
+    <option value="infarto">
+      Suspeita de infarto
+    </option>
+
+    <option value="avc">
+      Suspeita de AVC
+    </option>
+
+    <option value="convulsao">
+      Convulsão
+    </option>
+
+    <option value="hemorragia">
+      Hemorragia
+    </option>
+
   </select>
 
-  <input id="temp" type="number" placeholder="Temperatura">
-  <input id="alergia" placeholder="Alergias">
-  <textarea id="observacao" placeholder="Observações"></textarea>
+  <input
+    id="temp"
+    type="number"
+    placeholder="Temperatura"
+  >
+
+
+  <!-- =====================================================
+       ALERGIAS
+  ====================================================== -->
+
+  <div
+    style="
+      margin-top:12px;
+      margin-bottom:12px;
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:6px;
+      background:#fafafa;
+    "
+  >
+
+    <label
+      style="
+        display:block;
+        font-weight:bold;
+        margin-bottom:8px;
+      "
+    >
+      ⚠️ Alergias a medicamentos
+    </label>
+
+    <p
+      style="
+        margin:0 0 10px 0;
+        font-size:13px;
+        color:#666;
+      "
+    >
+      Selecione todos os medicamentos aos quais o paciente
+      possui alergia.
+    </p>
+
+    <div id="lista-alergias">
+
+      <p style="color:#888;">
+        Carregando medicamentos...
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <textarea
+    id="observacao"
+    placeholder="Observações"
+  ></textarea>
 
   <div id="resultado"></div>
 
-  <button onclick="salvar()">Salvar Triagem</button>
+  <button onclick="salvar()">
+    Salvar Triagem
+  </button>
 
 </div>
 
+
 <script>
+
 let pacienteSelecionado = null;
 
-  
-function carregarPacientes() {
-  fetch("/pacientes")
-    .then(r => r.json())
-    .then(pacientes => {
-      const div = document.getElementById("fila-pacientes");
 
-      // Mostra apenas os com status "triagem"
-      const fila = pacientes.filter(p => p.status === "triagem");
+/* =========================================================
+   CARREGAR FILA DE PACIENTES
+========================================================= */
+
+function carregarPacientes() {
+
+  fetch("/pacientes")
+
+    .then(r => r.json())
+
+    .then(pacientes => {
+
+      const div =
+        document.getElementById("fila-pacientes");
+
+
+      const fila =
+        pacientes.filter(
+          p => p.status === "triagem"
+        );
+
 
       if (fila.length === 0) {
-        div.innerHTML = "<p style='color:#888; text-align:center;'>Nenhum paciente aguardando.</p>";
+
+        div.innerHTML =
+          "<p style='color:#888; text-align:center;'>" +
+          "Nenhum paciente aguardando." +
+          "</p>";
+
         return;
       }
+
 
       div.innerHTML = "";
+
+
       fila.forEach(p => {
-  const item = document.createElement("div");
 
-  item.className = "fila-item";
+        const item =
+          document.createElement("div");
 
-  item.innerHTML = `
-    <div>
-      <strong>${p.nome}</strong><br>
-      <small>CPF: ${p.cpf || "—"} | Tipo: ${p.tipo || "—"}</small>
-    </div>
 
-    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        item.className =
+          "fila-item";
 
-      <button
-        onclick="selecionarPaciente(${p.id})"
-        style="width:auto;"
-      >
-        Selecionar
-      </button>
 
-      <button
-        class="btn-tv"
-        onclick="chamarNaTV('${p.nome.replace(/'/g, "\\'")}')"
-      >
-        📺 Chamar na TV
-      </button>
+        item.innerHTML = `
 
-    </div>
-  `;
+          <div>
 
-  div.appendChild(item);
-});
+            <strong>
+              ${p.nome}
+            </strong>
+
+            <br>
+
+            <small>
+              CPF: ${p.cpf || "—"}
+              |
+              Tipo: ${p.tipo || "—"}
+            </small>
+
+          </div>
+
+
+          <div
+            style="
+              display:flex;
+              gap:6px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <button
+              onclick="selecionarPaciente(${p.id})"
+              style="width:auto;"
+            >
+              Selecionar
+            </button>
+
+
+            <button
+              class="btn-tv"
+              onclick="chamarNaTV('${String(p.nome || "").replace(/'/g, "\\'")}')"
+            >
+              📺 Chamar na TV
+            </button>
+
+          </div>
+
+        `;
+
+
+        div.appendChild(item);
+
+      });
 
     })
+
     .catch(() => {
-      document.getElementById("fila-pacientes").innerHTML =
-        "<p style='color:red;'>Erro ao carregar pacientes.</p>";
+
+      document.getElementById(
+        "fila-pacientes"
+      ).innerHTML =
+        "<p style='color:red;'>" +
+        "Erro ao carregar pacientes." +
+        "</p>";
+
     });
+
 }
-  function selecionarPaciente(id) {
+
+
+/* =========================================================
+   CARREGAR LISTA DE MEDICAMENTOS PARA ALERGIAS
+========================================================= */
+
+function carregarAlergias() {
+
+  fetch("/lista-medicacoes")
+
+    .then(r => {
+
+      if (!r.ok) {
+
+        throw new Error(
+          "Erro ao carregar medicamentos."
+        );
+
+      }
+
+      return r.json();
+
+    })
+
+    .then(medicamentos => {
+
+      const div =
+        document.getElementById("lista-alergias");
+
+
+      div.innerHTML = "";
+
+
+      /* Nenhuma alergia */
+
+      const nenhuma =
+        document.createElement("label");
+
+      nenhuma.style.display =
+        "block";
+
+      nenhuma.style.marginBottom =
+        "8px";
+
+
+      nenhuma.innerHTML = `
+
+        <input
+          type="checkbox"
+          id="nenhuma-alergia"
+          value=""
+        >
+
+        Nenhuma alergia conhecida
+
+      `;
+
+
+      div.appendChild(nenhuma);
+
+
+      medicamentos.forEach((medicamento, index) => {
+
+        const label =
+          document.createElement("label");
+
+
+        label.style.display =
+          "block";
+
+        label.style.marginBottom =
+          "6px";
+
+
+        label.innerHTML = `
+
+          <input
+            type="checkbox"
+            class="checkbox-alergia"
+            value="${medicamento}"
+          >
+
+          ${medicamento}
+
+        `;
+
+
+        div.appendChild(label);
+
+      });
+
+
+      const nenhumaCheckbox =
+        document.getElementById(
+          "nenhuma-alergia"
+        );
+
+
+      const checkboxes =
+        document.querySelectorAll(
+          ".checkbox-alergia"
+        );
+
+
+      /* =====================================================
+         SE MARCAR "NENHUMA", DESMARCA OS MEDICAMENTOS
+      ====================================================== */
+
+      nenhumaCheckbox.addEventListener(
+        "change",
+        function() {
+
+          if (this.checked) {
+
+            checkboxes.forEach(
+              checkbox => {
+                checkbox.checked = false;
+              }
+            );
+
+          }
+
+        }
+      );
+
+
+      /* =====================================================
+         SE MARCAR UM MEDICAMENTO,
+         DESMARCA "NENHUMA"
+      ====================================================== */
+
+      checkboxes.forEach(
+        checkbox => {
+
+          checkbox.addEventListener(
+            "change",
+            function() {
+
+              if (this.checked) {
+
+                nenhumaCheckbox.checked =
+                  false;
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+    })
+
+    .catch(error => {
+
+      console.error(
+        "Erro ao carregar alergias:",
+        error
+      );
+
+
+      document.getElementById(
+        "lista-alergias"
+      ).innerHTML = `
+
+        <p style="color:red;">
+          Não foi possível carregar
+          a lista de medicamentos.
+        </p>
+
+      `;
+
+    });
+
+}
+
+
+/* =========================================================
+   SELECIONAR PACIENTE
+========================================================= */
+
+function selecionarPaciente(id) {
 
   fetch("/pacientes")
+
     .then(r => r.json())
+
     .then(pacientes => {
 
-      const paciente = pacientes.find(
-        p => Number(p.id) === Number(id)
-      );
+      const paciente =
+        pacientes.find(
+          p =>
+            Number(p.id) ===
+            Number(id)
+        );
+
 
       if (!paciente) {
-        alert("Paciente não encontrado.");
+
+        alert(
+          "Paciente não encontrado."
+        );
+
         return;
       }
 
-      if (paciente.status !== "triagem") {
-        alert("Este paciente não está mais aguardando triagem.");
+
+      if (
+        paciente.status !==
+        "triagem"
+      ) {
+
+        alert(
+          "Este paciente não está mais aguardando triagem."
+        );
+
         carregarPacientes();
+
         return;
       }
 
-      pacienteSelecionado = paciente;
 
-      document.getElementById("nome").value = paciente.nome;
+      pacienteSelecionado =
+        paciente;
+
+
+      document.getElementById(
+        "nome"
+      ).value =
+        paciente.nome;
+
 
       alert(
-        "Paciente selecionado: " + paciente.nome
+        "Paciente selecionado: " +
+        paciente.nome
       );
+
     })
+
     .catch(() => {
-      alert("Erro ao selecionar o paciente.");
+
+      alert(
+        "Erro ao selecionar o paciente."
+      );
+
     });
+
 }
 
 
-// Função criada para enviar o nome do paciente para a TV quando ele for chamado no guichê.
+/* =========================================================
+   CHAMAR NA TV
+========================================================= */
+
 function chamarNaTV(nome) {
+
   fetch("/tv/chamar", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      localTipo: "GUICHÊ",
-      localNumero: "01",
-      paciente: nome
-    })
-  })
-  .then(r => r.json())
-  .then(() => {
-    alert("✅ " + nome + " foi chamado na TV para o Guichê 01!");
-  });
-}
 
-function classificarRisco(sintoma, temperatura) {
-  const vermelhos = ["infarto","avc","convulsao","hemorragia","falta_ar_grave"];
-  const amarelos = ["febre","vomito","diarreia","falta_ar_moderada"];
-  if (temperatura >= 39) return "vermelho";
-  if (vermelhos.includes(sintoma)) return "vermelho";
-  if (amarelos.includes(sintoma)) return "amarelo";
-  return "verde";
-}
-
-function salvar() {
-
-  if (!pacienteSelecionado) {
-    alert("Selecione um paciente da fila antes de salvar a triagem.");
-    return;
-  }
-
-  const sintoma =
-    document.getElementById("sintoma").value;
-
-  const temperatura =
-    Number(document.getElementById("temp").value);
-
-  const alergia =
-    document.getElementById("alergia").value;
-
-  const observacao =
-    document.getElementById("observacao").value;
-
-  const risco =
-    classificarRisco(sintoma, temperatura);
-
-  fetch("/triagem", {
     method: "POST",
 
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type":
+        "application/json"
     },
 
     body: JSON.stringify({
 
-      pacienteId: pacienteSelecionado.id,
+      localTipo:
+        "GUICHÊ",
+
+      localNumero:
+        "01",
+
+      paciente:
+        nome
+
+    })
+
+  })
+
+  .then(r => r.json())
+
+  .then(() => {
+
+    alert(
+      "✅ " +
+      nome +
+      " foi chamado na TV para o Guichê 01!"
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   CLASSIFICAR RISCO
+========================================================= */
+
+function classificarRisco(
+  sintoma,
+  temperatura
+) {
+
+  const vermelhos = [
+    "infarto",
+    "avc",
+    "convulsao",
+    "hemorragia",
+    "falta_ar_grave"
+  ];
+
+
+  const amarelos = [
+    "febre",
+    "vomito",
+    "diarreia",
+    "falta_ar_moderada"
+  ];
+
+
+  if (temperatura >= 39)
+    return "vermelho";
+
+
+  if (
+    vermelhos.includes(sintoma)
+  )
+    return "vermelho";
+
+
+  if (
+    amarelos.includes(sintoma)
+  )
+    return "amarelo";
+
+
+  return "verde";
+
+}
+
+
+/* =========================================================
+   SALVAR TRIAGEM
+========================================================= */
+
+function salvar() {
+
+  if (!pacienteSelecionado) {
+
+    alert(
+      "Selecione um paciente da fila antes de salvar a triagem."
+    );
+
+    return;
+  }
+
+
+  const sintoma =
+    document.getElementById(
+      "sintoma"
+    ).value;
+
+
+  const temperatura =
+    Number(
+      document.getElementById(
+        "temp"
+      ).value
+    );
+
+
+  /* =====================================================
+     PEGAR ALERGIAS SELECIONADAS
+  ====================================================== */
+
+  const alergias =
+    Array.from(
+      document.querySelectorAll(
+        ".checkbox-alergia:checked"
+      )
+    ).map(
+      checkbox =>
+        checkbox.value
+    );
+
+
+  const observacao =
+    document.getElementById(
+      "observacao"
+    ).value;
+
+
+  const risco =
+    classificarRisco(
+      sintoma,
+      temperatura
+    );
+
+
+  fetch("/triagem", {
+
+    method: "POST",
+
+    headers: {
+
+      "Content-Type":
+        "application/json"
+
+    },
+
+    body: JSON.stringify({
+
+      pacienteId:
+        pacienteSelecionado.id,
 
       sintoma,
+
       temperatura,
-      alergia,
+
+      alergias,
+
       observacao,
+
       risco
 
     })
+
   })
+
   .then(async r => {
 
-    const data = await r.json();
+    const data =
+      await r.json();
+
 
     if (!r.ok) {
+
       throw new Error(
-        data.erro || "Erro ao salvar triagem."
+        data.erro ||
+        "Erro ao salvar triagem."
       );
+
     }
 
+
     return data;
+
   })
+
   .then(data => {
 
     const resultado =
-      document.getElementById("resultado");
+      document.getElementById(
+        "resultado"
+      );
 
-    resultado.className = data.risco;
+
+    resultado.className =
+      data.risco;
+
 
     resultado.innerHTML =
       "Classificação: " +
       data.risco.toUpperCase();
 
-    alert("Triagem salva com sucesso!");
 
-    // Limpa paciente selecionado
-    pacienteSelecionado = null;
+    alert(
+      "Triagem salva com sucesso!"
+    );
 
-    // Limpa formulário
-    document.getElementById("nome").value = "";
-    document.getElementById("sintoma").value = "";
-    document.getElementById("temp").value = "";
-    document.getElementById("alergia").value = "";
-    document.getElementById("observacao").value = "";
 
-    // Atualiza a fila
+    pacienteSelecionado =
+      null;
+
+
+    document.getElementById(
+      "nome"
+    ).value = "";
+
+
+    document.getElementById(
+      "sintoma"
+    ).value = "";
+
+
+    document.getElementById(
+      "temp"
+    ).value = "";
+
+
+    document.querySelectorAll(
+      ".checkbox-alergia"
+    ).forEach(
+      checkbox => {
+        checkbox.checked = false;
+      }
+    );
+
+
+    document.getElementById(
+      "nenhuma-alergia"
+    ).checked = true;
+
+
+    document.getElementById(
+      "observacao"
+    ).value = "";
+
+
     carregarPacientes();
+
   })
+
   .catch(error => {
 
     console.error(error);
 
     alert(error.message);
+
   });
+
 }
 
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+carregarPacientes();
+
+carregarAlergias();
 
 </script>
 
