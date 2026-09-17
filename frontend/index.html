@@ -1,33 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Hospitalar - Login</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
 <div class="container">
+
   <h2>🏥 Sistema Hospitalar</h2>
-  <input id="usuario" placeholder="Usuário">
+
+  <input id="usuario" type="text" placeholder="Usuário">
+  
   <input id="senha" type="password" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
+
+  <button type="button" onclick="login()">Entrar</button>
+
+  <p id="mensagem"></p>
+
 </div>
 
 <script>
-function login() {
-  fetch("/login", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      usuario: usuario.value,
-      senha: senha.value
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if(data.tipo === "triagem") location.href = "triagem.html";
-    if(data.tipo === "medico") location.href = "medico.html";
-    if(data.tipo === "atendimento") location.href = "atendimento.html";
-  });
+
+async function login() {
+
+  const usuario = document.getElementById("usuario").value.trim();
+  const senha = document.getElementById("senha").value;
+
+  const mensagem = document.getElementById("mensagem");
+
+  if (!usuario || !senha) {
+    mensagem.textContent = "Digite o usuário e a senha.";
+    return;
+  }
+
+  mensagem.textContent = "Entrando...";
+
+  try {
+
+    const resposta = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        usuario: usuario,
+        senha: senha
+      })
+    });
+
+    const data = await resposta.json();
+
+    if (!resposta.ok) {
+      mensagem.textContent = data.erro || "Usuário ou senha inválidos.";
+      return;
+    }
+
+    if (data.tipo === "triagem") {
+      window.location.href = "triagem.html";
+      return;
+    }
+
+    if (data.tipo === "medico") {
+      window.location.href = "medico.html";
+      return;
+    }
+
+    if (data.tipo === "atendimento") {
+      window.location.href = "atendimento.html";
+      return;
+    }
+
+    mensagem.textContent = "Tipo de usuário não reconhecido.";
+
+  } catch (erro) {
+
+    console.error(erro);
+
+    mensagem.textContent =
+      "Erro ao conectar com o servidor.";
+
+  }
+
 }
+
 </script>
+
 </body>
 </html>
