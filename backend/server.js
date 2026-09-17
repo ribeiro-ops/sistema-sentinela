@@ -34,7 +34,6 @@ function readDB() {
       fs.readFileSync(DB_FILE, "utf8")
     );
 
-  // Garante que as estruturas existam
   if (!db.usuarios) db.usuarios = [];
   if (!db.pacientes) db.pacientes = [];
   if (!db.triagens) db.triagens = [];
@@ -56,6 +55,44 @@ function writeDB(data) {
   fs.writeFileSync(
     DB_FILE,
     JSON.stringify(data, null, 2)
+  );
+
+}
+
+
+/* =========================================================
+   FUNÇÕES DE ALERGIA
+========================================================= */
+
+function normalizarTexto(texto) {
+
+  return String(texto || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+}
+
+
+function medicamentoBloqueadoPorAlergia(medicamento, alergia) {
+
+  if (!medicamento || !alergia) {
+    return false;
+  }
+
+  const medicamentoNormalizado =
+    normalizarTexto(medicamento);
+
+  const alergias =
+    String(alergia)
+      .split(/[,;\/\n]+/)
+      .map(item => normalizarTexto(item))
+      .filter(Boolean);
+
+  return alergias.some(
+    alergiaItem =>
+      medicamentoNormalizado === alergiaItem
   );
 
 }
@@ -159,46 +196,72 @@ app.get("/pacientes", (req, res) => {
 
 });
 
-// ==========================================
-// BUSCAR PACIENTE PELO ID
-// ==========================================
-app.get("/pacientes/:id", (req, res) => {
-  const db = readDB();
-  const pacienteId = Number(req.params.id);
 
-  const paciente = db.pacientes.find(
-    p => Number(p.id) === pacienteId
-  );
+/* =========================================================
+   BUSCAR PACIENTE PELO ID
+========================================================= */
+
+app.get("/pacientes/:id", (req, res) => {
+
+  const db = readDB();
+
+  const pacienteId =
+    Number(req.params.id);
+
+  const paciente =
+    db.pacientes.find(
+      p => Number(p.id) === pacienteId
+    );
 
   if (!paciente) {
+
     return res.status(404).json({
       erro: "Paciente não encontrado."
     });
+
   }
 
   res.json(paciente);
+
 });
 
 
-// ==========================================
-// BUSCAR ÚLTIMA CONSULTA DO PACIENTE
-// ==========================================
-app.get("/consulta/:pacienteId", (req, res) => {
-  const db = readDB();
-  const pacienteId = Number(req.params.pacienteId);
+/* =========================================================
+   BUSCAR ÚLTIMA CONSULTA DO PACIENTE
+========================================================= */
 
-  const consultas = db.consultas
-    .filter(c => Number(c.pacienteId) === pacienteId)
-    .sort((a, b) => Number(b.id) - Number(a.id));
+app.get("/consulta/:pacienteId", (req, res) => {
+
+  const db = readDB();
+
+  const pacienteId =
+    Number(req.params.pacienteId);
+
+  const consultas =
+    db.consultas
+      .filter(
+        c =>
+          Number(c.pacienteId) === pacienteId
+      )
+      .sort(
+        (a, b) =>
+          Number(b.id) - Number(a.id)
+      );
 
   if (consultas.length === 0) {
+
     return res.status(404).json({
-      erro: "Nenhuma consulta encontrada para este paciente."
+      erro:
+        "Nenhuma consulta encontrada para este paciente."
     });
+
   }
 
   res.json(consultas[0]);
+
 });
+
+
 /* =========================================================
    TRIAGEM
 ========================================================= */
@@ -214,7 +277,8 @@ app.post("/triagem", (req, res) => {
   if (!pacienteId) {
 
     return res.status(400).json({
-      erro: "Paciente não informado."
+      erro:
+        "Paciente não informado."
     });
 
   }
@@ -230,7 +294,8 @@ app.post("/triagem", (req, res) => {
   if (!paciente) {
 
     return res.status(404).json({
-      erro: "Paciente não encontrado."
+      erro:
+        "Paciente não encontrado."
     });
 
   }
@@ -275,6 +340,37 @@ app.post("/triagem", (req, res) => {
   }
 
 
+  /*
+    Compatibilidade:
+
+    O sistema novo pode enviar "alergias"
+    como array.
+
+    O sistema antigo envia "alergia"
+    como texto.
+
+    Aqui os dois formatos são aceitos.
+  */
+
+  let alergia = "";
+
+  if (Array.isArray(req.body.alergias)) {
+
+    alergia =
+      req.body.alergias
+        .filter(Boolean)
+        .join(", ");
+
+  }
+
+  else {
+
+    alergia =
+      req.body.alergia || "";
+
+  }
+
+
   const triagem = {
 
     id:
@@ -296,7 +392,7 @@ app.post("/triagem", (req, res) => {
       temperatura,
 
     alergia:
-      req.body.alergia || "",
+      alergia,
 
     observacao:
       req.body.observacao || "",
@@ -354,21 +450,22 @@ app.post("/triagem", (req, res) => {
 
 
 /* =========================================================
-   LISTAR TRIAGENS AGUARDANDO MÉDICO
+   LISTAR TRIAGENS
 ========================================================= */
 
 app.get("/triagens", (req, res) => {
+
   const db = readDB();
 
-  // Mostra na fila tanto quem ainda precisa ser atendido
-  // quanto quem já foi atendido e está aguardando alta.
-  const triagensFila = db.triagens.filter(
-    t =>
-      t.status === "aguardando_medico" ||
-      t.status === "aguardando_alta"
-  );
+  const triagensFila =
+    db.triagens.filter(
+      t =>
+        t.status === "aguardando_medico" ||
+        t.status === "aguardando_alta"
+    );
 
   res.json(triagensFila);
+
 });
 
 
@@ -519,14 +616,6 @@ app.post("/consulta", (req, res) => {
   }
 
 
-  /*
-    IMPORTANTE:
-
-    A consulta só pode ser salva
-    enquanto o paciente estiver
-    aguardando atendimento médico.
-  */
-
   if (
     paciente.status !==
     "aguardando_medico"
@@ -558,6 +647,43 @@ app.post("/consulta", (req, res) => {
   }
 
 
+  const medicacao =
+    req.body.medicacao || "";
+
+
+  /*
+    ========================================================
+    VERIFICAÇÃO DE ALERGIA NO SERVIDOR
+    ========================================================
+  */
+
+  const triagem =
+    db.triagens.find(
+      t =>
+        Number(t.pacienteId) === pacienteId &&
+        t.status === "aguardando_medico"
+    );
+
+
+  if (
+    triagem &&
+    medicamentoBloqueadoPorAlergia(
+      medicacao,
+      triagem.alergia
+    )
+  ) {
+
+    return res.status(409).json({
+
+      erro:
+        `Não é possível selecionar "${medicacao}". ` +
+        `O paciente possui alergia registrada a este medicamento.`
+
+    });
+
+  }
+
+
   const consulta = {
 
     id:
@@ -573,7 +699,7 @@ app.post("/consulta", (req, res) => {
       diagnostico,
 
     medicacao:
-      req.body.medicacao || "",
+      medicacao,
 
     obs:
       req.body.obs || "",
@@ -584,40 +710,13 @@ app.post("/consulta", (req, res) => {
   };
 
 
-  /*
-    SALVA A CONSULTA
-  */
-
   db.consultas.push(
     consulta
   );
 
 
-  /*
-    IMPORTANTE:
-
-    SALVAR A CONSULTA NÃO DÁ ALTA.
-
-    O paciente fica aguardando_alta.
-  */
-
   paciente.status =
     "aguardando_alta";
-
-
-  /*
-    Atualiza a triagem
-    correspondente.
-  */
-
-  const triagem =
-    db.triagens.find(
-      t =>
-        Number(t.pacienteId) ===
-        pacienteId &&
-        t.status ===
-        "aguardando_medico"
-    );
 
 
   if (triagem) {
@@ -655,10 +754,12 @@ app.post("/consulta", (req, res) => {
 });
 
 
-// ==========================================
-// REGISTRAR ALTA DO PACIENTE
-// ==========================================
+/* =========================================================
+   REGISTRAR ALTA DO PACIENTE
+========================================================= */
+
 app.post("/alta", (req, res) => {
+
   const db = readDB();
 
   const {
@@ -671,102 +772,173 @@ app.post("/alta", (req, res) => {
     observacoes
   } = req.body;
 
-  const idPaciente = Number(pacienteId);
+  const idPaciente =
+    Number(pacienteId);
+
 
   if (!idPaciente) {
+
     return res.status(400).json({
-      erro: "Paciente não identificado."
+      erro:
+        "Paciente não identificado."
     });
+
   }
 
-  const pacienteEncontrado = db.pacientes.find(
-    p => Number(p.id) === idPaciente
-  );
+
+  const pacienteEncontrado =
+    db.pacientes.find(
+      p =>
+        Number(p.id) === idPaciente
+    );
+
 
   if (!pacienteEncontrado) {
+
     return res.status(404).json({
-      erro: "Paciente não encontrado."
+      erro:
+        "Paciente não encontrado."
     });
+
   }
 
-  if (pacienteEncontrado.status !== "aguardando_alta") {
+
+  if (
+    pacienteEncontrado.status !==
+    "aguardando_alta"
+  ) {
+
     return res.status(400).json({
-      erro: "Este paciente não está aguardando alta."
+      erro:
+        "Este paciente não está aguardando alta."
     });
+
   }
+
 
   if (!condicao) {
+
     return res.status(400).json({
-      erro: "Informe a condição do paciente na alta."
+      erro:
+        "Informe a condição do paciente na alta."
     });
+
   }
 
-  // Procura a última consulta do paciente
-  const consultasPaciente = db.consultas
-    .filter(c => Number(c.pacienteId) === idPaciente)
-    .sort((a, b) => Number(b.id) - Number(a.id));
 
-  const consulta = consultasPaciente[0] || null;
+  const consultasPaciente =
+    db.consultas
+      .filter(
+        c =>
+          Number(c.pacienteId) === idPaciente
+      )
+      .sort(
+        (a, b) =>
+          Number(b.id) - Number(a.id)
+      );
 
-  // Evita registrar duas altas para o mesmo atendimento
-  const altaExistente = db.altas.find(
-    a => Number(a.pacienteId) === idPaciente
-  );
+
+  const consulta =
+    consultasPaciente[0] || null;
+
+
+  const altaExistente =
+    db.altas.find(
+      a =>
+        Number(a.pacienteId) === idPaciente
+    );
+
 
   if (altaExistente) {
+
     return res.status(400).json({
-      erro: "Este paciente já possui uma alta registrada."
+      erro:
+        "Este paciente já possui uma alta registrada."
     });
+
   }
 
-  const alta = {
-    id: Date.now(),
 
-    pacienteId: idPaciente,
+  const alta = {
+
+    id:
+      Date.now(),
+
+    pacienteId:
+      idPaciente,
 
     paciente:
       paciente ||
       pacienteEncontrado.nome ||
       "Paciente não informado",
 
-    // Dados da consulta
-    diagnostico: consulta?.diagnostico || "",
-    medicacao: consulta?.medicacao || "",
-    observacaoConsulta: consulta?.obs || "",
+    diagnostico:
+      consulta?.diagnostico || "",
 
-    // Dados da alta
-    condicao: condicao,
-    orientacoes: orientacoes || "",
-    recomendacoes: recomendacoes || "",
-    retorno: retorno || "",
-    observacoes: observacoes || "",
+    medicacao:
+      consulta?.medicacao || "",
 
-    dataHora: new Date().toISOString()
+    observacaoConsulta:
+      consulta?.obs || "",
+
+    condicao:
+      condicao,
+
+    orientacoes:
+      orientacoes || "",
+
+    recomendacoes:
+      recomendacoes || "",
+
+    retorno:
+      retorno || "",
+
+    observacoes:
+      observacoes || "",
+
+    dataHora:
+      new Date().toISOString()
+
   };
+
 
   db.altas.push(alta);
 
-  // Atualiza status do paciente
-  pacienteEncontrado.status = "finalizado";
 
-  // Atualiza a triagem
-  const triagem = db.triagens.find(
-    t =>
-      Number(t.pacienteId) === idPaciente &&
-      t.status === "aguardando_alta"
-  );
+  pacienteEncontrado.status =
+    "finalizado";
+
+
+  const triagem =
+    db.triagens.find(
+      t =>
+        Number(t.pacienteId) === idPaciente &&
+        t.status === "aguardando_alta"
+    );
+
 
   if (triagem) {
-    triagem.status = "finalizado";
+
+    triagem.status =
+      "finalizado";
+
   }
+
 
   writeDB(db);
 
+
   res.status(201).json({
-    mensagem: "Alta registrada com sucesso.",
+
+    mensagem:
+      "Alta registrada com sucesso.",
+
     alta
+
   });
+
 });
+
 
 /* =========================================================
    LISTAR CONSULTAS
