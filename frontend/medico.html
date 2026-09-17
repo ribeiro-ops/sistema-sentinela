@@ -41,23 +41,22 @@
 </div>
 
 <script>
-
+<script>
 let triagensCarregadas = [];
 let pacienteSelecionado = null;
 
 
+// ===============================
+// CARREGAR FILA MÉDICA
+// ===============================
 function carregar() {
-
   fetch("/triagens")
-
     .then(async r => {
-
       if (!r.ok) {
         throw new Error("Erro HTTP " + r.status);
       }
 
       return r.json();
-
     })
 
     .then(data => {
@@ -72,21 +71,104 @@ function carregar() {
 
       if (!Array.isArray(data) || data.length === 0) {
 
-        div.innerHTML =
-          "<p style='color:#888; text-align:center;'>" +
-          "Nenhum paciente aguardando atendimento médico." +
-          "</p>";
+        div.innerHTML = `
+          <p style="
+            color:#888;
+            text-align:center;
+            padding:20px;
+          ">
+            Nenhum paciente na fila médica.
+          </p>
+        `;
 
         return;
       }
 
+
       data.forEach((t, index) => {
+
+        // ===============================
+        // STATUS DO PACIENTE
+        // ===============================
+
+        let statusTexto = "";
+        let botoes = "";
+
+
+        if (t.status === "aguardando_medico") {
+
+          statusTexto = `
+            <span style="color:#1976d2;">
+              🩺 Aguardando atendimento
+            </span>
+          `;
+
+          botoes = `
+            <button onclick="selecionar(${index})">
+              Atender
+            </button>
+
+            <button
+              class="btn-tv"
+              onclick="chamarNaTV('${String(t.nome || "").replace(/'/g, "\\'")}')"
+            >
+              📺 Chamar na TV
+            </button>
+          `;
+
+        }
+
+
+        else if (t.status === "aguardando_alta") {
+
+          statusTexto = `
+            <span style="color:#e67e22;">
+              🏠 Aguardando alta
+            </span>
+          `;
+
+          botoes = `
+            <button
+              disabled
+              style="
+                opacity:0.6;
+                cursor:not-allowed;
+              "
+            >
+              ✅ Consulta realizada
+            </button>
+
+            <button
+              class="btn-tv"
+              onclick="chamarNaTV('${String(t.nome || "").replace(/'/g, "\\'")}')"
+            >
+              📺 Chamar na TV
+            </button>
+
+            <button
+              class="btn-alta"
+              onclick="darAlta(${index})"
+            >
+              🏠 Dar Alta
+            </button>
+          `;
+        }
+
+
+        // ===============================
+        // CARD
+        // ===============================
 
         div.innerHTML += `
 
           <div class="card">
 
             <h3>${t.nome}</h3>
+
+            <p>
+              <b>Status:</b>
+              ${statusTexto}
+            </p>
 
             <p>
               <b>Sintoma:</b>
@@ -101,7 +183,7 @@ function carregar() {
             <p>
               <b>Risco:</b>
               <span class="${t.risco}">
-                ${t.risco}
+                ${t.risco || "Não informado"}
               </span>
             </p>
 
@@ -115,40 +197,19 @@ function carregar() {
               ${t.observacao || "Nenhuma"}
             </p>
 
-            <div style="
-              display:flex;
-              gap:8px;
-              flex-wrap:wrap;
-            ">
-
-              <button
-                onclick="selecionar(${index})"
-              >
-                Atender
-              </button>
-
-              <button
-                class="btn-tv"
-                onclick="chamarNaTV('${t.nome.replace(/'/g, "\\'")}')"
-              >
-                📺 Chamar na TV
-              </button>
-
-              <button
-                class="btn-alta"
-                onclick="darAlta(${index})"
-              >
-                🏠 Dar Alta
-              </button>
-
+            <div
+              style="
+                display:flex;
+                gap:8px;
+                flex-wrap:wrap;
+              "
+            >
+              ${botoes}
             </div>
 
           </div>
-
         `;
-
       });
-
     })
 
     .catch(error => {
@@ -158,93 +219,207 @@ function carregar() {
         error
       );
 
-      document.getElementById("triagens").innerHTML =
-
-        `<p style="color:red;">
+      document.getElementById("triagens").innerHTML = `
+        <p style="color:red;">
           Erro ao carregar fila médica:
           ${error.message}
-        </p>`;
-
+        </p>
+      `;
     });
 }
 
 
-// Função criada para enviar o nome do paciente para a TV quando ele for chamado no consultório.
+
+// ===============================
+// CHAMAR PACIENTE NA TV
+// ===============================
 function chamarNaTV(nome) {
-  const consultorio = document.getElementById("consultorio-num").value || "01";
+
+  const consultorio =
+    document.getElementById("consultorio-num").value || "01";
+
+
   fetch("/tv/chamar", {
+
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
     body: JSON.stringify({
+
       localTipo: "CONSULTÓRIO",
+
       localNumero: consultorio,
+
       paciente: nome
+
     })
+
   })
-  .then(r => r.json())
+
+  .then(async r => {
+
+    const data = await r.json();
+
+    if (!r.ok) {
+
+      throw new Error(
+        data.erro || "Erro ao chamar paciente na TV."
+      );
+
+    }
+
+    return data;
+
+  })
+
   .then(() => {
-    alert("✅ " + nome + " foi chamado na TV para o Consultório " + consultorio + "!");
+
+    alert(
+      "✅ " +
+      nome +
+      " foi chamado na TV para o Consultório " +
+      consultorio +
+      "!"
+    );
+
+  })
+
+  .catch(error => {
+
+    console.error(error);
+
+    alert(error.message);
+
   });
 }
+
+
+
+// ===============================
+// DAR ALTA
+// ===============================
 function darAlta(index) {
 
   const t = triagensCarregadas[index];
 
-  if (!t.pacienteId) {
-    alert("Erro: esta triagem não possui pacienteId.");
+
+  if (!t) {
+
+    alert("Paciente não encontrado.");
+
     return;
   }
+
+
+  if (t.status !== "aguardando_alta") {
+
+    alert(
+      "Este paciente ainda não possui uma consulta finalizada."
+    );
+
+    return;
+  }
+
+
+  if (!t.pacienteId) {
+
+    alert(
+      "Erro: esta triagem não possui pacienteId."
+    );
+
+    return;
+  }
+
 
   const pacienteId =
     encodeURIComponent(t.pacienteId);
 
+
   const nome =
     encodeURIComponent(t.nome);
+
 
   window.location.href =
     `alta.html?pacienteId=${pacienteId}&nome=${nome}`;
 }
 
+
+
+// ===============================
+// SELECIONAR PACIENTE PARA CONSULTA
+// ===============================
 function selecionar(index) {
 
   const t = triagensCarregadas[index];
 
+
   if (!t) {
+
     alert("Paciente não encontrado.");
+
     return;
   }
+
+
+  // Impede atender novamente um paciente
+  // que já passou pela consulta.
+  if (t.status !== "aguardando_medico") {
+
+    alert(
+      "Este paciente já foi atendido e está aguardando alta."
+    );
+
+    return;
+  }
+
 
   if (!t.pacienteId) {
-    alert("Erro: esta triagem não possui pacienteId.");
+
+    alert(
+      "Erro: esta triagem não possui pacienteId."
+    );
+
     return;
   }
 
-  // Seleciona o paciente
+
   pacienteSelecionado = t;
 
-  // Preenche o campo do paciente
-  document.getElementById("paciente").value = t.nome;
 
-  // Preenche observações
+  document.getElementById("paciente").value =
+    t.nome;
+
+
   document.getElementById("obs").value =
     t.observacao || "";
 
-  // Limpa diagnóstico e medicação
-  document.getElementById("diagnostico").value = "";
-  document.getElementById("medicacao").value = "";
 
-  // Mostra alerta de alergia, mas NÃO bloqueia o atendimento
-  if (t.alergia && t.alergia.trim() !== "") {
+  document.getElementById("diagnostico").value =
+    "";
+
+
+  document.getElementById("medicacao").value =
+    "";
+
+
+  if (
+    t.alergia &&
+    t.alergia.trim() !== ""
+  ) {
 
     alert(
       "⚠️ ATENÇÃO\n\n" +
-      "Paciente: " + t.nome + "\n" +
-      "Alergia: " + t.alergia
+      "Paciente: " +
+      t.nome +
+      "\nAlergia: " +
+      t.alergia
     );
-
   }
 
-  // Confirma que o paciente foi selecionado
+
   console.log(
     "Paciente selecionado para atendimento:",
     pacienteSelecionado
@@ -253,43 +428,104 @@ function selecionar(index) {
 
 
 
+// ===============================
+// CARREGAR MEDICAÇÕES
+// ===============================
 function carregarMedicacoes() {
+
   fetch("/lista-medicacoes")
-    .then(r => r.json())
+
+    .then(r => {
+
+      if (!r.ok) {
+
+        throw new Error(
+          "Erro ao carregar medicações."
+        );
+
+      }
+
+      return r.json();
+
+    })
+
     .then(data => {
-      const select = document.getElementById("medicacao");
-      select.innerHTML = `<option value="">Selecione a medicação</option>`;
+
+      const select =
+        document.getElementById("medicacao");
+
+
+      select.innerHTML = `
+        <option value="">
+          Selecione a medicação
+        </option>
+      `;
+
+
       data.forEach(med => {
-        const option = document.createElement("option");
+
+        const option =
+          document.createElement("option");
+
+
         option.value = med;
+
         option.textContent = med;
+
+
         select.appendChild(option);
+
       });
+
+    })
+
+    .catch(error => {
+
+      console.error(
+        "Erro ao carregar medicações:",
+        error
+      );
+
     });
 }
 
+
+
+// ===============================
+// SALVAR CONSULTA
+// ===============================
 function salvar() {
 
   if (!pacienteSelecionado) {
+
     alert(
       "Selecione um paciente clicando em Atender."
     );
+
     return;
   }
+
 
   const diagnostico =
     document.getElementById("diagnostico").value;
 
+
   const medicacao =
     document.getElementById("medicacao").value;
+
 
   const obs =
     document.getElementById("obs").value;
 
+
   if (!diagnostico.trim()) {
-  alert("Informe o diagnóstico.");
-  return;
-}
+
+    alert(
+      "Informe o diagnóstico."
+    );
+
+    return;
+  }
 
 
   fetch("/consulta", {
@@ -317,42 +553,58 @@ function salvar() {
     })
 
   })
+
   .then(async r => {
 
     const data = await r.json();
 
+
     if (!r.ok) {
+
       throw new Error(
         data.erro ||
         "Erro ao salvar consulta."
       );
+
     }
+
 
     return data;
 
   })
+
   .then(() => {
 
     alert(
-      "Consulta finalizada com sucesso!"
+      "✅ Consulta finalizada com sucesso!\n\n" +
+      "O paciente continuará na fila aguardando alta."
     );
 
-    // Limpa paciente selecionado
+
     pacienteSelecionado = null;
 
-    // Limpa formulário
-    document.getElementById("paciente").value = "";
 
-    document.getElementById("diagnostico").value = "";
+    document.getElementById("paciente").value =
+      "";
 
-    document.getElementById("medicacao").value = "";
 
-    document.getElementById("obs").value = "";
+    document.getElementById("diagnostico").value =
+      "";
 
-    // Atualiza a fila médica
+
+    document.getElementById("medicacao").value =
+      "";
+
+
+    document.getElementById("obs").value =
+      "";
+
+
+    // Atualiza a fila imediatamente
     carregar();
 
   })
+
   .catch(error => {
 
     console.error(error);
@@ -361,12 +613,20 @@ function salvar() {
 
   });
 }
-  carregar();
+
+
+
+// ===============================
+// INICIALIZAÇÃO
+// ===============================
+carregar();
+
 carregarMedicacoes();
 
+
+// Atualiza a fila automaticamente
 setInterval(carregar, 3000);
-
-
+</script>
 </script>
 
 </body>
