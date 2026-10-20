@@ -1,1 +1,530 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Painel Administrativo | Sentinela</title>
+
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+  <!-- MENU LATERAL -->
+  <aside class="sidebar">
+
+    <div class="logo">
+      <div class="logo-icon">✚</div>
+
+      <div>
+        <strong>PROJETO SENTINELA</strong>
+        <span>Sistema Hospitalar</span>
+      </div>
+    </div>
+
+    <nav>
+
+      <button class="menu active" onclick="mostrarSecao('dashboard', this)">
+        📊
+        <span>Dashboard</span>
+      </button>
+
+      <button class="menu" onclick="mostrarSecao('pacientes', this)">
+        👥
+        <span>Pacientes</span>
+      </button>
+
+      <button class="menu" onclick="mostrarSecao('filas', this)">
+        📋
+        <span>Filas</span>
+      </button>
+
+      <button class="menu" onclick="mostrarSecao('historico', this)">
+        📝
+        <span>Histórico</span>
+      </button>
+
+    </nav>
+
+    <div class="usuario">
+
+      <div class="avatar">
+        A
+      </div>
+
+      <div>
+        <strong id="nomeAdmin">Administrador</strong>
+        <small>Painel administrativo</small>
+      </div>
+
+    </div>
+
+    <button class="logout" onclick="sair()">
+      ↪ Sair
+    </button>
+
+  </aside>
+
+
+  <!-- CONTEÚDO -->
+  <main class="main">
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+
+      <div>
+        <span class="titulo-pequeno">
+          ADMINISTRAÇÃO
+        </span>
+
+        <h1 id="tituloPagina">
+          Dashboard
+        </h1>
+
+        <p>
+          Visão geral do atendimento hospitalar.
+        </p>
+      </div>
+
+      <div class="acoes">
+
+        <span id="ultimaAtualizacao">
+          Atualizando...
+        </span>
+
+        <button onclick="carregarDashboard()">
+          ↻ Atualizar
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboard" class="secao ativa">
+
+      <!-- CARDS -->
+
+      <div class="cards">
+
+        <div class="card azul">
+          <div class="icone">👥</div>
+
+          <div>
+            <span>Total de pacientes</span>
+            <strong id="totalPacientes">0</strong>
+          </div>
+        </div>
+
+
+        <div class="card laranja">
+          <div class="icone">⏱️</div>
+
+          <div>
+            <span>Aguardando triagem</span>
+            <strong id="aguardandoTriagem">0</strong>
+          </div>
+        </div>
+
+
+        <div class="card roxo">
+          <div class="icone">🩺</div>
+
+          <div>
+            <span>Aguardando médico</span>
+            <strong id="aguardandoMedico">0</strong>
+          </div>
+        </div>
+
+
+        <div class="card vermelho">
+          <div class="icone">🏠</div>
+
+          <div>
+            <span>Aguardando alta</span>
+            <strong id="aguardandoAlta">0</strong>
+          </div>
+        </div>
+
+
+        <div class="card verde">
+          <div class="icone">✓</div>
+
+          <div>
+            <span>Finalizados</span>
+            <strong id="finalizados">0</strong>
+          </div>
+        </div>
+
+
+        <div class="card ciano">
+          <div class="icone">📄</div>
+
+          <div>
+            <span>Consultas</span>
+            <strong id="totalConsultas">0</strong>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- GRÁFICOS -->
+
+      <div class="grid">
+
+        <div class="painel">
+
+          <div class="painel-titulo">
+            <h2>Fluxo de atendimento</h2>
+            <p>Status atual dos pacientes</p>
+          </div>
+
+          <div class="fluxo">
+
+            <div class="linha">
+              <span>Triagem</span>
+
+              <div class="barra">
+                <i id="barraTriagem"></i>
+              </div>
+
+              <strong id="fluxoTriagem">0</strong>
+            </div>
+
+
+            <div class="linha">
+              <span>Médico</span>
+
+              <div class="barra">
+                <i id="barraMedico"></i>
+              </div>
+
+              <strong id="fluxoMedico">0</strong>
+            </div>
+
+
+            <div class="linha">
+              <span>Alta</span>
+
+              <div class="barra">
+                <i id="barraAlta"></i>
+              </div>
+
+              <strong id="fluxoAlta">0</strong>
+            </div>
+
+
+            <div class="linha">
+              <span>Finalizados</span>
+
+              <div class="barra">
+                <i id="barraFinalizados"></i>
+              </div>
+
+              <strong id="fluxoFinalizados">0</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="painel">
+
+          <div class="painel-titulo">
+            <h2>Classificação de risco</h2>
+            <p>Triagens registradas</p>
+          </div>
+
+          <div class="riscos">
+
+            <div>
+              <span class="bolinha verde-bolinha"></span>
+              Verde
+
+              <strong id="riscoVerde">
+                0
+              </strong>
+            </div>
+
+
+            <div>
+              <span class="bolinha amarelo-bolinha"></span>
+              Amarelo
+
+              <strong id="riscoAmarelo">
+                0
+              </strong>
+            </div>
+
+
+            <div>
+              <span class="bolinha vermelho-bolinha"></span>
+              Vermelho
+
+              <strong id="riscoVermelho">
+                0
+              </strong>
+            </div>
+
+          </div>
+
+          <div class="total-triagens">
+
+            Total de triagens:
+
+            <strong id="totalTriagens">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ÚLTIMOS PACIENTES -->
+
+      <div class="grid">
+
+        <div class="painel tabela-painel">
+
+          <div class="painel-titulo">
+
+            <div>
+              <h2>Últimos pacientes</h2>
+
+              <p>
+                Pacientes cadastrados recentemente
+              </p>
+            </div>
+
+            <button
+              class="link"
+              onclick="mostrarSecao('pacientes')"
+            >
+              Ver todos
+            </button>
+
+          </div>
+
+
+          <div class="tabela">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Paciente</th>
+                  <th>Tipo</th>
+                  <th>Status</th>
+                  <th>Cadastro</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="ultimosPacientes"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <!-- TV -->
+
+        <div class="painel">
+
+          <div class="painel-titulo">
+
+            <h2>📺 TV de chamadas</h2>
+
+            <p>
+              Última chamada
+            </p>
+
+          </div>
+
+          <div id="tv">
+
+            <div class="tv-vazia">
+
+              📺
+
+              <strong>
+                Nenhuma chamada
+              </strong>
+
+              <small>
+                Não existe chamada ativa.
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PACIENTES ================= -->
+
+    <section id="pacientes" class="secao">
+
+      <div class="painel">
+
+        <div class="painel-titulo">
+
+          <div>
+            <h2>Pacientes cadastrados</h2>
+
+            <p>
+              Todos os pacientes registrados no sistema.
+            </p>
+          </div>
+
+          <input
+            id="pesquisa"
+            placeholder="Pesquisar paciente..."
+            oninput="mostrarPacientes()"
+          >
+
+        </div>
+
+
+        <div class="tabela">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Paciente</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Convênio</th>
+                <th>Status</th>
+                <th>Cadastro</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="todosPacientes"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= FILAS ================= -->
+
+    <section id="filas" class="secao">
+
+      <div class="filas">
+
+        <div class="painel">
+
+          <h2>
+            ⏱️ Aguardando triagem
+          </h2>
+
+          <strong
+            class="numero-fila"
+            id="numeroTriagem"
+          >
+            0
+          </strong>
+
+          <div id="filaTriagem"></div>
+
+        </div>
+
+
+        <div class="painel">
+
+          <h2>
+            🩺 Aguardando médico
+          </h2>
+
+          <strong
+            class="numero-fila"
+            id="numeroMedico"
+          >
+            0
+          </strong>
+
+          <div id="filaMedico"></div>
+
+        </div>
+
+
+        <div class="painel">
+
+          <h2>
+            🏠 Aguardando alta
+          </h2>
+
+          <strong
+            class="numero-fila"
+            id="numeroAlta"
+          >
+            0
+          </strong>
+
+          <div id="filaAlta"></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= HISTÓRICO ================= -->
+
+    <section id="historico" class="secao">
+
+      <div class="painel">
+
+        <h2>
+          📝 Histórico de atendimentos
+        </h2>
+
+        <p>
+          Consultas e altas registradas.
+        </p>
+
+        <div
+          id="historicoConteudo"
+          class="historico"
+        ></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="js/admin.js"></script>
+
+</body>
+
+</html>
+```
