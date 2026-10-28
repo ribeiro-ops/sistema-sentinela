@@ -1,0 +1,1283 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Almoxarifado | Projeto Sentinela</title>
+
+<style>
+:root {
+    --primary: #087f8c;
+    --primary-dark: #075b66;
+    --bg: #f3f6fa;
+    --white: #ffffff;
+    --text: #172b4d;
+    --muted: #718096;
+    --border: #e3e9f0;
+    --green: #16845b;
+    --red: #d64545;
+    --orange: #c47b13;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* MENU LATERAL */
+.sidebar {
+    width: 245px;
+    background: #102d42;
+    color: white;
+    padding: 25px 16px;
+    flex-shrink: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 30px;
+    border-bottom: 1px solid #294457;
+}
+
+.logo-icon {
+    background: var(--primary);
+    border-radius: 10px;
+    padding: 11px;
+    font-size: 23px;
+}
+
+.logo h2 {
+    font-size: 19px;
+}
+
+.logo small {
+    color: #b5c8d5;
+    font-size: 11px;
+}
+
+.menu-title {
+    font-size: 11px;
+    color: #92aaba;
+    margin: 28px 12px 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #d0dce5;
+    padding: 13px 12px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.menu a:hover,
+.menu a.active {
+    background: var(--primary);
+    color: white;
+}
+
+.sidebar-footer {
+    margin-top: 45px;
+    padding: 15px 10px;
+    color: #a9becb;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* CONTEÚDO */
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    height: 75px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    gap: 15px;
+}
+
+.topbar small {
+    color: var(--muted);
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.avatar {
+    background: #d9eff1;
+    color: var(--primary-dark);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.content {
+    padding: 30px;
+    max-width: 1600px;
+    margin: auto;
+}
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.page-heading p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.btn {
+    border: none;
+    border-radius: 7px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-light {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-danger {
+    background: #fff0f0;
+    color: var(--red);
+}
+
+/* INDICADORES */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #18324b05;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 10px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.stat-icon {
+    background: #e7f5f6;
+    padding: 10px;
+    border-radius: 9px;
+    font-size: 20px;
+}
+
+.stat-card h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.stat-card small {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* PAINÉIS */
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.panel-header h3 {
+    font-size: 16px;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input, select {
+    padding: 11px 12px;
+    border: 1px solid #d8e0e8;
+    border-radius: 7px;
+    background: white;
+    outline: none;
+    color: var(--text);
+    font-size: 13px;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px #087f8c15;
+}
+
+.search {
+    width: 245px;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th {
+    background: #f8fafc;
+    color: #65758b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+th, td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #edf1f5;
+}
+
+td {
+    font-size: 13px;
+}
+
+tbody tr:hover {
+    background: #f9fbfd;
+}
+
+.item-name {
+    font-weight: 600;
+}
+
+.item-code {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.badge-ok {
+    color: var(--green);
+    background: #e5f7ee;
+}
+
+.badge-low {
+    color: var(--orange);
+    background: #fff3dc;
+}
+
+.badge-out {
+    color: var(--red);
+    background: #ffe8e8;
+}
+
+.badge-expired {
+    color: #8b2938;
+    background: #fce4e8;
+}
+
+.actions {
+    display: flex;
+    gap: 7px;
+}
+
+.action-btn {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 6px;
+    padding: 7px 9px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.action-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.empty {
+    padding: 35px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.footer {
+    padding: 5px 0 20px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: #0d223b88;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px #0002;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+    font-size: 18px;
+}
+
+.close {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--muted);
+}
+
+.modal-body {
+    padding: 22px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 17px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.field input, .field select {
+    width: 100%;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.notice {
+    padding: 15px 18px;
+    background: #fff8e8;
+    color: #835a14;
+    border: 1px solid #f3e2b9;
+    border-radius: 9px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media(max-width: 1050px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sidebar {
+        width: 205px;
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        display: none;
+    }
+
+    .content {
+        padding: 18px 12px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .stats {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card h2 {
+        font-size: 23px;
+    }
+
+    .search {
+        width: 100%;
+    }
+
+    .filters {
+        width: 100%;
+    }
+
+    .filters input, .filters select {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">✚</div>
+            <div>
+                <h2>Sentinela</h2>
+                <small>Sistema Hospitalar</small>
+            </div>
+        </div>
+
+        <div class="menu-title">Principal</div>
+        <nav class="menu">
+            <a href="admin2.html">▦ &nbsp; Dashboard</a>
+            <a href="atendimento.html">♙ &nbsp; Atendimento</a>
+            <a href="triagem.html">♡ &nbsp; Triagem</a>
+            <a href="medico.html">⚕ &nbsp; Painel médico</a>
+            <a href="alta.html">▤ &nbsp; Altas hospitalares</a>
+        </nav>
+
+        <div class="menu-title">Gestão hospitalar</div>
+        <nav class="menu">
+            <a href="almoxarifado.html" class="active">▣ &nbsp; Almoxarifado</a>
+            <a href="admin2.html">⚙ &nbsp; Administração</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <strong>PROJETO SENTINELA</strong><br>
+            Gestão e controle hospitalar<br>
+            Versão 1.0
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <strong>Almoxarifado</strong><br>
+                <small>Gestão de materiais e suprimentos</small>
+            </div>
+
+            <div class="user">
+                <div class="avatar">AL</div>
+                <div>
+                    <strong>Almoxarife</strong><br>
+                    <small>Controle de estoque</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="content">
+            <div class="page-heading">
+                <div>
+                    <h1>Controle de estoque</h1>
+                    <p>Gerencie materiais, medicamentos e suprimentos do hospital.</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="abrirModal()">
+                    + Cadastrar material
+                </button>
+            </div>
+
+            <div class="notice">
+                <strong>⚠ Atenção:</strong> acompanhe os níveis de estoque e as
+                datas de validade para evitar a falta de materiais essenciais.
+                Os dados exibidos nesta versão são armazenados neste navegador.
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Itens cadastrados</span>
+                        <span class="stat-icon">▣</span>
+                    </div>
+                    <h2 id="totalItens">0</h2>
+                    <small>Tipos de produtos registrados</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Unidades em estoque</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+                    <h2 id="totalUnidades">0</h2>
+                    <small>Total de unidades disponíveis</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Estoque baixo</span>
+                        <span class="stat-icon">⚠</span>
+                    </div>
+                    <h2 id="estoqueBaixo">0</h2>
+                    <small>Itens no mínimo ou abaixo dele</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Itens vencidos</span>
+                        <span class="stat-icon">◷</span>
+                    </div>
+                    <h2 id="itensVencidos">0</h2>
+                    <small>Produtos com validade expirada</small>
+                </div>
+            </div>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h3>Materiais cadastrados</h3>
+                    <div class="filters">
+                        <input
+                            type="search"
+                            id="pesquisa"
+                            class="search"
+                            placeholder="Buscar material ou código..."
+                            oninput="renderizar()"
+                        >
+
+                        <select id="filtroCategoria" onchange="renderizar()">
+                            <option value="">Todas as categorias</option>
+                            <option value="Medicamentos">Medicamentos</option>
+                            <option value="Descartáveis">Descartáveis</option>
+                            <option value="Equipamentos">Equipamentos</option>
+                            <option value="Higiene">Higiene</option>
+                            <option value="EPIs">EPIs</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+
+                        <select id="filtroStatus" onchange="renderizar()">
+                            <option value="">Todos os status</option>
+                            <option value="ok">Normal</option>
+                            <option value="baixo">Estoque baixo</option>
+                            <option value="vencido">Vencido</option>
+                            <option value="esgotado">Esgotado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material / Código</th>
+                                <th>Categoria</th>
+                                <th>Quantidade</th>
+                                <th>Estoque mínimo</th>
+                                <th>Validade</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaEstoque"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h3>Movimentações recentes</h3>
+                    <button class="btn btn-light" onclick="exportarCSV()">
+                        Exportar estoque CSV
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data e hora</th>
+                                <th>Material</th>
+                                <th>Movimentação</th>
+                                <th>Quantidade</th>
+                                <th>Responsável</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaMovimentos"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="footer">
+                Projeto Sentinela · Sistema Hospitalar · Módulo de Almoxarifado
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- MODAL DE CADASTRO -->
+<div class="modal" id="modalMaterial">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="tituloModal">Cadastrar material</h3>
+            <button class="close" onclick="fecharModal()">×</button>
+        </div>
+
+        <form id="formMaterial" class="modal-body">
+            <div class="form-grid">
+                <div class="field full">
+                    <label for="nome">Nome do material *</label>
+                    <input id="nome" required maxlength="100"
+                           placeholder="Ex.: Luvas descartáveis">
+                </div>
+
+                <div class="field">
+                    <label for="codigo">Código *</label>
+                    <input id="codigo" required maxlength="30"
+                           placeholder="Ex.: MAT-001">
+                </div>
+
+                <div class="field">
+                    <label for="categoria">Categoria *</label>
+                    <select id="categoria" required>
+                        <option value="">Selecione</option>
+                        <option>Medicamentos</option>
+                        <option>Descartáveis</option>
+                        <option>Equipamentos</option>
+                        <option>Higiene</option>
+                        <option>EPIs</option>
+                        <option>Outros</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="quantidade">Quantidade atual *</label>
+                    <input id="quantidade" type="number" min="0"
+                           step="1" required value="0">
+                </div>
+
+                <div class="field">
+                    <label for="minimo">Estoque mínimo *</label>
+                    <input id="minimo" type="number" min="0"
+                           step="1" required value="10">
+                </div>
+
+                <div class="field">
+                    <label for="validade">Data de validade</label>
+                    <input id="validade" type="date">
+                </div>
+
+                <div class="field">
+                    <label for="unidade">Unidade de medida *</label>
+                    <select id="unidade" required>
+                        <option value="unidades">Unidades</option>
+                        <option value="caixas">Caixas</option>
+                        <option value="pacotes">Pacotes</option>
+                        <option value="frascos">Frascos</option>
+                        <option value="litros">Litros</option>
+                        <option value="pares">Pares</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="observacao">Observações</label>
+                    <input id="observacao" maxlength="250"
+                           placeholder="Informações adicionais (opcional)">
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-light"
+                        onclick="fecharModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">
+                    Salvar material
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL DE ENTRADA E SAÍDA -->
+<div class="modal" id="modalMovimento">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Registrar movimentação</h3>
+            <button class="close" onclick="fecharMovimento()">×</button>
+        </div>
+
+        <form id="formMovimento" class="modal-body">
+            <div class="form-grid">
+                <div class="field full">
+                    <label>Material selecionado</label>
+                    <input id="movNome" readonly>
+                </div>
+
+                <div class="field">
+                    <label for="tipoMovimento">Tipo *</label>
+                    <select id="tipoMovimento" required>
+                        <option value="Entrada">Entrada</option>
+                        <option value="Saída">Saída</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="qtdMovimento">Quantidade *</label>
+                    <input id="qtdMovimento" type="number"
+                           min="1" step="1" required>
+                </div>
+
+                <div class="field full">
+                    <label for="responsavel">Responsável *</label>
+                    <input id="responsavel" required maxlength="80"
+                           placeholder="Nome do responsável">
+                </div>
+
+                <div class="field full">
+                    <label for="motivo">Motivo da movimentação *</label>
+                    <input id="motivo" required maxlength="150"
+                           placeholder="Ex.: Reposição ou uso na enfermaria">
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-light"
+                        onclick="fecharMovimento()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">
+                    Confirmar movimentação
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const CHAVE_ESTOQUE = "sentinela_almoxarifado_v1";
+const CHAVE_MOVIMENTOS = "sentinela_movimentos_v1";
+
+let materiais = carregar(CHAVE_ESTOQUE, []);
+let movimentos = carregar(CHAVE_MOVIMENTOS, []);
+let materialEditando = null;
+let materialMovimento = null;
+
+function carregar(chave, padrao) {
+    try {
+        const dados = localStorage.getItem(chave);
+        return dados ? JSON.parse(dados) : padrao;
+    } catch {
+        return padrao;
+    }
+}
+
+function salvarDados() {
+    localStorage.setItem(CHAVE_ESTOQUE, JSON.stringify(materiais));
+    localStorage.setItem(CHAVE_MOVIMENTOS, JSON.stringify(movimentos));
+}
+
+function escapar(valor) {
+    return String(valor ?? "").replace(/[&<>"']/g, caractere => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[caractere]);
+}
+
+function dataAtual() {
+    const agora = new Date();
+    const local = new Date(agora.getTime() - agora.getTimezoneOffset() * 60000);
+    return local.toISOString().slice(0, 16);
+}
+
+function formatarData(data) {
+    if (!data) return "Não informada";
+    const partes = data.split("-");
+    return partes.length === 3
+        ? `${partes[2]}/${partes[1]}/${partes[0]}`
+        : data;
+}
+
+function vencido(item) {
+    return !!item.validade &&
+        item.validade < new Date().toISOString().slice(0, 10);
+}
+
+function statusItem(item) {
+    if (vencido(item)) return "vencido";
+    if (item.quantidade === 0) return "esgotado";
+    if (item.quantidade <= item.minimo) return "baixo";
+    return "ok";
+}
+
+function nomeStatus(status) {
+    return {
+        ok: "Normal",
+        baixo: "Estoque baixo",
+        vencido: "Vencido",
+        esgotado: "Esgotado"
+    }[status];
+}
+
+function classeStatus(status) {
+    return {
+        ok: "badge-ok",
+        baixo: "badge-low",
+        vencido: "badge-expired",
+        esgotado: "badge-out"
+    }[status];
+}
+
+function atualizarIndicadores() {
+    document.getElementById("totalItens").textContent = materiais.length;
+
+    document.getElementById("totalUnidades").textContent =
+        materiais.reduce((soma, item) => soma + item.quantidade, 0)
+            .toLocaleString("pt-BR");
+
+    document.getElementById("estoqueBaixo").textContent =
+        materiais.filter(item => {
+            const status = statusItem(item);
+            return status === "baixo" || status === "esgotado";
+        }).length;
+
+    document.getElementById("itensVencidos").textContent =
+        materiais.filter(vencido).length;
+}
+
+function renderizar() {
+    atualizarIndicadores();
+
+    const busca = document.getElementById("pesquisa").value
+        .trim().toLowerCase();
+
+    const categoria = document.getElementById("filtroCategoria").value;
+    const filtro = document.getElementById("filtroStatus").value;
+
+    const lista = materiais.filter(item => {
+        const correspondeBusca =
+            item.nome.toLowerCase().includes(busca) ||
+            item.codigo.toLowerCase().includes(busca);
+
+        return correspondeBusca &&
+            (!categoria || item.categoria === categoria) &&
+            (!filtro || statusItem(item) === filtro);
+    });
+
+    const tabela = document.getElementById("tabelaEstoque");
+
+    if (!lista.length) {
+        tabela.innerHTML = `
+            <tr><td colspan="7" class="empty">
+                Nenhum material encontrado.
+            </td></tr>`;
+    } else {
+        tabela.innerHTML = lista.map(item => {
+            const status = statusItem(item);
+
+            return `
+            <tr>
+                <td>
+                    <div class="item-name">${escapar(item.nome)}</div>
+                    <div class="item-code">Cód. ${escapar(item.codigo)}</div>
+                </td>
+                <td>${escapar(item.categoria)}</td>
+                <td>${item.quantidade} ${escapar(item.unidade)}</td>
+                <td>${item.minimo}</td>
+                <td>${formatarData(item.validade)}</td>
+                <td>
+                    <span class="badge ${classeStatus(status)}">
+                        ${nomeStatus(status)}
+                    </span>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn"
+                            onclick="abrirMovimento('${item.id}')"
+                            title="Entrada ou saída">± Estoque</button>
+                        <button class="action-btn"
+                            onclick="editarMaterial('${item.id}')"
+                            title="Editar">Editar</button>
+                        <button class="action-btn"
+                            onclick="excluirMaterial('${item.id}')"
+                            title="Excluir">Excluir</button>
+                    </div>
+                </td>
+            </tr>`;
+        }).join("");
+    }
+
+    renderizarMovimentos();
+}
+
+function renderizarMovimentos() {
+    const tabela = document.getElementById("tabelaMovimentos");
+
+    if (!movimentos.length) {
+        tabela.innerHTML = `
+            <tr><td colspan="5" class="empty">
+                Nenhuma movimentação registrada.
+            </td></tr>`;
+        return;
+    }
+
+    tabela.innerHTML = movimentos.slice(0, 10).map(mov => `
+        <tr>
+            <td>${formatarDataHora(mov.data)}</td>
+            <td>${escapar(mov.nome)}</td>
+            <td>
+                <span class="badge ${
+                    mov.tipo === "Entrada" ? "badge-ok" : "badge-low"
+                }">${escapar(mov.tipo)}</span>
+            </td>
+            <td>${mov.tipo === "Entrada" ? "+" : "−"}${mov.quantidade}</td>
+            <td>${escapar(mov.responsavel)}</td>
+        </tr>
+    `).join("");
+}
+
+function formatarDataHora(data) {
+    if (!data) return "—";
+    const partes = data.split("T");
+    return `${formatarData(partes[0])} ${partes[1] || ""}`;
+}
+
+function abrirModal() {
+    materialEditando = null;
+    document.getElementById("formMaterial").reset();
+    document.getElementById("quantidade").value = 0;
+    document.getElementById("minimo").value = 10;
+    document.getElementById("tituloModal").textContent = "Cadastrar material";
+    document.getElementById("codigo").disabled = false;
+    document.getElementById("modalMaterial").classList.add("show");
+}
+
+function fecharModal() {
+    document.getElementById("modalMaterial").classList.remove("show");
+}
+
+function editarMaterial(id) {
+    const item = materiais.find(m => m.id === id);
+    if (!item) return;
+
+    materialEditando = id;
+
+    document.getElementById("tituloModal").textContent = "Editar material";
+    document.getElementById("nome").value = item.nome;
+    document.getElementById("codigo").value = item.codigo;
+    document.getElementById("codigo").disabled = true;
+    document.getElementById("categoria").value = item.categoria;
+    document.getElementById("quantidade").value = item.quantidade;
+    document.getElementById("minimo").value = item.minimo;
+    document.getElementById("validade").value = item.validade || "";
+    document.getElementById("unidade").value = item.unidade;
+    document.getElementById("observacao").value = item.observacao || "";
+
+    document.getElementById("modalMaterial").classList.add("show");
+}
+
+document.getElementById("formMaterial").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const codigo = document.getElementById("codigo").value.trim();
+    const categoria = document.getElementById("categoria").value;
+    const quantidade = Number(document.getElementById("quantidade").value);
+    const minimo = Number(document.getElementById("minimo").value);
+    const validade = document.getElementById("validade").value;
+    const unidade = document.getElementById("unidade").value;
+    const observacao = document.getElementById("observacao").value.trim();
+
+    if (!nome || !codigo || !categoria ||
+        !Number.isInteger(quantidade) || quantidade < 0 ||
+        !Number.isInteger(minimo) || minimo < 0) {
+        alert("Confira os campos obrigatórios e as quantidades.");
+        return;
+    }
+
+    const codigoExiste = materiais.some(item =>
+        item.codigo.toLowerCase() === codigo.toLowerCase() &&
+        item.id !== materialEditando
+    );
+
+    if (codigoExiste) {
+        alert("Já existe um material cadastrado com esse código.");
+        return;
+    }
+
+    if (validade && !/^\d{4}-\d{2}-\d{2}$/.test(validade)) {
+        alert("Informe uma data de validade válida.");
+        return;
+    }
+
+    if (materialEditando) {
+        const index = materiais.findIndex(m => m.id === materialEditando);
+        if (index === -1) return;
+
+        // A edição de cadastro não representa uma movimentação física.
+        // Para alterar o estoque, utilize o botão ± Estoque.
+        materiais[index] = {
+            ...materiais[index],
+            nome, categoria, quantidade, minimo,
+            validade, unidade, observacao
+        };
+    } else {
+        materiais.push({
+            id: crypto.randomUUID(),
+            nome, codigo, categoria, quantidade,
+            minimo, validade, unidade, observacao
+        });
+    }
+
+    salvarDados();
+    fecharModal();
+    renderizar();
+});
+
+function excluirMaterial(id) {
+    const item = materiais.find(m => m.id === id);
+    if (!item) return;
+
+    if (!confirm(`Deseja excluir o cadastro de "${item.nome}"?`)) return;
+
+    materiais = materiais.filter(m => m.id !== id);
+    salvarDados();
+    renderizar();
+}
+
+function abrirMovimento(id) {
+    const item = materiais.find(m => m.id === id);
+    if (!item) return;
+
+    materialMovimento = id;
+    document.getElementById("formMovimento").reset();
+    document.getElementById("movNome").value =
+        `${item.nome} — Estoque atual: ${item.quantidade} ${item.unidade}`;
+
+    document.getElementById("qtdMovimento").value = 1;
+    document.getElementById("modalMovimento").classList.add("show");
+}
+
+function fecharMovimento() {
+    document.getElementById("modalMovimento").classList.remove("show");
+}
+
+document.getElementById("formMovimento").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const item = materiais.find(m => m.id === materialMovimento);
+    if (!item) return;
+
+    const tipo = document.getElementById("tipoMovimento").value;
+    const quantidade = Number(document.getElementById("qtdMovimento").value);
+    const responsavel = document.getElementById("responsavel").value.trim();
+    const motivo = document.getElementById("motivo").value.trim();
+
+    if (!Number.isInteger(quantidade) || quantidade <= 0 ||
+        !responsavel || !motivo) {
+        alert("Preencha os campos corretamente.");
+        return;
+    }
+
+    if (tipo === "Saída" && quantidade > item.quantidade) {
+        alert("Estoque insuficiente para realizar essa saída.");
+        return;
+    }
+
+    if (tipo === "Entrada") {
+        item.quantidade += quantidade;
+    } else {
+        item.quantidade -= quantidade;
+    }
+
+    movimentos.unshift({
+        id: crypto.randomUUID(),
+        materialId: item.id,
+        nome: item.nome,
+        tipo,
+        quantidade,
+        responsavel,
+        motivo,
+        data: dataAtual()
+    });
+
+    salvarDados();
+    fecharMovimento();
+    renderizar();
+
+    alert("Movimentação registrada com sucesso.");
+});
+
+function exportarCSV() {
+    if (!materiais.length) {
+        alert("Não há materiais para exportar.");
+        return;
+    }
+
+    const colunas = [
+        "Código", "Nome", "Categoria", "Quantidade",
+        "Unidade", "Estoque mínimo", "Validade", "Status"
+    ];
+
+    const linhas = materiais.map(item => [
+        item.codigo,
+        item.nome,
+        item.categoria,
+        item.quantidade,
+        item.unidade,
+        item.minimo,
+        item.validade || "",
+        nomeStatus(statusItem(item))
+    ]);
+
+    const csv = [colunas, ...linhas].map(linha =>
+        linha.map(valor =>
+            '"' + String(valor).replace(/"/g, '""') + '"'
+        ).join(";")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "estoque-sentinela.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById("modalMaterial").addEventListener("click", event => {
+    if (event.target.id === "modalMaterial") fecharModal();
+});
+
+document.getElementById("modalMovimento").addEventListener("click", event => {
+    if (event.target.id === "modalMovimento") fecharMovimento();
+});
+
+// Inicia o painel.
+renderizar();
+</script>
+</body>
+</html>
